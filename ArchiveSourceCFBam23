@@ -1,0 +1,51 @@
+#!/bin/bash
+#
+let Revision=$1
+ZipFile="java/installer/net-sourceforge-MSSCodeFactory-CFBam-2.3.${Revision}-TripleGPLv3CommercialEPL-src.zip"
+rm -f ${ZipFile}
+zip -q ${ZipFile} ./ArchiveSourceCFBam23 EPLv1_0.txt GPLv3.txt java/EPLv1_0.txt java/GPLv3.txt java/bin/EPLv1_0.txt java/bin/GPLv3.txt java/PackageCFBam23 java/PackageCFBam23*
+if [ -d java/bin/testdata ]; then
+	zip -q ${ZipFile} `find java/bin/testdata -name '*.xml'`
+fi
+if [ -d java/bin/initdata ]; then
+	zip -q ${ZipFile} `find java/bin/initdata -name '*.xml'`
+fi
+zip -q ${ZipFile} `find java/*/xsd -name '*.xsd'`
+zip -q ${ZipFile} ./dbcreate/cfbam/*/*.bat
+zip -q ${ZipFile} ./dbcreate/cfbam/*/*.bash
+zip -q ${ZipFile} ./dbcreate/cfbam/db2luw/*.sql
+zip -q ${ZipFile} ./dbcreate/cfbam/mssql/*.tsql
+zip -q ${ZipFile} ./dbcreate/cfbam/mysql/*.mysql
+zip -q ${ZipFile} ./dbcreate/cfbam/oracle/*.plsql
+zip -q ${ZipFile} ./dbcreate/cfbam/pgsql/*.pgsql
+zip -q ${ZipFile} ./dbcreate/cfbam/sybase/*.isql
+zip -q ${ZipFile} ./java/cfbam23/src/net/sourceforge/msscodefactory/*/v2_3/*/*.java
+zip -q ${ZipFile} ./java/cfbamdb2luw23/src/net/sourceforge/msscodefactory/*/v2_3/*/*.java
+zip -q ${ZipFile} ./java/cfbammsscf23/src/net/sourceforge/msscodefactory/*/v2_3/*/*.java
+zip -q ${ZipFile} ./java/cfbammssql23/src/net/sourceforge/msscodefactory/*/v2_3/*/*.java
+zip -q ${ZipFile} ./java/cfbammysql23/src/net/sourceforge/msscodefactory/*/v2_3/*/*.java
+zip -q ${ZipFile} ./java/cfbamoracle23/src/net/sourceforge/msscodefactory/*/v2_3/*/*.java
+zip -q ${ZipFile} ./java/cfbampgsql23/src/net/sourceforge/msscodefactory/*/v2_3/*/*.java
+zip -q ${ZipFile} ./java/cfbamsybase23/src/net/sourceforge/msscodefactory/*/v2_3/*/*.java
+zip -q ${ZipFile} ./java/cfbamram23/src/net/sourceforge/msscodefactory/*/v2_3/*/*.java
+zip -q ${ZipFile} ./java/cfbamxml23/src/net/sourceforge/msscodefactory/*/v2_3/*/*.java
+zip -q ${ZipFile} ./java/cfbamsaxdb2luwloader23/src/net/sourceforge/msscodefactory/*/v2_3/*/*.java
+zip -q ${ZipFile} ./java/cfbamsaxmssqlloader23/src/net/sourceforge/msscodefactory/*/v2_3/*/*.java
+zip -q ${ZipFile} ./java/cfbamsaxmysqlloader23/src/net/sourceforge/msscodefactory/*/v2_3/*/*.java
+zip -q ${ZipFile} ./java/cfbamsaxoracleloader23/src/net/sourceforge/msscodefactory/*/v2_3/*/*.java
+zip -q ${ZipFile} ./java/cfbamsaxpgsqlloader23/src/net/sourceforge/msscodefactory/*/v2_3/*/*.java
+zip -q ${ZipFile} ./java/cfbamsaxsybaseloader23/src/net/sourceforge/msscodefactory/*/v2_3/*/*.java
+zip -q ${ZipFile} ./java/cfbamsaxramloader23/src/net/sourceforge/msscodefactory/*/v2_3/*/*.java
+zip -q ${ZipFile} ./java/cfbamxmsg23/src/net/sourceforge/msscodefactory/*/v2_3/*/*.java
+zip -q ${ZipFile} ./java/cfbamxmsgrqst23/src/net/sourceforge/msscodefactory/*/v2_3/*/*.java
+zip -q ${ZipFile} ./java/cfbamxmsgrspn23/src/net/sourceforge/msscodefactory/*/v2_3/*/*.java
+zip -q ${ZipFile} ./java/cfbamxmsgclient23/src/net/sourceforge/msscodefactory/*/v2_3/*/*.java
+zip -q ${ZipFile} ./java/cfbamswing23/src/net/sourceforge/msscodefactory/*/v2_3/*/*.java
+zip -q ${ZipFile} ./java/cfbamswing*23/src/net/sourceforge/msscodefactory/*/v2_3/*/*.java
+zip -q ${ZipFile} ./java/cfbam*war23/src/net/sourceforge/msscodefactory/*/v2_3/*/*.java
+#zip -q -r ${ZipFile} ./java/SampleServer
+zip -q ${ZipFile} `find ./java/cfbam*war23/WebContent -name '*.MF' -o -name '*.xml' -o -name '*.html' -o -name '*.jsp' -o -name '*.jpg' -o -name '*.gif' -o -name '*.css'`
+zip -q ${ZipFile} ./java/build.xml `find . -name .gitignore -o -name .gitattributes`
+#zip -q ${ZipFile} java/bin/*23*
+echo "Packaged ${ZipFile}"
+ls -l ${ZipFile}

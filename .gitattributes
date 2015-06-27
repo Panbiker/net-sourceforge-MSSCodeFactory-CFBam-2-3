@@ -1,0 +1,18 @@
+*.java text eol=lf diff
+*.cs text eol=lf diff
+*.xsd text eol=lf diff
+*.xml text eol=lf diff
+*.html text eol=lf diff
+*.pgsql text eol=lf diff
+*.sql text eol=lf diff
+*.plsql text eol=lf diff
+*.isql text eol=lf diff
+*.mysql text eol=lf diff
+*.tsql text eol=lf diff
+*.bat text eol=crlf diff
+*.jar -text -diff
+*.zip -text -diff
+*.jpg -text -diff
+*.jpeg -text -diff
+*.gif -text -diff
+*.png -text -diff
