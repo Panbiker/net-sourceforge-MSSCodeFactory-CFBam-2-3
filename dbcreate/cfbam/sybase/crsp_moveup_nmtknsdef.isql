@@ -1,0 +1,427 @@
+--
+--	@(#) dbcreate/cfbam/sybase/crsp_moveup_nmtknsdef.isql
+--
+--	CFBam
+--
+--	Copyright (c) 2014-2015 Mark Sobkow
+--	
+--	This program is available as free software under the GNU GPL v3, under
+--	the Eclipse Public License 1.0, or under a commercial license from Mark
+--	Sobkow.  For commercial licensing details, please contact msobkow@sasktel.net.
+--	
+--	You should have received copies of the complete license text for
+--	GPLv3.txt and EPLv1_0.txt, containing the text
+--	of the GNU General Public License v 3.0 and the Eclipse Public License v 1.0.
+--	
+--	Under the terms of the GPL:
+--	
+--		This program is free software: you can redistribute it and/or modify
+--		it under the terms of the GNU General Public License as published by
+--		the Free Software Foundation, either version 3 of the License, or
+--		(at your option) any later version.
+--	  
+--		This program is distributed in the hope that it will be useful,
+--		but WITHOUT ANY WARRANTY; without even the implied warranty of
+--		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--		GNU General Public License for more details.
+--	  
+--		You should have received a copy of the GNU General Public License
+--		along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--	
+--	This software incorporates code originally Copyright (c) Mark Sobkow 2014-2015
+--	and licensed under the BSD 3-Clause license as written by xfree86.org:
+--	
+--	Redistribution and use in source and binary forms, with or without
+--	modification, are permitted provided that the following conditions are
+--	met:
+--	
+--	    (1) Redistributions of source code must retain the above copyright
+--	    notice, this list of conditions and the following disclaimer. 
+--	
+--	    (2) Redistributions in binary form must reproduce the above copyright
+--	    notice, this list of conditions and the following disclaimer in
+--	    the documentation and/or other materials provided with the
+--	    distribution.  
+--	    
+--	    (3)The name of the author may not be used to
+--	    endorse or promote products derived from this software without
+--	    specific prior written permission.
+--	
+--	THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+--	IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+--	WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+--	DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT,
+--	INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+--	(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+--	SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+--	HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+--	STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+--	IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+--	POSSIBILITY OF SUCH DAMAGE.
+--	
+--
+-- **********************************************************************
+--
+--	Code manufactured by MSS Code Factory
+--
+
+if exists ( select * from sysobjects where name = 'sp_moveup_nmtknsdef' )
+begin
+	drop proc sp_moveup_nmtknsdef
+end
+go
+
+create proc sp_moveup_nmtknsdef
+	@argAuditClusterId bigint,
+	@argAuditUserId varchar(36),
+	@argAuditSessionId varchar(36),
+	@secClusterId bigint,
+	@secTenantId bigint,
+	@argTenantId bigint,
+	@argId bigint,
+	@argRevision int
+as
+	declare @varTenantId bigint
+	declare @varScopeId bigint
+	declare @varClassCode varchar(4)
+	declare @gprevClassCode varchar(4)
+	declare @varprevClassCode varchar(4)
+	declare @varnextClassCode varchar(4)
+	declare @gprevTenantId bigint
+	declare @gprevId bigint
+	declare @varprevTenantId bigint
+	declare @varprevId bigint
+	declare @varnextTenantId bigint
+	declare @varnextId bigint	declare @oldRevision int
+	declare @rc int
+	declare @oldClassCode MssCFClassCode
+	declare @oldTenantId bigint
+	declare @oldScopeId bigint
+	declare @oldId bigint
+	declare @oldDefSchemaTenantId bigint
+	declare @oldDefSchemaId bigint
+	declare @oldName varchar(192)
+	declare @oldShortName varchar(16)
+	declare @oldLabel varchar(64)
+	declare @oldShortDescription varchar(128)
+	declare @oldDescription varchar(1023)
+	declare @oldIsNullable char(1)
+	declare @oldGenerateId char(1)
+	declare @oldDataScopeId smallint
+	declare @oldViewAccessSecurityId smallint
+	declare @oldEditAccessSecurityId smallint
+	declare @oldViewAccessFrequencyId smallint
+	declare @oldEditAccessFrequencyId smallint
+	declare @oldPrevTenantId bigint
+	declare @oldPrevId bigint
+	declare @oldNextTenantId bigint
+	declare @oldNextId bigint
+	declare @oldDefaultVisibility char(1)
+	declare @oldDbName varchar(32)
+	declare @oldMaxLen integer
+	declare @oldInitValue varchar(256)
+	declare @oldDefaultValue varchar(256)
+	declare @oldNullValue varchar(256)
+	declare @oldUnknownValue varchar(256)
+	declare @oldShowLines smallint
+	declare @oldAuditCreatedAt bigdatetime
+	declare @oldAuditCreatedBy varchar(36)
+	declare @oldAuditUpdatedAt bigdatetime
+	declare @oldAuditUpdatedBy varchar(36)
+	declare @permissionFlag int
+begin
+	select
+		@varTenantId = tenantid,
+		@varScopeId = scopeid
+	from cfbam23..valdef
+	where
+		tenantid = @argTenantId
+		and id = @argId
+
+	update cfbam23..scopedef
+	set revision = revision + 1
+	where
+		tenantid = @varTenantId
+		and id = @varScopeId
+
+	update cfbam23..valdef
+	set forcesynclock = forcesynclock + 1
+	where
+			tenantid = @argTenantId
+		and id = @argId
+	select @rc = @@rowcount
+	if @rc != 1
+	begin
+		raiserror 17004 "Data collision detected -- primary key does not exist"
+	end
+
+	select
+		@oldClassCode = valu.classcode,
+		@oldAuditCreatedAt = valu.createdat,
+		@oldAuditCreatedBy = valu.createdby,
+		@oldAuditUpdatedAt = valu.updatedat,
+		@oldAuditUpdatedBy = valu.updatedby,
+		@oldTenantId = valu.tenantid,
+		@oldScopeId = valu.scopeid,
+		@oldId = valu.id,
+		@oldDefSchemaTenantId = valu.defschtentid,
+		@oldDefSchemaId = valu.defschid,
+		@oldName = valu.name,
+		@oldShortName = valu.short_name,
+		@oldLabel = valu.label,
+		@oldShortDescription = valu.short_descr,
+		@oldDescription = valu.descr,
+		@oldIsNullable = valu.isnullable,
+		@oldGenerateId = valu.generateid,
+		@oldDataScopeId = valu.datascopeid,
+		@oldViewAccessSecurityId = valu.vasecid,
+		@oldEditAccessSecurityId = valu.easecid,
+		@oldViewAccessFrequencyId = valu.vafid,
+		@oldEditAccessFrequencyId = valu.eafid,
+		@oldPrevTenantId = valu.prevtenantid,
+		@oldPrevId = valu.previd,
+		@oldNextTenantId = valu.nexttenantid,
+		@oldNextId = valu.nextid,
+		@oldDefaultVisibility = valu.dflt_vis,
+		@oldDbName = atom.dbname,
+		@oldMaxLen = ntsd.maxlen,
+		@oldInitValue = ntsd.initval,
+		@oldDefaultValue = ntsd.defval,
+		@oldNullValue = ntsd.nullvalue,
+		@oldUnknownValue = ntsd.unknownval,
+		@oldShowLines = ntsd.showlines,
+		@oldRevision = valu.revision
+	from cfbam23..nmtknsdef as ntsd
+			inner join cfbam23..atomdef atom on
+				ntsd.tenantid = atom.tenantid
+				and ntsd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+	where
+			valu.tenantid = @argTenantId
+			and valu.id = @argId
+	if @argRevision != @oldRevision
+	begin
+		raiserror 17021 "sp_moveup_nmtknsdef() Data collision detected"
+	end
+
+	if( @oldTenantId != @secTenantId )
+	begin
+		exec sp_is_system_user @permissionFlag output, @argAuditUserId
+		if( @permissionFlag = 0 )
+		begin
+			raiserror 17021 "sp_moveup_nmtknsdef() Permission denied -- Data is not owned by logged in tenant"
+		end
+	end
+
+	exec sp_is_tenant_user @permissionFlag output, @oldTenantId, 'UpdateNmTokensDef', @argAuditUserId
+	if( @permissionFlag = 0 )
+	begin
+		raiserror 17021 "sp_moveup_nmtknsdef() Permission denied -- User not found in tenant TSecGroup for UpdateNmTokensDef"
+	end
+
+	select
+		@varClassCode = valu.classcode,
+		@gprevClassCode = gprvvalu.classcode,
+		@gprevTenantId = prvvalu.prevtenantid,
+		@gprevId = prvvalu.previd,
+		@varprevClassCode = prvvalu.classcode,
+		@varprevTenantId = valu.prevtenantid,
+		@varprevId = valu.previd,
+		@varnextClassCode = nxtvalu.classcode,
+		@varnextTenantId = valu.nexttenantid,
+		@varnextId = valu.nextid
+	from cfbam23..valdef valu
+		left outer join cfbam23..valdef prvvalu on
+			prvvalu.tenantid = valu.prevtenantid
+			and prvvalu.id = valu.previd
+		left outer join cfbam23..valdef nxtvalu on
+			nxtvalu.tenantid = valu.nexttenantid
+			and nxtvalu.id = valu.nextid
+		left outer join cfbam23..valdef gprvvalu on
+			gprvvalu.tenantid = prvvalu.prevtenantid
+			and gprvvalu.id = prvvalu.previd
+	where
+		valu.tenantid = @argTenantId
+		and valu.id = @argId
+
+	if( @varprevTenantId is not null )
+	begin
+		if( @gprevTenantId is not null )
+		begin
+			update cfbam23..valdef
+			set
+				revision = revision + 1,
+				updatedby = @argAuditUserId,
+				updatedat = current_bigdatetime(),
+				nexttenantid = @argTenantId,
+				nextid = @argId
+			where
+				tenantid = @gprevTenantId
+				and id = @gprevId
+
+			select @rc = @@rowcount
+
+			if @rc != 1
+			begin
+				raiserror 17021 "sp_moveup_nmtknsdef() Expected to affect one grandprev row"
+			end
+
+			exec sp_audit_valdef @argAuditClusterId,
+				@argAuditUserId,
+				@argAuditSessionId,
+				@secClusterId,
+				@secTenantId,
+				@gprevClassCode,
+				@gprevTenantId,
+				@gprevId,
+				2
+		end
+
+		update cfbam23..valdef
+		set
+			revision = revision + 1,
+			updatedby = @argAuditUserId,
+			updatedat = current_bigdatetime(),
+			prevtenantid = @gprevTenantId,
+			previd = @gprevId,
+			nexttenantid = @varprevTenantId,
+			nextid = @varprevId
+		where
+			tenantid = @argTenantId
+			and id = @argId
+
+		select @rc = @@rowcount
+
+		if @rc != 1
+		begin
+			raiserror 17021 "sp_moveup_nmtknsdef() Expected to affect one obj row"
+		end
+
+		exec sp_audit_valdef @argAuditClusterId,
+			@argAuditUserId,
+			@argAuditSessionId,
+			@secClusterId,
+			@secTenantId,
+			@varClassCode,
+			@argTenantId,
+			@argId,
+			2
+
+		update cfbam23..valdef
+		set
+			revision = revision + 1,
+			updatedby = @argAuditUserId,
+			updatedat = current_bigdatetime(),
+			prevtenantid = @argTenantId,
+			previd = @argId,
+			nexttenantid = @varnextTenantId,
+			nextid = @varnextId
+		where
+			tenantid = @varprevTenantId
+			and id = @varprevId
+
+		select @rc = @@rowcount
+
+		if @rc != 1
+		begin
+			raiserror 17021 "sp_moveup_nmtknsdef() Expected to affect one prev row"
+		end
+
+		exec sp_audit_valdef @argAuditClusterId,
+			@argAuditUserId,
+			@argAuditSessionId,
+			@secClusterId,
+			@secTenantId,
+			@varprevClassCode,
+			@varprevTenantId,
+			@varprevId,
+			2
+
+		if( @varnextTenantId is not null )
+		begin
+			update cfbam23..valdef
+			set
+				revision = revision + 1,
+				updatedby = @argAuditUserId,
+				updatedat = current_bigdatetime(),
+				prevtenantid = @varprevTenantId,
+				previd = @varprevId
+			where
+				tenantid = @varnextTenantId
+				and id = @varnextId
+
+			select @rc = @@rowcount
+
+			if @rc != 1
+			begin
+				raiserror 17021 "sp_moveup_nmtknsdef() Expected to affect one next row"
+			end
+
+			exec sp_audit_valdef @argAuditClusterId,
+				@argAuditUserId,
+				@argAuditSessionId,
+				@secClusterId,
+				@secTenantId,
+				@varnextClassCode,
+				@varnextTenantId,
+				@varnextId,
+				2
+		end
+	end
+
+	update cfbam23..scopedef
+	set revision = revision - 1
+	where
+		tenantid = @varTenantId
+		and id = @varScopeId
+
+	select
+			valu.classcode,
+			valu.createdby,
+			convert( varchar, valu.createdat, 23 ) as createdat,
+			valu.updatedby,
+			convert( varchar, valu.updatedat, 23 ) as updatedat,
+			valu.tenantid as tenantid,
+			valu.scopeid as scopeid,
+			valu.id as id,
+			valu.defschtentid as defschtentid,
+			valu.defschid as defschid,
+			valu.name as name,
+			valu.short_name as short_name,
+			valu.label as label,
+			valu.short_descr as short_descr,
+			valu.descr as descr,
+			valu.isnullable as isnullable,
+			valu.generateid as generateid,
+			valu.datascopeid as datascopeid,
+			valu.vasecid as vasecid,
+			valu.easecid as easecid,
+			valu.vafid as vafid,
+			valu.eafid as eafid,
+			valu.prevtenantid as prevtenantid,
+			valu.previd as previd,
+			valu.nexttenantid as nexttenantid,
+			valu.nextid as nextid,
+			valu.dflt_vis as dflt_vis,
+			atom.dbname as dbname,
+			ntsd.maxlen as maxlen,
+			ntsd.initval as initval,
+			ntsd.defval as defval,
+			ntsd.nullvalue as nullvalue,
+			ntsd.unknownval as unknownval,
+			ntsd.showlines as showlines,
+		valu.revision as revision
+	from cfbam23..nmtknsdef as ntsd
+			inner join cfbam23..atomdef atom on
+				ntsd.tenantid = atom.tenantid
+				and ntsd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+	where
+		ntsd.tenantid = @argTenantId
+			and ntsd.id = @argId
+end
+go

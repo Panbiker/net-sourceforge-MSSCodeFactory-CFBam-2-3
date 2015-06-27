@@ -1,0 +1,277 @@
+--
+--	@(#) dbcreate/cfbam/sybase/crsp_delete_enum_tag.isql
+--
+--	CFBam
+--
+--	Copyright (c) 2014-2015 Mark Sobkow
+--	
+--	This program is available as free software under the GNU GPL v3, under
+--	the Eclipse Public License 1.0, or under a commercial license from Mark
+--	Sobkow.  For commercial licensing details, please contact msobkow@sasktel.net.
+--	
+--	You should have received copies of the complete license text for
+--	GPLv3.txt and EPLv1_0.txt, containing the text
+--	of the GNU General Public License v 3.0 and the Eclipse Public License v 1.0.
+--	
+--	Under the terms of the GPL:
+--	
+--		This program is free software: you can redistribute it and/or modify
+--		it under the terms of the GNU General Public License as published by
+--		the Free Software Foundation, either version 3 of the License, or
+--		(at your option) any later version.
+--	  
+--		This program is distributed in the hope that it will be useful,
+--		but WITHOUT ANY WARRANTY; without even the implied warranty of
+--		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--		GNU General Public License for more details.
+--	  
+--		You should have received a copy of the GNU General Public License
+--		along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--	
+--	This software incorporates code originally Copyright (c) Mark Sobkow 2014-2015
+--	and licensed under the BSD 3-Clause license as written by xfree86.org:
+--	
+--	Redistribution and use in source and binary forms, with or without
+--	modification, are permitted provided that the following conditions are
+--	met:
+--	
+--	    (1) Redistributions of source code must retain the above copyright
+--	    notice, this list of conditions and the following disclaimer. 
+--	
+--	    (2) Redistributions in binary form must reproduce the above copyright
+--	    notice, this list of conditions and the following disclaimer in
+--	    the documentation and/or other materials provided with the
+--	    distribution.  
+--	    
+--	    (3)The name of the author may not be used to
+--	    endorse or promote products derived from this software without
+--	    specific prior written permission.
+--	
+--	THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+--	IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+--	WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+--	DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT,
+--	INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+--	(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+--	SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+--	HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+--	STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+--	IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+--	POSSIBILITY OF SUCH DAMAGE.
+--	
+--
+-- **********************************************************************
+--
+--	Code manufactured by MSS Code Factory
+--
+
+if exists ( select * from sysobjects where name = 'sp_delete_enum_tag' )
+begin
+	drop proc sp_delete_enum_tag
+end
+go
+
+create proc sp_delete_enum_tag
+	@argAuditClusterId bigint,
+	@argAuditUserId varchar(36),
+	@argAuditSessionId varchar(36),
+	@secClusterId bigint,
+	@secTenantId bigint,
+	@argTenantId bigint,
+	@argId bigint,
+	@argRevision int
+as
+	declare @varTenantId bigint
+	declare @varEnumId bigint
+	declare @prevPrevTenantId bigint
+	declare @prevPrevId bigint
+	declare @nextNextTenantId bigint
+	declare @nextNextId bigint	declare @oldRevision int
+	declare @rc int
+	declare @oldTenantId bigint
+	declare @oldId bigint
+	declare @oldDefSchemaTenantId bigint
+	declare @oldDefSchemaId bigint
+	declare @oldEnumId bigint
+	declare @oldEnumCode smallint
+	declare @oldName varchar(64)
+	declare @oldPrevTenantId bigint
+	declare @oldPrevId bigint
+	declare @oldNextTenantId bigint
+	declare @oldNextId bigint
+	declare @oldAuditCreatedAt bigdatetime
+	declare @oldAuditCreatedBy varchar(36)
+	declare @oldAuditUpdatedAt bigdatetime
+	declare @oldAuditUpdatedBy varchar(36)
+	declare @permissionFlag int
+begin
+	select
+		@varTenantId = tenantid,
+		@varEnumId = enumid
+	from cfbam23..enum_tag
+	where
+		tenantid = @argTenantId
+		and id = @argId
+
+	update cfbam23..valdef
+	set revision = revision + 1
+	where
+		tenantid = @varTenantId
+		and id = @varEnumId
+
+	update cfbam23..enum_tag
+	set forcesynclock = forcesynclock + 1
+	where
+			tenantid = @argTenantId
+		and id = @argId
+	select @rc = @@rowcount
+	if @rc != 1
+	begin
+		raiserror 17004 "Data collision detected -- primary key does not exist"
+	end
+
+	select
+		@oldAuditCreatedAt = etg.createdat,
+		@oldAuditCreatedBy = etg.createdby,
+		@oldAuditUpdatedAt = etg.updatedat,
+		@oldAuditUpdatedBy = etg.updatedby,
+		@oldTenantId = etg.tenantid,
+		@oldId = etg.id,
+		@oldDefSchemaTenantId = etg.defschtentid,
+		@oldDefSchemaId = etg.defschid,
+		@oldEnumId = etg.enumid,
+		@oldEnumCode = etg.enumcode,
+		@oldName = etg.name,
+		@oldPrevTenantId = etg.prevtenantid,
+		@oldPrevId = etg.previd,
+		@oldNextTenantId = etg.nexttenantid,
+		@oldNextId = etg.nextid,
+		@oldRevision = etg.revision
+	from cfbam23..enum_tag as etg
+	where
+			etg.tenantid = @argTenantId
+			and etg.id = @argId
+	if @argRevision != @oldRevision
+	begin
+		raiserror 17000 "sp_delete_enum_tag() Data collision detected"
+	end
+
+	exec sp_is_tenant_user @permissionFlag output, @secTenantId, 'DeleteEnumTag', @argAuditUserId
+	if( @permissionFlag = 0 )
+	begin
+		raiserror 17008 "Permission denied -- User not found in tenant TSecGroup for DeleteEnumTag"
+	end
+
+	select
+		@prevPrevTenantId = myself.prevtenantid,
+		@prevPrevId = myself.previd,
+		@nextNextTenantId = myself.nexttenantid,
+		@nextNextId = myself.nextid
+	from cfbam23..enum_tag myself
+	where
+		myself.tenantid = @argTenantId
+		and myself.id = @argId
+
+	if( @prevPrevTenantId is not null )
+	begin
+		update cfbam23..enum_tag
+		set
+			revision = revision + 1,
+			updatedby = @argAuditUserId,
+			updatedat = current_bigdatetime(),
+			nexttenantid = @nextNextTenantId,
+			nextid = @nextNextId
+		where
+			tenantid = @prevPrevTenantId
+			and id = @prevPrevId
+
+		exec sp_audit_enum_tag @argAuditClusterId,
+			@argAuditUserId,
+			@argAuditSessionId,
+			@secClusterId,
+			@secTenantId,
+			@prevPrevTenantId,
+			@prevPrevId,
+			2
+	end
+
+	if( @nextNextTenantId is not null )
+	begin
+		update cfbam23..enum_tag
+		set
+			revision = revision + 1,
+			updatedby = @argAuditUserId,
+			updatedat = current_bigdatetime(),
+			prevtenantid = @prevPrevTenantId,
+			previd = @prevPrevId
+		where
+			tenantid = @nextNextTenantId
+			and id = @nextNextId
+
+		exec sp_audit_enum_tag @argAuditClusterId,
+			@argAuditUserId,
+			@argAuditSessionId,
+			@secClusterId,
+			@secTenantId,
+			@nextNextTenantId,
+			@nextNextId,
+			2
+	end
+
+	insert into cfbam23..enum_tag_h (
+			tenantid,
+			id,
+			auditclusterid,
+			auditsessionid,
+			auditstamp,
+			defschtentid,
+			defschid,
+			enumid,
+			enumcode,
+			name,
+			prevtenantid,
+			previd,
+			nexttenantid,
+			nextid,
+			revision,
+			auditaction )
+		select
+			etg.tenantid,
+			etg.id,
+			@argAuditClusterId,
+			@argAuditSessionId,
+			current_bigdatetime(),
+			etg.defschtentid,
+			etg.defschid,
+			etg.enumid,
+			etg.enumcode,
+			etg.name,
+			etg.prevtenantid,
+			etg.previd,
+			etg.nexttenantid,
+			etg.nextid,
+			@argRevision + 1,
+			3
+		from cfbam23..enum_tag as etg
+		where
+			etg.tenantid = @argTenantId
+			and etg.id = @argId
+	delete from cfbam23..enum_tag
+	where
+		tenantid = @argTenantId
+		and id = @argId
+		and revision = @argRevision
+	select @rc = @@rowcount
+
+	if @rc != 1
+	begin
+		raiserror 17004 "sp_delete_enum_tag() Data collision detected"
+	end
+	update cfbam23..valdef
+	set revision = revision - 1
+	where
+		tenantid = @varTenantId
+		and id = @varEnumId
+
+end
+go

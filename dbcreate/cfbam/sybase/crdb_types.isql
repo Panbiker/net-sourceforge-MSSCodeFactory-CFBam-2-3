@@ -1,0 +1,650 @@
+--
+--	@(#) dbcreate/cfbam/sybase/crdb_types.isql
+--
+--	CFBam
+--
+--	Copyright (c) 2014-2015 Mark Sobkow
+--	
+--	This program is available as free software under the GNU GPL v3, under
+--	the Eclipse Public License 1.0, or under a commercial license from Mark
+--	Sobkow.  For commercial licensing details, please contact msobkow@sasktel.net.
+--	
+--	You should have received copies of the complete license text for
+--	GPLv3.txt and EPLv1_0.txt, containing the text
+--	of the GNU General Public License v 3.0 and the Eclipse Public License v 1.0.
+--	
+--	Under the terms of the GPL:
+--	
+--		This program is free software: you can redistribute it and/or modify
+--		it under the terms of the GNU General Public License as published by
+--		the Free Software Foundation, either version 3 of the License, or
+--		(at your option) any later version.
+--	  
+--		This program is distributed in the hope that it will be useful,
+--		but WITHOUT ANY WARRANTY; without even the implied warranty of
+--		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--		GNU General Public License for more details.
+--	  
+--		You should have received a copy of the GNU General Public License
+--		along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--	
+--	This software incorporates code originally Copyright (c) Mark Sobkow 2014-2015
+--	and licensed under the BSD 3-Clause license as written by xfree86.org:
+--	
+--	Redistribution and use in source and binary forms, with or without
+--	modification, are permitted provided that the following conditions are
+--	met:
+--	
+--	    (1) Redistributions of source code must retain the above copyright
+--	    notice, this list of conditions and the following disclaimer. 
+--	
+--	    (2) Redistributions in binary form must reproduce the above copyright
+--	    notice, this list of conditions and the following disclaimer in
+--	    the documentation and/or other materials provided with the
+--	    distribution.  
+--	    
+--	    (3)The name of the author may not be used to
+--	    endorse or promote products derived from this software without
+--	    specific prior written permission.
+--	
+--	THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+--	IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+--	WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+--	DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT,
+--	INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+--	(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+--	SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+--	HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+--	STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+--	IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+--	POSSIBILITY OF SUCH DAMAGE.
+--	
+--
+-- **********************************************************************
+--
+--	Code manufactured by MSS Code Factory
+--
+
+if not exists ( select * from systypes where name = 'MssCFClassCode' )
+begin
+	exec sp_addtype MssCFClassCode, "CHAR(4)"
+end
+
+go
+
+--
+--	Create schema type CFBam23ISOCountryCode
+--
+if exists ( select * from systypes where name = 'CFBam23ISOCountryCode' )
+begin
+	exec sp_droptype CFBam23ISOCountryCode
+end
+go
+exec sp_addtype CFBam23ISOCountryCode, "varchar(2)"
+go
+
+--
+--	Create schema type CFBam23ISOCountryCode3
+--
+if exists ( select * from systypes where name = 'CFBam23ISOCountryCode3' )
+begin
+	exec sp_droptype CFBam23ISOCountryCode3
+end
+go
+exec sp_addtype CFBam23ISOCountryCode3, "varchar(3)"
+go
+
+--
+--	Create schema type CFBam23ISOCountryEnum
+--
+if exists ( select * from systypes where name = 'CFBam23ISOCountryEnum' )
+begin
+	exec sp_droptype CFBam23ISOCountryEnum
+end
+go
+
+exec sp_addtype CFBam23ISOCountryEnum, "SMALLINT"
+go
+
+--
+--	Create schema type CFBam23ISOCurrencyEnum
+--
+if exists ( select * from systypes where name = 'CFBam23ISOCurrencyEnum' )
+begin
+	exec sp_droptype CFBam23ISOCurrencyEnum
+end
+go
+
+exec sp_addtype CFBam23ISOCurrencyEnum, "SMALLINT"
+go
+
+--
+--	Create schema type CFBam23ISOCurrencyCode
+--
+if exists ( select * from systypes where name = 'CFBam23ISOCurrencyCode' )
+begin
+	exec sp_droptype CFBam23ISOCurrencyCode
+end
+go
+exec sp_addtype CFBam23ISOCurrencyCode, "varchar(3)"
+go
+
+--
+--	Create schema type CFBam23ISOLanguageEnum
+--
+if exists ( select * from systypes where name = 'CFBam23ISOLanguageEnum' )
+begin
+	exec sp_droptype CFBam23ISOLanguageEnum
+end
+go
+
+exec sp_addtype CFBam23ISOLanguageEnum, "SMALLINT"
+go
+
+--
+--	Create schema type CFBam23ISOBaseLanguageCode
+--
+if exists ( select * from systypes where name = 'CFBam23ISOBaseLanguageCode' )
+begin
+	exec sp_droptype CFBam23ISOBaseLanguageCode
+end
+go
+exec sp_addtype CFBam23ISOBaseLanguageCode, "varchar(2)"
+go
+
+--
+--	Create schema type CFBam23ISOLanguageCode
+--
+if exists ( select * from systypes where name = 'CFBam23ISOLanguageCode' )
+begin
+	exec sp_droptype CFBam23ISOLanguageCode
+end
+go
+exec sp_addtype CFBam23ISOLanguageCode, "varchar(5)"
+go
+
+--
+--	Create schema type CFBam23ISOTimezoneEnum
+--
+if exists ( select * from systypes where name = 'CFBam23ISOTimezoneEnum' )
+begin
+	exec sp_droptype CFBam23ISOTimezoneEnum
+end
+go
+
+exec sp_addtype CFBam23ISOTimezoneEnum, "SMALLINT"
+go
+
+--
+--	Create schema type CFBam23AuditActionEnum
+--
+if exists ( select * from systypes where name = 'CFBam23AuditActionEnum' )
+begin
+	exec sp_droptype CFBam23AuditActionEnum
+end
+go
+
+exec sp_addtype CFBam23AuditActionEnum, "SMALLINT"
+go
+
+--
+--	Create schema type CFBam23ServiceTypeIdGenSeq
+--
+if exists ( select * from systypes where name = 'CFBam23ServiceTypeIdGenSeq' )
+begin
+	exec sp_droptype CFBam23ServiceTypeIdGenSeq
+end
+go
+
+exec sp_addtype CFBam23ServiceTypeIdGenSeq, "INT"
+go
+
+--
+--	Create schema type CFBam23ClusterIdGenSeq
+--
+if exists ( select * from systypes where name = 'CFBam23ClusterIdGenSeq' )
+begin
+	exec sp_droptype CFBam23ClusterIdGenSeq
+end
+go
+
+exec sp_addtype CFBam23ClusterIdGenSeq, "DECIMAL(21,0)"
+go
+
+--
+--	Create schema type CFBam23TenantIdGenSeq
+--
+if exists ( select * from systypes where name = 'CFBam23TenantIdGenSeq' )
+begin
+	exec sp_droptype CFBam23TenantIdGenSeq
+end
+go
+
+exec sp_addtype CFBam23TenantIdGenSeq, "DECIMAL(21,0)"
+go
+
+--
+--	Create schema type CFBam23SecAppIdGen
+--
+if exists ( select * from systypes where name = 'CFBam23SecAppIdGen' )
+begin
+	exec sp_droptype CFBam23SecAppIdGen
+end
+go
+
+exec sp_addtype CFBam23SecAppIdGen, "INT"
+go
+
+--
+--	Create schema type CFBam23SecFormIdGen
+--
+if exists ( select * from systypes where name = 'CFBam23SecFormIdGen' )
+begin
+	exec sp_droptype CFBam23SecFormIdGen
+end
+go
+
+exec sp_addtype CFBam23SecFormIdGen, "INT"
+go
+
+--
+--	Create schema type CFBam23SecGroupIdGen
+--
+if exists ( select * from systypes where name = 'CFBam23SecGroupIdGen' )
+begin
+	exec sp_droptype CFBam23SecGroupIdGen
+end
+go
+
+exec sp_addtype CFBam23SecGroupIdGen, "INT"
+go
+
+--
+--	Create schema type CFBam23SecGroupMemberIdGen
+--
+if exists ( select * from systypes where name = 'CFBam23SecGroupMemberIdGen' )
+begin
+	exec sp_droptype CFBam23SecGroupMemberIdGen
+end
+go
+
+exec sp_addtype CFBam23SecGroupMemberIdGen, "DECIMAL(21,0)"
+go
+
+--
+--	Create schema type CFBam23SecGroupIncludeIdGen
+--
+if exists ( select * from systypes where name = 'CFBam23SecGroupIncludeIdGen' )
+begin
+	exec sp_droptype CFBam23SecGroupIncludeIdGen
+end
+go
+
+exec sp_addtype CFBam23SecGroupIncludeIdGen, "DECIMAL(21,0)"
+go
+
+--
+--	Create schema type CFBam23SecGroupFormIdGen
+--
+if exists ( select * from systypes where name = 'CFBam23SecGroupFormIdGen' )
+begin
+	exec sp_droptype CFBam23SecGroupFormIdGen
+end
+go
+
+exec sp_addtype CFBam23SecGroupFormIdGen, "DECIMAL(21,0)"
+go
+
+--
+--	Create schema type CFBam23SecSessionIdGen
+--
+if exists ( select * from systypes where name = 'CFBam23SecSessionIdGen' )
+begin
+	exec sp_droptype CFBam23SecSessionIdGen
+end
+go
+exec sp_addtype CFBam23SecSessionIdGen, "char(36)"
+go
+
+--
+--	Create schema type CFBam23SecUserIdGen
+--
+if exists ( select * from systypes where name = 'CFBam23SecUserIdGen' )
+begin
+	exec sp_droptype CFBam23SecUserIdGen
+end
+go
+exec sp_addtype CFBam23SecUserIdGen, "char(36)"
+go
+
+--
+--	Create schema type CFBam23ServiceIdGen
+--
+if exists ( select * from systypes where name = 'CFBam23ServiceIdGen' )
+begin
+	exec sp_droptype CFBam23ServiceIdGen
+end
+go
+
+exec sp_addtype CFBam23ServiceIdGen, "DECIMAL(21,0)"
+go
+
+--
+--	Create schema type CFBam23HostNodeIdGen
+--
+if exists ( select * from systypes where name = 'CFBam23HostNodeIdGen' )
+begin
+	exec sp_droptype CFBam23HostNodeIdGen
+end
+go
+
+exec sp_addtype CFBam23HostNodeIdGen, "DECIMAL(21,0)"
+go
+
+--
+--	Create schema type CFBam23TSecGroupIdGen
+--
+if exists ( select * from systypes where name = 'CFBam23TSecGroupIdGen' )
+begin
+	exec sp_droptype CFBam23TSecGroupIdGen
+end
+go
+
+exec sp_addtype CFBam23TSecGroupIdGen, "INT"
+go
+
+--
+--	Create schema type CFBam23TSecGroupMemberIdGen
+--
+if exists ( select * from systypes where name = 'CFBam23TSecGroupMemberIdGen' )
+begin
+	exec sp_droptype CFBam23TSecGroupMemberIdGen
+end
+go
+
+exec sp_addtype CFBam23TSecGroupMemberIdGen, "DECIMAL(21,0)"
+go
+
+--
+--	Create schema type CFBam23TSecGroupIncludeIdGen
+--
+if exists ( select * from systypes where name = 'CFBam23TSecGroupIncludeIdGen' )
+begin
+	exec sp_droptype CFBam23TSecGroupIncludeIdGen
+end
+go
+
+exec sp_addtype CFBam23TSecGroupIncludeIdGen, "DECIMAL(21,0)"
+go
+
+--
+--	Create schema type CFBam23DeviceName
+--
+if exists ( select * from systypes where name = 'CFBam23DeviceName' )
+begin
+	exec sp_droptype CFBam23DeviceName
+end
+go
+exec sp_addtype CFBam23DeviceName, "varchar(127)"
+go
+
+--
+--	Create schema type CFBam23SHA512HexHash
+--
+if exists ( select * from systypes where name = 'CFBam23SHA512HexHash' )
+begin
+	exec sp_droptype CFBam23SHA512HexHash
+end
+go
+exec sp_addtype CFBam23SHA512HexHash, "varchar(256)"
+go
+
+--
+--	Create schema type CFBam23MimeTypeIdGenSeq
+--
+if exists ( select * from systypes where name = 'CFBam23MimeTypeIdGenSeq' )
+begin
+	exec sp_droptype CFBam23MimeTypeIdGenSeq
+end
+go
+
+exec sp_addtype CFBam23MimeTypeIdGenSeq, "INT"
+go
+
+--
+--	Create schema type CFBam23URLProtocolEnum
+--
+if exists ( select * from systypes where name = 'CFBam23URLProtocolEnum' )
+begin
+	exec sp_droptype CFBam23URLProtocolEnum
+end
+go
+
+exec sp_addtype CFBam23URLProtocolEnum, "SMALLINT"
+go
+
+--
+--	Create schema type CFBam23DomainNameType
+--
+if exists ( select * from systypes where name = 'CFBam23DomainNameType' )
+begin
+	exec sp_droptype CFBam23DomainNameType
+end
+go
+exec sp_addtype CFBam23DomainNameType, "varchar(64)"
+go
+
+--
+--	Create schema type CFBam23TldIdGen
+--
+if exists ( select * from systypes where name = 'CFBam23TldIdGen' )
+begin
+	exec sp_droptype CFBam23TldIdGen
+end
+go
+
+exec sp_addtype CFBam23TldIdGen, "DECIMAL(21,0)"
+go
+
+--
+--	Create schema type CFBam23DomainIdGen
+--
+if exists ( select * from systypes where name = 'CFBam23DomainIdGen' )
+begin
+	exec sp_droptype CFBam23DomainIdGen
+end
+go
+
+exec sp_addtype CFBam23DomainIdGen, "DECIMAL(21,0)"
+go
+
+--
+--	Create schema type CFBam23DescriptionType
+--
+if exists ( select * from systypes where name = 'CFBam23DescriptionType' )
+begin
+	exec sp_droptype CFBam23DescriptionType
+end
+go
+exec sp_addtype CFBam23DescriptionType, "varchar(127)"
+go
+
+--
+--	Create schema type CFBam23NameType
+--
+if exists ( select * from systypes where name = 'CFBam23NameType' )
+begin
+	exec sp_droptype CFBam23NameType
+end
+go
+exec sp_addtype CFBam23NameType, "varchar(192)"
+go
+
+--
+--	Create schema type CFBam23ScopeIdGen
+--
+if exists ( select * from systypes where name = 'CFBam23ScopeIdGen' )
+begin
+	exec sp_droptype CFBam23ScopeIdGen
+end
+go
+
+exec sp_addtype CFBam23ScopeIdGen, "DECIMAL(21,0)"
+go
+
+--
+--	Create schema type CFBam23IndexColIdGen
+--
+if exists ( select * from systypes where name = 'CFBam23IndexColIdGen' )
+begin
+	exec sp_droptype CFBam23IndexColIdGen
+end
+go
+
+exec sp_addtype CFBam23IndexColIdGen, "DECIMAL(21,0)"
+go
+
+--
+--	Create schema type CFBam23LicenseIdGen
+--
+if exists ( select * from systypes where name = 'CFBam23LicenseIdGen' )
+begin
+	exec sp_droptype CFBam23LicenseIdGen
+end
+go
+
+exec sp_addtype CFBam23LicenseIdGen, "DECIMAL(21,0)"
+go
+
+--
+--	Create schema type CFBam23RelationColIdGen
+--
+if exists ( select * from systypes where name = 'CFBam23RelationColIdGen' )
+begin
+	exec sp_droptype CFBam23RelationColIdGen
+end
+go
+
+exec sp_addtype CFBam23RelationColIdGen, "DECIMAL(21,0)"
+go
+
+--
+--	Create schema type CFBam23ValueIdGen
+--
+if exists ( select * from systypes where name = 'CFBam23ValueIdGen' )
+begin
+	exec sp_droptype CFBam23ValueIdGen
+end
+go
+
+exec sp_addtype CFBam23ValueIdGen, "DECIMAL(21,0)"
+go
+
+--
+--	Create schema type CFBam23EnumTagIdGen
+--
+if exists ( select * from systypes where name = 'CFBam23EnumTagIdGen' )
+begin
+	exec sp_droptype CFBam23EnumTagIdGen
+end
+go
+
+exec sp_addtype CFBam23EnumTagIdGen, "DECIMAL(21,0)"
+go
+
+--
+--	Create schema type CFBam23ChainIdGen
+--
+if exists ( select * from systypes where name = 'CFBam23ChainIdGen' )
+begin
+	exec sp_droptype CFBam23ChainIdGen
+end
+go
+
+exec sp_addtype CFBam23ChainIdGen, "DECIMAL(21,0)"
+go
+
+--
+--	Create schema type CFBam23ParamIdGen
+--
+if exists ( select * from systypes where name = 'CFBam23ParamIdGen' )
+begin
+	exec sp_droptype CFBam23ParamIdGen
+end
+go
+
+exec sp_addtype CFBam23ParamIdGen, "DECIMAL(21,0)"
+go
+
+--
+--	Create schema type CFBam23LoaderBehaviourEnum
+--
+if exists ( select * from systypes where name = 'CFBam23LoaderBehaviourEnum' )
+begin
+	exec sp_droptype CFBam23LoaderBehaviourEnum
+end
+go
+
+exec sp_addtype CFBam23LoaderBehaviourEnum, "SMALLINT"
+go
+
+--
+--	Create schema type CFBam23SecurityScopeEnum
+--
+if exists ( select * from systypes where name = 'CFBam23SecurityScopeEnum' )
+begin
+	exec sp_droptype CFBam23SecurityScopeEnum
+end
+go
+
+exec sp_addtype CFBam23SecurityScopeEnum, "SMALLINT"
+go
+
+--
+--	Create schema type CFBam23DataScopeEnum
+--
+if exists ( select * from systypes where name = 'CFBam23DataScopeEnum' )
+begin
+	exec sp_droptype CFBam23DataScopeEnum
+end
+go
+
+exec sp_addtype CFBam23DataScopeEnum, "SMALLINT"
+go
+
+--
+--	Create schema type CFBam23AccessFrequencyEnum
+--
+if exists ( select * from systypes where name = 'CFBam23AccessFrequencyEnum' )
+begin
+	exec sp_droptype CFBam23AccessFrequencyEnum
+end
+go
+
+exec sp_addtype CFBam23AccessFrequencyEnum, "SMALLINT"
+go
+
+--
+--	Create schema type CFBam23AccessSecurityEnum
+--
+if exists ( select * from systypes where name = 'CFBam23AccessSecurityEnum' )
+begin
+	exec sp_droptype CFBam23AccessSecurityEnum
+end
+go
+
+exec sp_addtype CFBam23AccessSecurityEnum, "SMALLINT"
+go
+
+--
+--	Create schema type CFBam23RelationTypeEnum
+--
+if exists ( select * from systypes where name = 'CFBam23RelationTypeEnum' )
+begin
+	exec sp_droptype CFBam23RelationTypeEnum
+end
+go
+
+exec sp_addtype CFBam23RelationTypeEnum, "SMALLINT"
+go
+

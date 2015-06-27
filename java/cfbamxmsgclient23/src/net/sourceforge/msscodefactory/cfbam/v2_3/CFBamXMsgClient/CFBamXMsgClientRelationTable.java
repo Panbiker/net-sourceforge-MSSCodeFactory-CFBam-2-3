@@ -1,0 +1,2342 @@
+// Description: Java 7 XMsg Client DbIO implementation for Relation.
+
+/*
+ *	CFBam
+ *
+ *	Copyright (c) 2014-2015 Mark Sobkow
+ *	
+ *	This program is available as free software under the GNU GPL v3, under
+ *	the Eclipse Public License 1.0, or under a commercial license from Mark
+ *	Sobkow.  For commercial licensing details, please contact msobkow@sasktel.net.
+ *	
+ *	You should have received copies of the complete license text for
+ *	GPLv3.txt and EPLv1_0.txt, containing the text
+ *	of the GNU General Public License v 3.0 and the Eclipse Public License v 1.0.
+ *	
+ *	Under the terms of the GPL:
+ *	
+ *		This program is free software: you can redistribute it and/or modify
+ *		it under the terms of the GNU General Public License as published by
+ *		the Free Software Foundation, either version 3 of the License, or
+ *		(at your option) any later version.
+ *	  
+ *		This program is distributed in the hope that it will be useful,
+ *		but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *		GNU General Public License for more details.
+ *	  
+ *		You should have received a copy of the GNU General Public License
+ *		along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	
+ *	This software incorporates code originally Copyright (c) Mark Sobkow 2014-2015
+ *	and licensed under the BSD 3-Clause license as written by xfree86.org:
+ *	
+ *	Redistribution and use in source and binary forms, with or without
+ *	modification, are permitted provided that the following conditions are
+ *	met:
+ *	
+ *	    (1) Redistributions of source code must retain the above copyright
+ *	    notice, this list of conditions and the following disclaimer. 
+ *	
+ *	    (2) Redistributions in binary form must reproduce the above copyright
+ *	    notice, this list of conditions and the following disclaimer in
+ *	    the documentation and/or other materials provided with the
+ *	    distribution.  
+ *	    
+ *	    (3)The name of the author may not be used to
+ *	    endorse or promote products derived from this software without
+ *	    specific prior written permission.
+ *	
+ *	THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ *	IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ *	WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ *	DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT,
+ *	INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ *	(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ *	SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ *	HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ *	STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+ *	IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ *	POSSIBILITY OF SUCH DAMAGE.
+ *	
+ * ***********************************************************************
+ *
+ *	Code manufactured by MSS Code Factory
+ */
+
+
+package net.sourceforge.msscodefactory.cfbam.v2_3.CFBamXMsgClient;
+
+import java.lang.reflect.*;
+import java.math.*;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.sql.*;
+import java.text.*;
+import java.util.*;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.naming.*;
+import javax.sql.*;
+import net.sourceforge.msscodefactory.cflib.v2_3.CFLib.*;
+import net.sourceforge.msscodefactory.cflib.v2_3.CFLib.Tip.*;
+import org.apache.commons.codec.binary.Base64;
+import net.sourceforge.msscodefactory.cfbam.v2_3.CFBam.*;
+import net.sourceforge.msscodefactory.cfbam.v2_3.CFBamObj.*;
+import net.sourceforge.msscodefactory.cfbam.v2_3.CFBamXMsg.*;
+import net.sourceforge.msscodefactory.cfbam.v2_3.CFBamXMsgRspnHandler.*;
+
+/*
+ *	CFBamXMsgClientRelationTable XMsg Client DbIO implementation
+ *	for Relation.
+ */
+public class CFBamXMsgClientRelationTable
+	implements ICFBamRelationTable
+{
+	private CFBamXMsgClientSchema schema;
+
+	public CFBamXMsgClientRelationTable( CFBamXMsgClientSchema argSchema ) {
+		schema = argSchema;
+	}
+
+	public void createRelation( CFBamAuthorization Authorization,
+		CFBamRelationBuff Buff )
+	{
+		final String S_ProcName = "createRelation";
+		String rqst = CFBamXMsgSchemaMessageFormatter.formatRqstXmlPreamble() + "\n"
+			+	"\t" + CFBamXMsgRelationMessageFormatter.formatRelationRqstCreate( "\n\t\t\t", Buff )
+			+	"\n"
+			+	CFBamXMsgSchemaMessageFormatter.formatRqstXmlPostamble();
+		try {
+			schema.getCFTipClientHandler().issueAppRequest( rqst );
+		}
+		catch( BadPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught BadPaddingException - " + e.getMessage(),
+				e );
+		}
+		catch( IllegalBlockSizeException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught IllegalBlockSizeException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidKeyException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidKeyException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchAlgorithmException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchAlgorithmException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidAlgorithmParameterException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidAlgorithmParameterException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchPaddingException - " + e.getMessage(),
+				e );
+		}
+		ICFTipResponseHandler responseHandler = schema.getCFTipClientHandler().getResponseHandler();
+		CFLibRuntimeException exceptionRaised = responseHandler.getExceptionRaised();
+		if( exceptionRaised != null ) {
+			throw exceptionRaised;
+		}
+		Object lastObjectProcessed = responseHandler.getLastObjectProcessed();
+		if( lastObjectProcessed != null ) {
+			ICFBamRelationObj realized = null;
+			if( lastObjectProcessed instanceof ICFBamRelationObj ) {
+				realized = (ICFBamRelationObj)lastObjectProcessed;
+			}
+			else {
+				throw CFLib.getDefaultExceptionFactory().newUnsupportedClassException( getClass(),
+					S_ProcName,
+					"lastObjectProcessed",
+					lastObjectProcessed,
+					"ICFBamRelationObj" );
+			}
+			if( realized != null ) {
+				Buff.set( realized.getRelationBuff() );
+			}
+		}
+		else {
+			throw CFLib.getDefaultExceptionFactory().newNullArgumentException( getClass(),
+				S_ProcName,
+				0,
+				"responseHandler.getLastObjectProcessed()" );
+		}
+	}
+
+	public CFBamRelationBuff readDerived( CFBamAuthorization Authorization,
+		CFBamScopePKey PKey )
+	{
+		final String S_ProcName = "readDerived";
+		String rqst = CFBamXMsgSchemaMessageFormatter.formatRqstXmlPreamble() + "\n"
+			+	"\t" + CFBamXMsgRelationMessageFormatter.formatRelationRqstRead( "\n\t\t\t", PKey )
+			+	"\n"
+			+	CFBamXMsgSchemaMessageFormatter.formatRqstXmlPostamble();
+		try {
+			schema.getCFTipClientHandler().issueAppRequest( rqst );
+		}
+		catch( BadPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught BadPaddingException - " + e.getMessage(),
+				e );
+		}
+		catch( IllegalBlockSizeException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught IllegalBlockSizeException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidKeyException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidKeyException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchAlgorithmException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchAlgorithmException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidAlgorithmParameterException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidAlgorithmParameterException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchPaddingException - " + e.getMessage(),
+				e );
+		}
+		ICFTipResponseHandler responseHandler = schema.getCFTipClientHandler().getResponseHandler();
+		CFLibRuntimeException exceptionRaised = responseHandler.getExceptionRaised();
+		if( exceptionRaised != null ) {
+			throw exceptionRaised;
+		}
+		CFBamRelationBuff buff = null;
+		Object lastObjectProcessed = responseHandler.getLastObjectProcessed();
+		if( lastObjectProcessed != null ) {
+			ICFBamRelationObj realized = null;
+			if( lastObjectProcessed instanceof ICFBamRelationObj ) {
+				realized = (ICFBamRelationObj)lastObjectProcessed;
+			}
+			else {
+				throw CFLib.getDefaultExceptionFactory().newUnsupportedClassException( getClass(),
+					S_ProcName,
+					"lastObjectProcessed",
+					lastObjectProcessed,
+					"ICFBamRelationObj" );
+			}
+			if( realized != null ) {
+				buff = realized.getRelationBuff();
+			}
+		}
+		return( buff );
+	}
+
+	public CFBamRelationBuff lockDerived( CFBamAuthorization Authorization,
+		CFBamScopePKey PKey )
+	{
+		final String S_ProcName = "lockDerived";
+		String rqst = CFBamXMsgSchemaMessageFormatter.formatRqstXmlPreamble() + "\n"
+			+	"\t" + CFBamXMsgRelationMessageFormatter.formatRelationRqstLock( "\n\t\t\t", PKey )
+			+	"\n"
+			+	CFBamXMsgSchemaMessageFormatter.formatRqstXmlPostamble();
+		try {
+			schema.getCFTipClientHandler().issueAppRequest( rqst );
+		}
+		catch( BadPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught BadPaddingException - " + e.getMessage(),
+				e );
+		}
+		catch( IllegalBlockSizeException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught IllegalBlockSizeException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidKeyException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidKeyException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchAlgorithmException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchAlgorithmException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidAlgorithmParameterException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidAlgorithmParameterException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchPaddingException - " + e.getMessage(),
+				e );
+		}
+		ICFTipResponseHandler responseHandler = schema.getCFTipClientHandler().getResponseHandler();
+		CFLibRuntimeException exceptionRaised = responseHandler.getExceptionRaised();
+		if( exceptionRaised != null ) {
+			throw exceptionRaised;
+		}
+		CFBamRelationBuff buff = null;
+		Object lastObjectProcessed = responseHandler.getLastObjectProcessed();
+		if( lastObjectProcessed != null ) {
+			ICFBamRelationObj realized = null;
+			if( lastObjectProcessed instanceof ICFBamRelationObj ) {
+				realized = (ICFBamRelationObj)lastObjectProcessed;
+			}
+			else {
+				throw CFLib.getDefaultExceptionFactory().newUnsupportedClassException( getClass(),
+					S_ProcName,
+					"lastObjectProcessed",
+					lastObjectProcessed,
+					"ICFBamRelationObj" );
+			}
+			if( realized != null ) {
+				buff = realized.getRelationBuff();
+			}
+		}
+		return( buff );
+	}
+
+	public CFBamRelationBuff[] readAllDerived( CFBamAuthorization Authorization ) {
+		final String S_ProcName = "readAllDerived";
+		String rqst = CFBamXMsgSchemaMessageFormatter.formatRqstXmlPreamble() + "\n"
+			+	"\t" + CFBamXMsgRelationMessageFormatter.formatRelationRqstReadAll( "\n\t\t\t" )
+			+	"\n"
+			+	CFBamXMsgSchemaMessageFormatter.formatRqstXmlPostamble();
+		try {
+			schema.getCFTipClientHandler().issueAppRequest( rqst );
+		}
+		catch( BadPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught BadPaddingException - " + e.getMessage(),
+				e );
+		}
+		catch( IllegalBlockSizeException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught IllegalBlockSizeException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidKeyException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidKeyException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchAlgorithmException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchAlgorithmException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidAlgorithmParameterException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidAlgorithmParameterException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchPaddingException - " + e.getMessage(),
+				e );
+		}
+		ICFTipResponseHandler responseHandler = schema.getCFTipClientHandler().getResponseHandler();
+		CFLibRuntimeException exceptionRaised = responseHandler.getExceptionRaised();
+		if( exceptionRaised != null ) {
+			throw exceptionRaised;
+		}
+		Object sortedListObj = responseHandler.getListOfObjects();
+		if( sortedListObj == null ) {
+			throw CFLib.getDefaultExceptionFactory().newNullArgumentException( getClass(),
+				S_ProcName,
+				0,
+				"responseHandler.getListOfObjects" );
+		}
+		@SuppressWarnings("unchecked")
+		List<ICFBamScopeObj> sortedList =
+			(List<ICFBamScopeObj>)sortedListObj;
+		int sz = sortedList.size();
+		CFBamRelationBuff arr[] = new CFBamRelationBuff[ sz ];
+		Iterator<ICFBamScopeObj> iter = sortedList.iterator();
+		ICFBamRelationObj cur;
+		for( int idx = 0; idx < sz; idx ++ ) {
+			cur = (ICFBamRelationObj)iter.next();
+			arr[idx] = cur.getRelationBuff();
+		}
+		return( arr );
+	}
+
+	public CFBamRelationBuff readDerivedByIdIdx( CFBamAuthorization Authorization,
+		long argTenantId,
+		long argId )
+	{
+		final String S_ProcName = "readDerivedByIdIdx";
+		String rqst = CFBamXMsgSchemaMessageFormatter.formatRqstXmlPreamble() + "\n"
+			+	"\t" + CFBamXMsgRelationMessageFormatter.formatRelationRqstReadByIdIdx( "\n\t\t\t",
+							argTenantId,
+							argId )
+			+	"\n"
+			+	CFBamXMsgSchemaMessageFormatter.formatRqstXmlPostamble();
+		try {
+			schema.getCFTipClientHandler().issueAppRequest( rqst );
+		}
+		catch( BadPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught BadPaddingException - " + e.getMessage(),
+				e );
+		}
+		catch( IllegalBlockSizeException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught IllegalBlockSizeException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidKeyException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidKeyException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchAlgorithmException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchAlgorithmException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidAlgorithmParameterException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidAlgorithmParameterException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchPaddingException - " + e.getMessage(),
+				e );
+		}
+		ICFTipResponseHandler responseHandler = schema.getCFTipClientHandler().getResponseHandler();
+		CFLibRuntimeException exceptionRaised = responseHandler.getExceptionRaised();
+		if( exceptionRaised != null ) {
+			throw exceptionRaised;
+		}
+		CFBamRelationBuff buff = null;
+		Object lastObjectProcessed = responseHandler.getLastObjectProcessed();
+		if( lastObjectProcessed != null ) {
+			ICFBamRelationObj realized = null;
+			if( lastObjectProcessed instanceof ICFBamRelationObj ) {
+				realized = (ICFBamRelationObj)lastObjectProcessed;
+			}
+			else {
+				throw CFLib.getDefaultExceptionFactory().newUnsupportedClassException( getClass(),
+					S_ProcName,
+					"lastObjectProcessed",
+					lastObjectProcessed,
+					"ICFBamRelationObj" );
+			}
+			if( realized != null ) {
+				buff = realized.getRelationBuff();
+			}
+		}
+		return( buff );
+	}
+
+	public CFBamRelationBuff[] readDerivedByTenantIdx( CFBamAuthorization Authorization,
+		long argTenantId )
+	{
+		final String S_ProcName = "readDerivedByTenantIdx";
+		String rqst = CFBamXMsgSchemaMessageFormatter.formatRqstXmlPreamble() + "\n"
+			+	"\t" + CFBamXMsgRelationMessageFormatter.formatRelationRqstReadByTenantIdx( "\n\t\t\t",
+							argTenantId )
+			+	"\n"
+			+	CFBamXMsgSchemaMessageFormatter.formatRqstXmlPostamble();
+		try {
+			schema.getCFTipClientHandler().issueAppRequest( rqst );
+		}
+		catch( BadPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught BadPaddingException - " + e.getMessage(),
+				e );
+		}
+		catch( IllegalBlockSizeException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught IllegalBlockSizeException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidKeyException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidKeyException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchAlgorithmException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchAlgorithmException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidAlgorithmParameterException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidAlgorithmParameterException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchPaddingException - " + e.getMessage(),
+				e );
+		}
+		ICFTipResponseHandler responseHandler = schema.getCFTipClientHandler().getResponseHandler();
+		CFLibRuntimeException exceptionRaised = responseHandler.getExceptionRaised();
+		if( exceptionRaised != null ) {
+			throw exceptionRaised;
+		}
+		Object sortedListObj = responseHandler.getListOfObjects();
+		if( sortedListObj == null ) {
+			throw CFLib.getDefaultExceptionFactory().newNullArgumentException( getClass(),
+				S_ProcName,
+				0,
+				"responseHandler.getListOfObjects" );
+		}
+		@SuppressWarnings("unchecked")
+		List<ICFBamScopeObj> sortedList =
+			(List<ICFBamScopeObj>)sortedListObj;
+		int sz = sortedList.size();
+		CFBamRelationBuff arr[] = new CFBamRelationBuff[ sz ];
+		Iterator<ICFBamScopeObj> iter = sortedList.iterator();
+		ICFBamRelationObj cur;
+		for( int idx = 0; idx < sz; idx ++ ) {
+			cur = (ICFBamRelationObj)iter.next();
+			arr[idx] = cur.getRelationBuff();
+		}
+		return( arr );
+	}
+
+	public CFBamRelationBuff readDerivedByUNameIdx( CFBamAuthorization Authorization,
+		long argTenantId,
+		long argTableId,
+		String argName )
+	{
+		final String S_ProcName = "readDerivedByUNameIdx";
+		String rqst = CFBamXMsgSchemaMessageFormatter.formatRqstXmlPreamble() + "\n"
+			+	"\t" + CFBamXMsgRelationMessageFormatter.formatRelationRqstReadByUNameIdx( "\n\t\t\t",
+							argTenantId,
+							argTableId,
+							argName )
+			+	"\n"
+			+	CFBamXMsgSchemaMessageFormatter.formatRqstXmlPostamble();
+		try {
+			schema.getCFTipClientHandler().issueAppRequest( rqst );
+		}
+		catch( BadPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught BadPaddingException - " + e.getMessage(),
+				e );
+		}
+		catch( IllegalBlockSizeException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught IllegalBlockSizeException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidKeyException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidKeyException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchAlgorithmException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchAlgorithmException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidAlgorithmParameterException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidAlgorithmParameterException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchPaddingException - " + e.getMessage(),
+				e );
+		}
+		ICFTipResponseHandler responseHandler = schema.getCFTipClientHandler().getResponseHandler();
+		CFLibRuntimeException exceptionRaised = responseHandler.getExceptionRaised();
+		if( exceptionRaised != null ) {
+			throw exceptionRaised;
+		}
+		CFBamRelationBuff buff = null;
+		Object lastObjectProcessed = responseHandler.getLastObjectProcessed();
+		if( lastObjectProcessed != null ) {
+			ICFBamRelationObj realized = null;
+			if( lastObjectProcessed instanceof ICFBamRelationObj ) {
+				realized = (ICFBamRelationObj)lastObjectProcessed;
+			}
+			else {
+				throw CFLib.getDefaultExceptionFactory().newUnsupportedClassException( getClass(),
+					S_ProcName,
+					"lastObjectProcessed",
+					lastObjectProcessed,
+					"ICFBamRelationObj" );
+			}
+			if( realized != null ) {
+				buff = realized.getRelationBuff();
+			}
+		}
+		return( buff );
+	}
+
+	public CFBamRelationBuff[] readDerivedByRelnTenantIdx( CFBamAuthorization Authorization,
+		long argTenantId )
+	{
+		final String S_ProcName = "readDerivedByRelnTenantIdx";
+		String rqst = CFBamXMsgSchemaMessageFormatter.formatRqstXmlPreamble() + "\n"
+			+	"\t" + CFBamXMsgRelationMessageFormatter.formatRelationRqstReadByRelnTenantIdx( "\n\t\t\t",
+							argTenantId )
+			+	"\n"
+			+	CFBamXMsgSchemaMessageFormatter.formatRqstXmlPostamble();
+		try {
+			schema.getCFTipClientHandler().issueAppRequest( rqst );
+		}
+		catch( BadPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught BadPaddingException - " + e.getMessage(),
+				e );
+		}
+		catch( IllegalBlockSizeException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught IllegalBlockSizeException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidKeyException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidKeyException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchAlgorithmException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchAlgorithmException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidAlgorithmParameterException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidAlgorithmParameterException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchPaddingException - " + e.getMessage(),
+				e );
+		}
+		ICFTipResponseHandler responseHandler = schema.getCFTipClientHandler().getResponseHandler();
+		CFLibRuntimeException exceptionRaised = responseHandler.getExceptionRaised();
+		if( exceptionRaised != null ) {
+			throw exceptionRaised;
+		}
+		Object sortedListObj = responseHandler.getListOfObjects();
+		if( sortedListObj == null ) {
+			throw CFLib.getDefaultExceptionFactory().newNullArgumentException( getClass(),
+				S_ProcName,
+				0,
+				"responseHandler.getListOfObjects" );
+		}
+		@SuppressWarnings("unchecked")
+		List<ICFBamScopeObj> sortedList =
+			(List<ICFBamScopeObj>)sortedListObj;
+		int sz = sortedList.size();
+		CFBamRelationBuff arr[] = new CFBamRelationBuff[ sz ];
+		Iterator<ICFBamScopeObj> iter = sortedList.iterator();
+		ICFBamRelationObj cur;
+		for( int idx = 0; idx < sz; idx ++ ) {
+			cur = (ICFBamRelationObj)iter.next();
+			arr[idx] = cur.getRelationBuff();
+		}
+		return( arr );
+	}
+
+	public CFBamRelationBuff[] readDerivedByTableIdx( CFBamAuthorization Authorization,
+		long argTenantId,
+		long argTableId )
+	{
+		final String S_ProcName = "readDerivedByTableIdx";
+		String rqst = CFBamXMsgSchemaMessageFormatter.formatRqstXmlPreamble() + "\n"
+			+	"\t" + CFBamXMsgRelationMessageFormatter.formatRelationRqstReadByTableIdx( "\n\t\t\t",
+							argTenantId,
+							argTableId )
+			+	"\n"
+			+	CFBamXMsgSchemaMessageFormatter.formatRqstXmlPostamble();
+		try {
+			schema.getCFTipClientHandler().issueAppRequest( rqst );
+		}
+		catch( BadPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught BadPaddingException - " + e.getMessage(),
+				e );
+		}
+		catch( IllegalBlockSizeException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught IllegalBlockSizeException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidKeyException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidKeyException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchAlgorithmException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchAlgorithmException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidAlgorithmParameterException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidAlgorithmParameterException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchPaddingException - " + e.getMessage(),
+				e );
+		}
+		ICFTipResponseHandler responseHandler = schema.getCFTipClientHandler().getResponseHandler();
+		CFLibRuntimeException exceptionRaised = responseHandler.getExceptionRaised();
+		if( exceptionRaised != null ) {
+			throw exceptionRaised;
+		}
+		Object sortedListObj = responseHandler.getListOfObjects();
+		if( sortedListObj == null ) {
+			throw CFLib.getDefaultExceptionFactory().newNullArgumentException( getClass(),
+				S_ProcName,
+				0,
+				"responseHandler.getListOfObjects" );
+		}
+		@SuppressWarnings("unchecked")
+		List<ICFBamScopeObj> sortedList =
+			(List<ICFBamScopeObj>)sortedListObj;
+		int sz = sortedList.size();
+		CFBamRelationBuff arr[] = new CFBamRelationBuff[ sz ];
+		Iterator<ICFBamScopeObj> iter = sortedList.iterator();
+		ICFBamRelationObj cur;
+		for( int idx = 0; idx < sz; idx ++ ) {
+			cur = (ICFBamRelationObj)iter.next();
+			arr[idx] = cur.getRelationBuff();
+		}
+		return( arr );
+	}
+
+	public CFBamRelationBuff[] readDerivedByDefSchemaIdx( CFBamAuthorization Authorization,
+		Long argDefSchemaTenantId,
+		Long argDefSchemaId )
+	{
+		final String S_ProcName = "readDerivedByDefSchemaIdx";
+		String rqst = CFBamXMsgSchemaMessageFormatter.formatRqstXmlPreamble() + "\n"
+			+	"\t" + CFBamXMsgRelationMessageFormatter.formatRelationRqstReadByDefSchemaIdx( "\n\t\t\t",
+							argDefSchemaTenantId,
+							argDefSchemaId )
+			+	"\n"
+			+	CFBamXMsgSchemaMessageFormatter.formatRqstXmlPostamble();
+		try {
+			schema.getCFTipClientHandler().issueAppRequest( rqst );
+		}
+		catch( BadPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught BadPaddingException - " + e.getMessage(),
+				e );
+		}
+		catch( IllegalBlockSizeException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught IllegalBlockSizeException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidKeyException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidKeyException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchAlgorithmException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchAlgorithmException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidAlgorithmParameterException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidAlgorithmParameterException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchPaddingException - " + e.getMessage(),
+				e );
+		}
+		ICFTipResponseHandler responseHandler = schema.getCFTipClientHandler().getResponseHandler();
+		CFLibRuntimeException exceptionRaised = responseHandler.getExceptionRaised();
+		if( exceptionRaised != null ) {
+			throw exceptionRaised;
+		}
+		Object sortedListObj = responseHandler.getListOfObjects();
+		if( sortedListObj == null ) {
+			throw CFLib.getDefaultExceptionFactory().newNullArgumentException( getClass(),
+				S_ProcName,
+				0,
+				"responseHandler.getListOfObjects" );
+		}
+		@SuppressWarnings("unchecked")
+		List<ICFBamScopeObj> sortedList =
+			(List<ICFBamScopeObj>)sortedListObj;
+		int sz = sortedList.size();
+		CFBamRelationBuff arr[] = new CFBamRelationBuff[ sz ];
+		Iterator<ICFBamScopeObj> iter = sortedList.iterator();
+		ICFBamRelationObj cur;
+		for( int idx = 0; idx < sz; idx ++ ) {
+			cur = (ICFBamRelationObj)iter.next();
+			arr[idx] = cur.getRelationBuff();
+		}
+		return( arr );
+	}
+
+	public CFBamRelationBuff[] readDerivedByRTypeKeyIdx( CFBamAuthorization Authorization,
+		short argRelationTypeId )
+	{
+		final String S_ProcName = "readDerivedByRTypeKeyIdx";
+		String rqst = CFBamXMsgSchemaMessageFormatter.formatRqstXmlPreamble() + "\n"
+			+	"\t" + CFBamXMsgRelationMessageFormatter.formatRelationRqstReadByRTypeKeyIdx( "\n\t\t\t",
+							argRelationTypeId )
+			+	"\n"
+			+	CFBamXMsgSchemaMessageFormatter.formatRqstXmlPostamble();
+		try {
+			schema.getCFTipClientHandler().issueAppRequest( rqst );
+		}
+		catch( BadPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught BadPaddingException - " + e.getMessage(),
+				e );
+		}
+		catch( IllegalBlockSizeException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught IllegalBlockSizeException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidKeyException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidKeyException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchAlgorithmException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchAlgorithmException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidAlgorithmParameterException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidAlgorithmParameterException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchPaddingException - " + e.getMessage(),
+				e );
+		}
+		ICFTipResponseHandler responseHandler = schema.getCFTipClientHandler().getResponseHandler();
+		CFLibRuntimeException exceptionRaised = responseHandler.getExceptionRaised();
+		if( exceptionRaised != null ) {
+			throw exceptionRaised;
+		}
+		Object sortedListObj = responseHandler.getListOfObjects();
+		if( sortedListObj == null ) {
+			throw CFLib.getDefaultExceptionFactory().newNullArgumentException( getClass(),
+				S_ProcName,
+				0,
+				"responseHandler.getListOfObjects" );
+		}
+		@SuppressWarnings("unchecked")
+		List<ICFBamScopeObj> sortedList =
+			(List<ICFBamScopeObj>)sortedListObj;
+		int sz = sortedList.size();
+		CFBamRelationBuff arr[] = new CFBamRelationBuff[ sz ];
+		Iterator<ICFBamScopeObj> iter = sortedList.iterator();
+		ICFBamRelationObj cur;
+		for( int idx = 0; idx < sz; idx ++ ) {
+			cur = (ICFBamRelationObj)iter.next();
+			arr[idx] = cur.getRelationBuff();
+		}
+		return( arr );
+	}
+
+	public CFBamRelationBuff[] readDerivedByFromKeyIdx( CFBamAuthorization Authorization,
+		long argTenantId,
+		long argFromIndexId )
+	{
+		final String S_ProcName = "readDerivedByFromKeyIdx";
+		String rqst = CFBamXMsgSchemaMessageFormatter.formatRqstXmlPreamble() + "\n"
+			+	"\t" + CFBamXMsgRelationMessageFormatter.formatRelationRqstReadByFromKeyIdx( "\n\t\t\t",
+							argTenantId,
+							argFromIndexId )
+			+	"\n"
+			+	CFBamXMsgSchemaMessageFormatter.formatRqstXmlPostamble();
+		try {
+			schema.getCFTipClientHandler().issueAppRequest( rqst );
+		}
+		catch( BadPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught BadPaddingException - " + e.getMessage(),
+				e );
+		}
+		catch( IllegalBlockSizeException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught IllegalBlockSizeException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidKeyException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidKeyException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchAlgorithmException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchAlgorithmException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidAlgorithmParameterException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidAlgorithmParameterException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchPaddingException - " + e.getMessage(),
+				e );
+		}
+		ICFTipResponseHandler responseHandler = schema.getCFTipClientHandler().getResponseHandler();
+		CFLibRuntimeException exceptionRaised = responseHandler.getExceptionRaised();
+		if( exceptionRaised != null ) {
+			throw exceptionRaised;
+		}
+		Object sortedListObj = responseHandler.getListOfObjects();
+		if( sortedListObj == null ) {
+			throw CFLib.getDefaultExceptionFactory().newNullArgumentException( getClass(),
+				S_ProcName,
+				0,
+				"responseHandler.getListOfObjects" );
+		}
+		@SuppressWarnings("unchecked")
+		List<ICFBamScopeObj> sortedList =
+			(List<ICFBamScopeObj>)sortedListObj;
+		int sz = sortedList.size();
+		CFBamRelationBuff arr[] = new CFBamRelationBuff[ sz ];
+		Iterator<ICFBamScopeObj> iter = sortedList.iterator();
+		ICFBamRelationObj cur;
+		for( int idx = 0; idx < sz; idx ++ ) {
+			cur = (ICFBamRelationObj)iter.next();
+			arr[idx] = cur.getRelationBuff();
+		}
+		return( arr );
+	}
+
+	public CFBamRelationBuff[] readDerivedByToTblIdx( CFBamAuthorization Authorization,
+		long argTenantId,
+		long argToTableId )
+	{
+		final String S_ProcName = "readDerivedByToTblIdx";
+		String rqst = CFBamXMsgSchemaMessageFormatter.formatRqstXmlPreamble() + "\n"
+			+	"\t" + CFBamXMsgRelationMessageFormatter.formatRelationRqstReadByToTblIdx( "\n\t\t\t",
+							argTenantId,
+							argToTableId )
+			+	"\n"
+			+	CFBamXMsgSchemaMessageFormatter.formatRqstXmlPostamble();
+		try {
+			schema.getCFTipClientHandler().issueAppRequest( rqst );
+		}
+		catch( BadPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught BadPaddingException - " + e.getMessage(),
+				e );
+		}
+		catch( IllegalBlockSizeException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught IllegalBlockSizeException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidKeyException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidKeyException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchAlgorithmException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchAlgorithmException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidAlgorithmParameterException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidAlgorithmParameterException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchPaddingException - " + e.getMessage(),
+				e );
+		}
+		ICFTipResponseHandler responseHandler = schema.getCFTipClientHandler().getResponseHandler();
+		CFLibRuntimeException exceptionRaised = responseHandler.getExceptionRaised();
+		if( exceptionRaised != null ) {
+			throw exceptionRaised;
+		}
+		Object sortedListObj = responseHandler.getListOfObjects();
+		if( sortedListObj == null ) {
+			throw CFLib.getDefaultExceptionFactory().newNullArgumentException( getClass(),
+				S_ProcName,
+				0,
+				"responseHandler.getListOfObjects" );
+		}
+		@SuppressWarnings("unchecked")
+		List<ICFBamScopeObj> sortedList =
+			(List<ICFBamScopeObj>)sortedListObj;
+		int sz = sortedList.size();
+		CFBamRelationBuff arr[] = new CFBamRelationBuff[ sz ];
+		Iterator<ICFBamScopeObj> iter = sortedList.iterator();
+		ICFBamRelationObj cur;
+		for( int idx = 0; idx < sz; idx ++ ) {
+			cur = (ICFBamRelationObj)iter.next();
+			arr[idx] = cur.getRelationBuff();
+		}
+		return( arr );
+	}
+
+	public CFBamRelationBuff[] readDerivedByToKeyIdx( CFBamAuthorization Authorization,
+		long argTenantId,
+		long argToIndexId )
+	{
+		final String S_ProcName = "readDerivedByToKeyIdx";
+		String rqst = CFBamXMsgSchemaMessageFormatter.formatRqstXmlPreamble() + "\n"
+			+	"\t" + CFBamXMsgRelationMessageFormatter.formatRelationRqstReadByToKeyIdx( "\n\t\t\t",
+							argTenantId,
+							argToIndexId )
+			+	"\n"
+			+	CFBamXMsgSchemaMessageFormatter.formatRqstXmlPostamble();
+		try {
+			schema.getCFTipClientHandler().issueAppRequest( rqst );
+		}
+		catch( BadPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught BadPaddingException - " + e.getMessage(),
+				e );
+		}
+		catch( IllegalBlockSizeException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught IllegalBlockSizeException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidKeyException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidKeyException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchAlgorithmException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchAlgorithmException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidAlgorithmParameterException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidAlgorithmParameterException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchPaddingException - " + e.getMessage(),
+				e );
+		}
+		ICFTipResponseHandler responseHandler = schema.getCFTipClientHandler().getResponseHandler();
+		CFLibRuntimeException exceptionRaised = responseHandler.getExceptionRaised();
+		if( exceptionRaised != null ) {
+			throw exceptionRaised;
+		}
+		Object sortedListObj = responseHandler.getListOfObjects();
+		if( sortedListObj == null ) {
+			throw CFLib.getDefaultExceptionFactory().newNullArgumentException( getClass(),
+				S_ProcName,
+				0,
+				"responseHandler.getListOfObjects" );
+		}
+		@SuppressWarnings("unchecked")
+		List<ICFBamScopeObj> sortedList =
+			(List<ICFBamScopeObj>)sortedListObj;
+		int sz = sortedList.size();
+		CFBamRelationBuff arr[] = new CFBamRelationBuff[ sz ];
+		Iterator<ICFBamScopeObj> iter = sortedList.iterator();
+		ICFBamRelationObj cur;
+		for( int idx = 0; idx < sz; idx ++ ) {
+			cur = (ICFBamRelationObj)iter.next();
+			arr[idx] = cur.getRelationBuff();
+		}
+		return( arr );
+	}
+
+	public CFBamRelationBuff[] readDerivedByNarrowedIdx( CFBamAuthorization Authorization,
+		Long argNarrowedTenantId,
+		Long argNarrowedId )
+	{
+		final String S_ProcName = "readDerivedByNarrowedIdx";
+		String rqst = CFBamXMsgSchemaMessageFormatter.formatRqstXmlPreamble() + "\n"
+			+	"\t" + CFBamXMsgRelationMessageFormatter.formatRelationRqstReadByNarrowedIdx( "\n\t\t\t",
+							argNarrowedTenantId,
+							argNarrowedId )
+			+	"\n"
+			+	CFBamXMsgSchemaMessageFormatter.formatRqstXmlPostamble();
+		try {
+			schema.getCFTipClientHandler().issueAppRequest( rqst );
+		}
+		catch( BadPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught BadPaddingException - " + e.getMessage(),
+				e );
+		}
+		catch( IllegalBlockSizeException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught IllegalBlockSizeException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidKeyException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidKeyException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchAlgorithmException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchAlgorithmException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidAlgorithmParameterException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidAlgorithmParameterException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchPaddingException - " + e.getMessage(),
+				e );
+		}
+		ICFTipResponseHandler responseHandler = schema.getCFTipClientHandler().getResponseHandler();
+		CFLibRuntimeException exceptionRaised = responseHandler.getExceptionRaised();
+		if( exceptionRaised != null ) {
+			throw exceptionRaised;
+		}
+		Object sortedListObj = responseHandler.getListOfObjects();
+		if( sortedListObj == null ) {
+			throw CFLib.getDefaultExceptionFactory().newNullArgumentException( getClass(),
+				S_ProcName,
+				0,
+				"responseHandler.getListOfObjects" );
+		}
+		@SuppressWarnings("unchecked")
+		List<ICFBamScopeObj> sortedList =
+			(List<ICFBamScopeObj>)sortedListObj;
+		int sz = sortedList.size();
+		CFBamRelationBuff arr[] = new CFBamRelationBuff[ sz ];
+		Iterator<ICFBamScopeObj> iter = sortedList.iterator();
+		ICFBamRelationObj cur;
+		for( int idx = 0; idx < sz; idx ++ ) {
+			cur = (ICFBamRelationObj)iter.next();
+			arr[idx] = cur.getRelationBuff();
+		}
+		return( arr );
+	}
+
+	public CFBamRelationBuff readBuff( CFBamAuthorization Authorization,
+		CFBamScopePKey PKey )
+	{
+		throw CFLib.getDefaultExceptionFactory().newNotSupportedException( getClass(),
+			"readBuff" );
+	}
+
+	public CFBamRelationBuff lockBuff( CFBamAuthorization Authorization,
+		CFBamScopePKey PKey )
+	{
+		throw CFLib.getDefaultExceptionFactory().newNotSupportedException( getClass(),
+			"lockBuff" );
+	}
+
+	public CFBamRelationBuff[] readAllBuff( CFBamAuthorization Authorization ) {
+		throw CFLib.getDefaultExceptionFactory().newNotSupportedException( getClass(),
+			"readAllBuff" );
+	}
+
+	public CFBamRelationBuff readBuffByIdIdx( CFBamAuthorization Authorization,
+		long argTenantId,
+		long argId )
+	{
+		throw CFLib.getDefaultExceptionFactory().newNotSupportedException( getClass(),
+			"readBuffByIdIdx" );
+	}
+
+	public CFBamRelationBuff[] readBuffByTenantIdx( CFBamAuthorization Authorization,
+		long argTenantId )
+	{
+		throw CFLib.getDefaultExceptionFactory().newNotSupportedException( getClass(),
+			"readBuffByTenantIdx" );
+	}
+
+	public CFBamRelationBuff readBuffByUNameIdx( CFBamAuthorization Authorization,
+		long argTenantId,
+		long argTableId,
+		String argName )
+	{
+		throw CFLib.getDefaultExceptionFactory().newNotSupportedException( getClass(),
+			"readBuffByUNameIdx" );
+	}
+
+	public CFBamRelationBuff[] readBuffByRelnTenantIdx( CFBamAuthorization Authorization,
+		long argTenantId )
+	{
+		throw CFLib.getDefaultExceptionFactory().newNotSupportedException( getClass(),
+			"readBuffByRelnTenantIdx" );
+	}
+
+	public CFBamRelationBuff[] readBuffByTableIdx( CFBamAuthorization Authorization,
+		long argTenantId,
+		long argTableId )
+	{
+		throw CFLib.getDefaultExceptionFactory().newNotSupportedException( getClass(),
+			"readBuffByTableIdx" );
+	}
+
+	public CFBamRelationBuff[] readBuffByDefSchemaIdx( CFBamAuthorization Authorization,
+		Long argDefSchemaTenantId,
+		Long argDefSchemaId )
+	{
+		throw CFLib.getDefaultExceptionFactory().newNotSupportedException( getClass(),
+			"readBuffByDefSchemaIdx" );
+	}
+
+	public CFBamRelationBuff[] readBuffByRTypeKeyIdx( CFBamAuthorization Authorization,
+		short argRelationTypeId )
+	{
+		throw CFLib.getDefaultExceptionFactory().newNotSupportedException( getClass(),
+			"readBuffByRTypeKeyIdx" );
+	}
+
+	public CFBamRelationBuff[] readBuffByFromKeyIdx( CFBamAuthorization Authorization,
+		long argTenantId,
+		long argFromIndexId )
+	{
+		throw CFLib.getDefaultExceptionFactory().newNotSupportedException( getClass(),
+			"readBuffByFromKeyIdx" );
+	}
+
+	public CFBamRelationBuff[] readBuffByToTblIdx( CFBamAuthorization Authorization,
+		long argTenantId,
+		long argToTableId )
+	{
+		throw CFLib.getDefaultExceptionFactory().newNotSupportedException( getClass(),
+			"readBuffByToTblIdx" );
+	}
+
+	public CFBamRelationBuff[] readBuffByToKeyIdx( CFBamAuthorization Authorization,
+		long argTenantId,
+		long argToIndexId )
+	{
+		throw CFLib.getDefaultExceptionFactory().newNotSupportedException( getClass(),
+			"readBuffByToKeyIdx" );
+	}
+
+	public CFBamRelationBuff[] readBuffByNarrowedIdx( CFBamAuthorization Authorization,
+		Long argNarrowedTenantId,
+		Long argNarrowedId )
+	{
+		throw CFLib.getDefaultExceptionFactory().newNotSupportedException( getClass(),
+			"readBuffByNarrowedIdx" );
+	}
+
+	public void updateRelation( CFBamAuthorization Authorization,
+		CFBamRelationBuff Buff )
+	{
+		final String S_ProcName = "updateRelation";
+		String rqst = CFBamXMsgSchemaMessageFormatter.formatRqstXmlPreamble() + "\n"
+			+	"\t" + CFBamXMsgRelationMessageFormatter.formatRelationRqstUpdate( "\n\t\t\t", Buff )
+			+	"\n"
+			+	CFBamXMsgSchemaMessageFormatter.formatRqstXmlPostamble();
+		try {
+			schema.getCFTipClientHandler().issueAppRequest( rqst );
+		}
+		catch( BadPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught BadPaddingException - " + e.getMessage(),
+				e );
+		}
+		catch( IllegalBlockSizeException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught IllegalBlockSizeException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidKeyException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidKeyException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchAlgorithmException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchAlgorithmException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidAlgorithmParameterException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidAlgorithmParameterException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchPaddingException - " + e.getMessage(),
+				e );
+		}
+		ICFTipResponseHandler responseHandler = schema.getCFTipClientHandler().getResponseHandler();
+		CFLibRuntimeException exceptionRaised = responseHandler.getExceptionRaised();
+		if( exceptionRaised != null ) {
+			throw exceptionRaised;
+		}
+		CFBamRelationBuff buff = null;
+		Object lastObjectProcessed = responseHandler.getLastObjectProcessed();
+		if( lastObjectProcessed != null ) {
+			ICFBamRelationObj realized = null;
+			if( lastObjectProcessed instanceof ICFBamRelationObj ) {
+				realized = (ICFBamRelationObj)lastObjectProcessed;
+			}
+			else {
+				throw CFLib.getDefaultExceptionFactory().newUnsupportedClassException( getClass(),
+					S_ProcName,
+					"lastObjectProcessed",
+					lastObjectProcessed,
+					"ICFBamRelationObj" );
+			}
+			if( realized != null ) {
+				buff = realized.getRelationBuff();
+			}
+		}
+		if( buff != null ) {
+			Buff.set( buff );
+		}
+	}
+
+	public void deleteRelation( CFBamAuthorization Authorization,
+		CFBamRelationBuff Buff )
+	{
+		final String S_ProcName = "deleteRelation";
+		String rqst = CFBamXMsgSchemaMessageFormatter.formatRqstXmlPreamble() + "\n"
+			+	"\t" + CFBamXMsgRelationMessageFormatter.formatRelationRqstDelete( "\n\t\t\t", Buff )
+			+	"\n"
+			+	CFBamXMsgSchemaMessageFormatter.formatRqstXmlPostamble();
+		try {
+			schema.getCFTipClientHandler().issueAppRequest( rqst );
+		}
+		catch( BadPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught BadPaddingException - " + e.getMessage(),
+				e );
+		}
+		catch( IllegalBlockSizeException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught IllegalBlockSizeException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidKeyException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidKeyException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchAlgorithmException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchAlgorithmException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidAlgorithmParameterException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidAlgorithmParameterException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchPaddingException - " + e.getMessage(),
+				e );
+		}
+		ICFTipResponseHandler responseHandler = schema.getCFTipClientHandler().getResponseHandler();
+		CFLibRuntimeException exceptionRaised = responseHandler.getExceptionRaised();
+		if( exceptionRaised != null ) {
+			throw exceptionRaised;
+		}
+		boolean deleted = responseHandler.getDeleted();
+		if( ! deleted ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Server did not respond with a Deleted message" );
+		}
+	}
+
+	public void deleteRelationByIdIdx( CFBamAuthorization Authorization,
+		long argTenantId,
+		long argId )
+	{
+		final String S_ProcName = "deleteRelationByIdIdx";
+		String rqst = CFBamXMsgSchemaMessageFormatter.formatRqstXmlPreamble() + "\n"
+			+	"\t" + CFBamXMsgScopeMessageFormatter.formatScopeRqstDeleteByIdIdx( "\n\t\t\t",
+							argTenantId,
+							argId )
+			+	"\n"
+			+	CFBamXMsgSchemaMessageFormatter.formatRqstXmlPostamble();
+		try {
+			schema.getCFTipClientHandler().issueAppRequest( rqst );
+		}
+		catch( BadPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught BadPaddingException - " + e.getMessage(),
+				e );
+		}
+		catch( IllegalBlockSizeException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught IllegalBlockSizeException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidKeyException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidKeyException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchAlgorithmException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchAlgorithmException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidAlgorithmParameterException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidAlgorithmParameterException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchPaddingException - " + e.getMessage(),
+				e );
+		}
+		ICFTipResponseHandler responseHandler = schema.getCFTipClientHandler().getResponseHandler();
+		CFLibRuntimeException exceptionRaised = responseHandler.getExceptionRaised();
+		if( exceptionRaised != null ) {
+			throw exceptionRaised;
+		}
+		boolean deleted = responseHandler.getDeleted();
+		if( ! deleted ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Server did not respond with a Deleted message" );
+		}
+	}
+
+	public void deleteRelationByIdIdx( CFBamAuthorization Authorization,
+		CFBamScopePKey argKey )
+	{
+		deleteRelationByIdIdx( Authorization,
+			argKey.getRequiredTenantId(),
+			argKey.getRequiredId() );
+	}
+	public void deleteRelationByTenantIdx( CFBamAuthorization Authorization,
+		long argTenantId )
+	{
+		final String S_ProcName = "deleteRelationByTenantIdx";
+		String rqst = CFBamXMsgSchemaMessageFormatter.formatRqstXmlPreamble() + "\n"
+			+	"\t" + CFBamXMsgRelationMessageFormatter.formatRelationRqstDeleteByTenantIdx( "\n\t\t\t",
+							argTenantId )
+			+	"\n"
+			+	CFBamXMsgSchemaMessageFormatter.formatRqstXmlPostamble();
+		try {
+			schema.getCFTipClientHandler().issueAppRequest( rqst );
+		}
+		catch( BadPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught BadPaddingException - " + e.getMessage(),
+				e );
+		}
+		catch( IllegalBlockSizeException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught IllegalBlockSizeException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidKeyException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidKeyException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchAlgorithmException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchAlgorithmException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidAlgorithmParameterException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidAlgorithmParameterException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchPaddingException - " + e.getMessage(),
+				e );
+		}
+		ICFTipResponseHandler responseHandler = schema.getCFTipClientHandler().getResponseHandler();
+		CFLibRuntimeException exceptionRaised = responseHandler.getExceptionRaised();
+		if( exceptionRaised != null ) {
+			throw exceptionRaised;
+		}
+		boolean deleted = responseHandler.getDeleted();
+		if( ! deleted ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Server did not respond with a Deleted message" );
+		}
+	}
+
+	public void deleteRelationByTenantIdx( CFBamAuthorization Authorization,
+		CFBamScopeByTenantIdxKey argKey )
+	{
+		deleteRelationByTenantIdx( Authorization,
+			argKey.getRequiredTenantId() );
+	}
+	public void deleteRelationByUNameIdx( CFBamAuthorization Authorization,
+		long argTenantId,
+		long argTableId,
+		String argName )
+	{
+		final String S_ProcName = "deleteRelationByUNameIdx";
+		String rqst = CFBamXMsgSchemaMessageFormatter.formatRqstXmlPreamble() + "\n"
+			+	"\t" + CFBamXMsgRelationMessageFormatter.formatRelationRqstDeleteByUNameIdx( "\n\t\t\t",
+							argTenantId,
+							argTableId,
+							argName )
+			+	"\n"
+			+	CFBamXMsgSchemaMessageFormatter.formatRqstXmlPostamble();
+		try {
+			schema.getCFTipClientHandler().issueAppRequest( rqst );
+		}
+		catch( BadPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught BadPaddingException - " + e.getMessage(),
+				e );
+		}
+		catch( IllegalBlockSizeException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught IllegalBlockSizeException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidKeyException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidKeyException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchAlgorithmException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchAlgorithmException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidAlgorithmParameterException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidAlgorithmParameterException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchPaddingException - " + e.getMessage(),
+				e );
+		}
+		ICFTipResponseHandler responseHandler = schema.getCFTipClientHandler().getResponseHandler();
+		CFLibRuntimeException exceptionRaised = responseHandler.getExceptionRaised();
+		if( exceptionRaised != null ) {
+			throw exceptionRaised;
+		}
+		boolean deleted = responseHandler.getDeleted();
+		if( ! deleted ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Server did not respond with a Deleted message" );
+		}
+	}
+
+	public void deleteRelationByUNameIdx( CFBamAuthorization Authorization,
+		CFBamRelationByUNameIdxKey argKey )
+	{
+		deleteRelationByUNameIdx( Authorization,
+			argKey.getRequiredTenantId(),
+			argKey.getRequiredTableId(),
+			argKey.getRequiredName() );
+	}
+	public void deleteRelationByRelnTenantIdx( CFBamAuthorization Authorization,
+		long argTenantId )
+	{
+		final String S_ProcName = "deleteRelationByRelnTenantIdx";
+		String rqst = CFBamXMsgSchemaMessageFormatter.formatRqstXmlPreamble() + "\n"
+			+	"\t" + CFBamXMsgRelationMessageFormatter.formatRelationRqstDeleteByRelnTenantIdx( "\n\t\t\t",
+							argTenantId )
+			+	"\n"
+			+	CFBamXMsgSchemaMessageFormatter.formatRqstXmlPostamble();
+		try {
+			schema.getCFTipClientHandler().issueAppRequest( rqst );
+		}
+		catch( BadPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught BadPaddingException - " + e.getMessage(),
+				e );
+		}
+		catch( IllegalBlockSizeException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught IllegalBlockSizeException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidKeyException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidKeyException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchAlgorithmException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchAlgorithmException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidAlgorithmParameterException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidAlgorithmParameterException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchPaddingException - " + e.getMessage(),
+				e );
+		}
+		ICFTipResponseHandler responseHandler = schema.getCFTipClientHandler().getResponseHandler();
+		CFLibRuntimeException exceptionRaised = responseHandler.getExceptionRaised();
+		if( exceptionRaised != null ) {
+			throw exceptionRaised;
+		}
+		boolean deleted = responseHandler.getDeleted();
+		if( ! deleted ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Server did not respond with a Deleted message" );
+		}
+	}
+
+	public void deleteRelationByRelnTenantIdx( CFBamAuthorization Authorization,
+		CFBamRelationByRelnTenantIdxKey argKey )
+	{
+		deleteRelationByRelnTenantIdx( Authorization,
+			argKey.getRequiredTenantId() );
+	}
+	public void deleteRelationByTableIdx( CFBamAuthorization Authorization,
+		long argTenantId,
+		long argTableId )
+	{
+		final String S_ProcName = "deleteRelationByTableIdx";
+		String rqst = CFBamXMsgSchemaMessageFormatter.formatRqstXmlPreamble() + "\n"
+			+	"\t" + CFBamXMsgRelationMessageFormatter.formatRelationRqstDeleteByTableIdx( "\n\t\t\t",
+							argTenantId,
+							argTableId )
+			+	"\n"
+			+	CFBamXMsgSchemaMessageFormatter.formatRqstXmlPostamble();
+		try {
+			schema.getCFTipClientHandler().issueAppRequest( rqst );
+		}
+		catch( BadPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught BadPaddingException - " + e.getMessage(),
+				e );
+		}
+		catch( IllegalBlockSizeException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught IllegalBlockSizeException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidKeyException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidKeyException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchAlgorithmException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchAlgorithmException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidAlgorithmParameterException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidAlgorithmParameterException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchPaddingException - " + e.getMessage(),
+				e );
+		}
+		ICFTipResponseHandler responseHandler = schema.getCFTipClientHandler().getResponseHandler();
+		CFLibRuntimeException exceptionRaised = responseHandler.getExceptionRaised();
+		if( exceptionRaised != null ) {
+			throw exceptionRaised;
+		}
+		boolean deleted = responseHandler.getDeleted();
+		if( ! deleted ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Server did not respond with a Deleted message" );
+		}
+	}
+
+	public void deleteRelationByTableIdx( CFBamAuthorization Authorization,
+		CFBamRelationByTableIdxKey argKey )
+	{
+		deleteRelationByTableIdx( Authorization,
+			argKey.getRequiredTenantId(),
+			argKey.getRequiredTableId() );
+	}
+	public void deleteRelationByDefSchemaIdx( CFBamAuthorization Authorization,
+		Long argDefSchemaTenantId,
+		Long argDefSchemaId )
+	{
+		final String S_ProcName = "deleteRelationByDefSchemaIdx";
+		String rqst = CFBamXMsgSchemaMessageFormatter.formatRqstXmlPreamble() + "\n"
+			+	"\t" + CFBamXMsgRelationMessageFormatter.formatRelationRqstDeleteByDefSchemaIdx( "\n\t\t\t",
+							argDefSchemaTenantId,
+							argDefSchemaId )
+			+	"\n"
+			+	CFBamXMsgSchemaMessageFormatter.formatRqstXmlPostamble();
+		try {
+			schema.getCFTipClientHandler().issueAppRequest( rqst );
+		}
+		catch( BadPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught BadPaddingException - " + e.getMessage(),
+				e );
+		}
+		catch( IllegalBlockSizeException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught IllegalBlockSizeException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidKeyException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidKeyException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchAlgorithmException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchAlgorithmException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidAlgorithmParameterException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidAlgorithmParameterException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchPaddingException - " + e.getMessage(),
+				e );
+		}
+		ICFTipResponseHandler responseHandler = schema.getCFTipClientHandler().getResponseHandler();
+		CFLibRuntimeException exceptionRaised = responseHandler.getExceptionRaised();
+		if( exceptionRaised != null ) {
+			throw exceptionRaised;
+		}
+		boolean deleted = responseHandler.getDeleted();
+		if( ! deleted ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Server did not respond with a Deleted message" );
+		}
+	}
+
+	public void deleteRelationByDefSchemaIdx( CFBamAuthorization Authorization,
+		CFBamRelationByDefSchemaIdxKey argKey )
+	{
+		deleteRelationByDefSchemaIdx( Authorization,
+			argKey.getOptionalDefSchemaTenantId(),
+			argKey.getOptionalDefSchemaId() );
+	}
+	public void deleteRelationByRTypeKeyIdx( CFBamAuthorization Authorization,
+		short argRelationTypeId )
+	{
+		final String S_ProcName = "deleteRelationByRTypeKeyIdx";
+		String rqst = CFBamXMsgSchemaMessageFormatter.formatRqstXmlPreamble() + "\n"
+			+	"\t" + CFBamXMsgRelationMessageFormatter.formatRelationRqstDeleteByRTypeKeyIdx( "\n\t\t\t",
+							argRelationTypeId )
+			+	"\n"
+			+	CFBamXMsgSchemaMessageFormatter.formatRqstXmlPostamble();
+		try {
+			schema.getCFTipClientHandler().issueAppRequest( rqst );
+		}
+		catch( BadPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught BadPaddingException - " + e.getMessage(),
+				e );
+		}
+		catch( IllegalBlockSizeException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught IllegalBlockSizeException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidKeyException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidKeyException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchAlgorithmException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchAlgorithmException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidAlgorithmParameterException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidAlgorithmParameterException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchPaddingException - " + e.getMessage(),
+				e );
+		}
+		ICFTipResponseHandler responseHandler = schema.getCFTipClientHandler().getResponseHandler();
+		CFLibRuntimeException exceptionRaised = responseHandler.getExceptionRaised();
+		if( exceptionRaised != null ) {
+			throw exceptionRaised;
+		}
+		boolean deleted = responseHandler.getDeleted();
+		if( ! deleted ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Server did not respond with a Deleted message" );
+		}
+	}
+
+	public void deleteRelationByRTypeKeyIdx( CFBamAuthorization Authorization,
+		CFBamRelationByRTypeKeyIdxKey argKey )
+	{
+		deleteRelationByRTypeKeyIdx( Authorization,
+			argKey.getRequiredRelationTypeId() );
+	}
+	public void deleteRelationByFromKeyIdx( CFBamAuthorization Authorization,
+		long argTenantId,
+		long argFromIndexId )
+	{
+		final String S_ProcName = "deleteRelationByFromKeyIdx";
+		String rqst = CFBamXMsgSchemaMessageFormatter.formatRqstXmlPreamble() + "\n"
+			+	"\t" + CFBamXMsgRelationMessageFormatter.formatRelationRqstDeleteByFromKeyIdx( "\n\t\t\t",
+							argTenantId,
+							argFromIndexId )
+			+	"\n"
+			+	CFBamXMsgSchemaMessageFormatter.formatRqstXmlPostamble();
+		try {
+			schema.getCFTipClientHandler().issueAppRequest( rqst );
+		}
+		catch( BadPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught BadPaddingException - " + e.getMessage(),
+				e );
+		}
+		catch( IllegalBlockSizeException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught IllegalBlockSizeException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidKeyException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidKeyException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchAlgorithmException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchAlgorithmException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidAlgorithmParameterException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidAlgorithmParameterException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchPaddingException - " + e.getMessage(),
+				e );
+		}
+		ICFTipResponseHandler responseHandler = schema.getCFTipClientHandler().getResponseHandler();
+		CFLibRuntimeException exceptionRaised = responseHandler.getExceptionRaised();
+		if( exceptionRaised != null ) {
+			throw exceptionRaised;
+		}
+		boolean deleted = responseHandler.getDeleted();
+		if( ! deleted ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Server did not respond with a Deleted message" );
+		}
+	}
+
+	public void deleteRelationByFromKeyIdx( CFBamAuthorization Authorization,
+		CFBamRelationByFromKeyIdxKey argKey )
+	{
+		deleteRelationByFromKeyIdx( Authorization,
+			argKey.getRequiredTenantId(),
+			argKey.getRequiredFromIndexId() );
+	}
+	public void deleteRelationByToTblIdx( CFBamAuthorization Authorization,
+		long argTenantId,
+		long argToTableId )
+	{
+		final String S_ProcName = "deleteRelationByToTblIdx";
+		String rqst = CFBamXMsgSchemaMessageFormatter.formatRqstXmlPreamble() + "\n"
+			+	"\t" + CFBamXMsgRelationMessageFormatter.formatRelationRqstDeleteByToTblIdx( "\n\t\t\t",
+							argTenantId,
+							argToTableId )
+			+	"\n"
+			+	CFBamXMsgSchemaMessageFormatter.formatRqstXmlPostamble();
+		try {
+			schema.getCFTipClientHandler().issueAppRequest( rqst );
+		}
+		catch( BadPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught BadPaddingException - " + e.getMessage(),
+				e );
+		}
+		catch( IllegalBlockSizeException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught IllegalBlockSizeException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidKeyException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidKeyException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchAlgorithmException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchAlgorithmException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidAlgorithmParameterException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidAlgorithmParameterException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchPaddingException - " + e.getMessage(),
+				e );
+		}
+		ICFTipResponseHandler responseHandler = schema.getCFTipClientHandler().getResponseHandler();
+		CFLibRuntimeException exceptionRaised = responseHandler.getExceptionRaised();
+		if( exceptionRaised != null ) {
+			throw exceptionRaised;
+		}
+		boolean deleted = responseHandler.getDeleted();
+		if( ! deleted ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Server did not respond with a Deleted message" );
+		}
+	}
+
+	public void deleteRelationByToTblIdx( CFBamAuthorization Authorization,
+		CFBamRelationByToTblIdxKey argKey )
+	{
+		deleteRelationByToTblIdx( Authorization,
+			argKey.getRequiredTenantId(),
+			argKey.getRequiredToTableId() );
+	}
+	public void deleteRelationByToKeyIdx( CFBamAuthorization Authorization,
+		long argTenantId,
+		long argToIndexId )
+	{
+		final String S_ProcName = "deleteRelationByToKeyIdx";
+		String rqst = CFBamXMsgSchemaMessageFormatter.formatRqstXmlPreamble() + "\n"
+			+	"\t" + CFBamXMsgRelationMessageFormatter.formatRelationRqstDeleteByToKeyIdx( "\n\t\t\t",
+							argTenantId,
+							argToIndexId )
+			+	"\n"
+			+	CFBamXMsgSchemaMessageFormatter.formatRqstXmlPostamble();
+		try {
+			schema.getCFTipClientHandler().issueAppRequest( rqst );
+		}
+		catch( BadPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught BadPaddingException - " + e.getMessage(),
+				e );
+		}
+		catch( IllegalBlockSizeException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught IllegalBlockSizeException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidKeyException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidKeyException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchAlgorithmException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchAlgorithmException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidAlgorithmParameterException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidAlgorithmParameterException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchPaddingException - " + e.getMessage(),
+				e );
+		}
+		ICFTipResponseHandler responseHandler = schema.getCFTipClientHandler().getResponseHandler();
+		CFLibRuntimeException exceptionRaised = responseHandler.getExceptionRaised();
+		if( exceptionRaised != null ) {
+			throw exceptionRaised;
+		}
+		boolean deleted = responseHandler.getDeleted();
+		if( ! deleted ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Server did not respond with a Deleted message" );
+		}
+	}
+
+	public void deleteRelationByToKeyIdx( CFBamAuthorization Authorization,
+		CFBamRelationByToKeyIdxKey argKey )
+	{
+		deleteRelationByToKeyIdx( Authorization,
+			argKey.getRequiredTenantId(),
+			argKey.getRequiredToIndexId() );
+	}
+	public void deleteRelationByNarrowedIdx( CFBamAuthorization Authorization,
+		Long argNarrowedTenantId,
+		Long argNarrowedId )
+	{
+		final String S_ProcName = "deleteRelationByNarrowedIdx";
+		String rqst = CFBamXMsgSchemaMessageFormatter.formatRqstXmlPreamble() + "\n"
+			+	"\t" + CFBamXMsgRelationMessageFormatter.formatRelationRqstDeleteByNarrowedIdx( "\n\t\t\t",
+							argNarrowedTenantId,
+							argNarrowedId )
+			+	"\n"
+			+	CFBamXMsgSchemaMessageFormatter.formatRqstXmlPostamble();
+		try {
+			schema.getCFTipClientHandler().issueAppRequest( rqst );
+		}
+		catch( BadPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught BadPaddingException - " + e.getMessage(),
+				e );
+		}
+		catch( IllegalBlockSizeException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught IllegalBlockSizeException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidKeyException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidKeyException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchAlgorithmException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchAlgorithmException - " + e.getMessage(),
+				e );
+		}
+		catch( InvalidAlgorithmParameterException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught InvalidAlgorithmParameterException - " + e.getMessage(),
+				e );
+		}
+		catch( NoSuchPaddingException e ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Caught NoSuchPaddingException - " + e.getMessage(),
+				e );
+		}
+		ICFTipResponseHandler responseHandler = schema.getCFTipClientHandler().getResponseHandler();
+		CFLibRuntimeException exceptionRaised = responseHandler.getExceptionRaised();
+		if( exceptionRaised != null ) {
+			throw exceptionRaised;
+		}
+		boolean deleted = responseHandler.getDeleted();
+		if( ! deleted ) {
+			throw CFLib.getDefaultExceptionFactory().newRuntimeException( getClass(),
+				S_ProcName,
+				"Server did not respond with a Deleted message" );
+		}
+	}
+
+	public void deleteRelationByNarrowedIdx( CFBamAuthorization Authorization,
+		CFBamRelationByNarrowedIdxKey argKey )
+	{
+		deleteRelationByNarrowedIdx( Authorization,
+			argKey.getOptionalNarrowedTenantId(),
+			argKey.getOptionalNarrowedId() );
+	}
+	public CFBamCursor openRelationCursorAll( CFBamAuthorization Authorization ) {
+		throw CFLib.getDefaultExceptionFactory().newNotSupportedException( getClass(),
+			"openRelationCursorAll" );
+	}
+
+	public CFBamCursor openRelationCursorByRelnTenantIdx( CFBamAuthorization Authorization,
+		long argTenantId )
+	{
+		throw CFLib.getDefaultExceptionFactory().newNotSupportedException( getClass(),
+			"openRelationCursorByRelnTenantIdx" );
+	}
+
+	public CFBamCursor openRelationCursorByTableIdx( CFBamAuthorization Authorization,
+		long argTenantId,
+		long argTableId )
+	{
+		throw CFLib.getDefaultExceptionFactory().newNotSupportedException( getClass(),
+			"openRelationCursorByTableIdx" );
+	}
+
+	public CFBamCursor openRelationCursorByDefSchemaIdx( CFBamAuthorization Authorization,
+		Long argDefSchemaTenantId,
+		Long argDefSchemaId )
+	{
+		throw CFLib.getDefaultExceptionFactory().newNotSupportedException( getClass(),
+			"openRelationCursorByDefSchemaIdx" );
+	}
+
+	public CFBamCursor openRelationCursorByRTypeKeyIdx( CFBamAuthorization Authorization,
+		short argRelationTypeId )
+	{
+		throw CFLib.getDefaultExceptionFactory().newNotSupportedException( getClass(),
+			"openRelationCursorByRTypeKeyIdx" );
+	}
+
+	public CFBamCursor openRelationCursorByFromKeyIdx( CFBamAuthorization Authorization,
+		long argTenantId,
+		long argFromIndexId )
+	{
+		throw CFLib.getDefaultExceptionFactory().newNotSupportedException( getClass(),
+			"openRelationCursorByFromKeyIdx" );
+	}
+
+	public CFBamCursor openRelationCursorByToTblIdx( CFBamAuthorization Authorization,
+		long argTenantId,
+		long argToTableId )
+	{
+		throw CFLib.getDefaultExceptionFactory().newNotSupportedException( getClass(),
+			"openRelationCursorByToTblIdx" );
+	}
+
+	public CFBamCursor openRelationCursorByToKeyIdx( CFBamAuthorization Authorization,
+		long argTenantId,
+		long argToIndexId )
+	{
+		throw CFLib.getDefaultExceptionFactory().newNotSupportedException( getClass(),
+			"openRelationCursorByToKeyIdx" );
+	}
+
+	public CFBamCursor openRelationCursorByNarrowedIdx( CFBamAuthorization Authorization,
+		Long argNarrowedTenantId,
+		Long argNarrowedId )
+	{
+		throw CFLib.getDefaultExceptionFactory().newNotSupportedException( getClass(),
+			"openRelationCursorByNarrowedIdx" );
+	}
+
+	public void closeRelationCursor( CFBamCursor Cursor ) {
+		throw CFLib.getDefaultExceptionFactory().newNotSupportedException( getClass(),
+			"closeRelationCursor" );
+	}
+
+	public CFBamRelationBuff nextRelationCursor( CFBamCursor Cursor ) {
+		throw CFLib.getDefaultExceptionFactory().newNotSupportedException( getClass(),
+			"nextRelationCursor" );
+	}
+
+	public CFBamRelationBuff prevRelationCursor( CFBamCursor Cursor ) {
+		throw CFLib.getDefaultExceptionFactory().newNotSupportedException( getClass(),
+			"prevRelationCursor" );
+	}
+
+	public CFBamRelationBuff firstRelationCursor( CFBamCursor Cursor ) {
+		throw CFLib.getDefaultExceptionFactory().newNotSupportedException( getClass(),
+			"firstRelationCursor" );
+	}
+
+	public CFBamRelationBuff lastRelationCursor( CFBamCursor Cursor ) {
+		throw CFLib.getDefaultExceptionFactory().newNotSupportedException( getClass(),
+			"lastRelationCursor" );
+	}
+
+	public CFBamRelationBuff nthRelationCursor( CFBamCursor Cursor, int Idx ) {
+		throw CFLib.getDefaultExceptionFactory().newNotSupportedException( getClass(),
+			"nthRelationCursor" );
+	}
+
+	/**
+	 *	Release the prepared statements.
+	 *	<p>
+	 *	When the schema changes connections, the prepared statements
+	 *	have to be released because they contain connection-specific
+	 *	information for most databases.
+	 */
+	public void releasePreparedStatements() {
+		throw CFLib.getDefaultExceptionFactory().newNotSupportedException( getClass(),
+			"releasePreparedStatements" );
+	}
+}

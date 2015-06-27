@@ -1,0 +1,163 @@
+--
+--	@(#) dbcreate/cfbam/mssql/crtbl_tbldef.tsql
+--
+--	CFBam
+--
+--	Copyright (c) 2014-2015 Mark Sobkow
+--	
+--	This program is available as free software under the GNU GPL v3, under
+--	the Eclipse Public License 1.0, or under a commercial license from Mark
+--	Sobkow.  For commercial licensing details, please contact msobkow@sasktel.net.
+--	
+--	You should have received copies of the complete license text for
+--	GPLv3.txt and EPLv1_0.txt, containing the text
+--	of the GNU General Public License v 3.0 and the Eclipse Public License v 1.0.
+--	
+--	Under the terms of the GPL:
+--	
+--		This program is free software: you can redistribute it and/or modify
+--		it under the terms of the GNU General Public License as published by
+--		the Free Software Foundation, either version 3 of the License, or
+--		(at your option) any later version.
+--	  
+--		This program is distributed in the hope that it will be useful,
+--		but WITHOUT ANY WARRANTY; without even the implied warranty of
+--		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--		GNU General Public License for more details.
+--	  
+--		You should have received a copy of the GNU General Public License
+--		along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--	
+--	This software incorporates code originally Copyright (c) Mark Sobkow 2014-2015
+--	and licensed under the BSD 3-Clause license as written by xfree86.org:
+--	
+--	Redistribution and use in source and binary forms, with or without
+--	modification, are permitted provided that the following conditions are
+--	met:
+--	
+--	    (1) Redistributions of source code must retain the above copyright
+--	    notice, this list of conditions and the following disclaimer. 
+--	
+--	    (2) Redistributions in binary form must reproduce the above copyright
+--	    notice, this list of conditions and the following disclaimer in
+--	    the documentation and/or other materials provided with the
+--	    distribution.  
+--	    
+--	    (3)The name of the author may not be used to
+--	    endorse or promote products derived from this software without
+--	    specific prior written permission.
+--	
+--	THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+--	IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+--	WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+--	DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT,
+--	INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+--	(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+--	SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+--	HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+--	STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+--	IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+--	POSSIBILITY OF SUCH DAMAGE.
+--	
+--
+-- **********************************************************************
+--
+--	Code manufactured by MSS Code Factory
+--
+
+use cfbam23
+go
+
+CREATE TABLE cfbam23..tbldef (
+	tenantid	CFBam23TenantIdGenSeq NOT NULL,
+	schemadefid	CFBam23ScopeIdGen NOT NULL,
+	defschtentid	CFBam23TenantIdGenSeq NULL,
+	defschid	CFBam23ScopeIdGen NULL,
+	id	CFBam23ScopeIdGen NOT NULL,
+	name	CFBam23NameType NOT NULL,
+	dbname	VARCHAR(32) NULL,
+	short_name	VARCHAR(16) NULL,
+	label	VARCHAR(64) NULL,
+	short_descr	VARCHAR(50) NULL,
+	descr	VARCHAR(100) NULL,
+	primidxtentid	CFBam23TenantIdGenSeq NULL,
+	primidxid	CFBam23ScopeIdGen NULL,
+	tblclscd	VARCHAR(4) NOT NULL,
+	lookidxtentid	CFBam23TenantIdGenSeq NULL,
+	lookidxid	CFBam23ScopeIdGen NULL,
+	altidxtentid	CFBam23TenantIdGenSeq NULL,
+	altidxid	CFBam23ScopeIdGen NULL,
+	qualtentid	CFBam23TenantIdGenSeq NULL,
+	qualtblid	CFBam23ScopeIdGen NULL,
+	polybase	CHAR(1) NOT NULL,
+	isinstantiable	CHAR(1) NOT NULL,
+	hashistory	CHAR(1) NOT NULL,
+	hasauditcolumns	CHAR(1) NOT NULL,
+	loadbehavid	CFBam23LoaderBehaviourEnum NOT NULL,
+	datascopeid	CFBam23DataScopeEnum NULL,
+	secscopeid	CFBam23SecurityScopeEnum NOT NULL,
+	vasecid	CFBam23AccessSecurityEnum NULL,
+	easecid	CFBam23AccessSecurityEnum NULL,
+	vafid	CFBam23AccessFrequencyEnum NULL,
+	eafid	CFBam23AccessFrequencyEnum NULL,
+	jobj_memb	TEXT NULL,
+	jobj_xface	TEXT NULL,
+	jtbl_objimp	TEXT NULL,
+	jobj_impl	TEXT NULL,
+	jedt_memb	TEXT NULL,
+	jedt_xface	TEXT NULL,
+	jtbl_eobjimp	TEXT NULL,
+	jedt_impl	TEXT NULL,
+	jtbl_imp	TEXT NULL,
+	jtbl_memb	TEXT NULL,
+	jtbl_xface	TEXT NULL,
+	jtbl_impl	TEXT NULL,
+	jtbl_objimp	TEXT NULL,
+	jtbl_objmemb	TEXT NULL,
+	jtbl_objxface	TEXT NULL,
+	jtbl_objimpl	TEXT NULL,
+	jtbl_db2imp	TEXT NULL,
+	jdb2_memb	TEXT NULL,
+	jdb2_impl	TEXT NULL,
+	jtbl_msimp	TEXT NULL,
+	jmssql_memb	TEXT NULL,
+	jmssql_impl	TEXT NULL,
+	jtbl_myimp	TEXT NULL,
+	jmysql_memb	TEXT NULL,
+	jmysql_impl	TEXT NULL,
+	jtbl_oraimp	TEXT NULL,
+	joracle_memb	TEXT NULL,
+	joracle_impl	TEXT NULL,
+	jtbl_pgimp	TEXT NULL,
+	jpgsql_memb	TEXT NULL,
+	jpgsql_impl	TEXT NULL,
+	jtbl_sybaseimp	TEXT NULL,
+	jsybase_memb	TEXT NULL,
+	jsybase_impl	TEXT NULL,
+	jtbl_ramimp	TEXT NULL,
+	jram_memb	TEXT NULL,
+	jram_impl	TEXT NULL,
+	jtbl_saxldimp	TEXT NULL,
+	jsaxstart_memb	TEXT NULL,
+	jsaxend_impl	TEXT NULL,
+	jxmtbl_imp	TEXT NULL,
+	jxmtbl_fmt	TEXT NULL,
+	jxmtbl_rqstimp	TEXT NULL,
+	jxmtbl_rspnimp	TEXT NULL,
+	jxmtbl_clntimp	TEXT NULL,
+	jxmtbl_rqstbdy	TEXT NULL,
+	jxmtbl_rspnbdy	TEXT NULL,
+	jxmtbl_clntbdy	TEXT NULL,
+	dflt_vis	CHAR(1) NOT NULL)
+go
+
+CREATE UNIQUE INDEX tbldef_pk ON cfbam23..tbldef (
+	tenantid DESC,
+	id DESC )
+go
+
+ALTER TABLE cfbam23..tbldef
+	ADD CONSTRAINT pk_tbldef_pk PRIMARY KEY ( tenantid, id )
+go
+
+quit

@@ -1,0 +1,294 @@
+--
+--	@(#) dbcreate/cfbam/mssql/crsp_create_reldef.tsql
+--
+--	CFBam
+--
+--	Copyright (c) 2014-2015 Mark Sobkow
+--	
+--	This program is available as free software under the GNU GPL v3, under
+--	the Eclipse Public License 1.0, or under a commercial license from Mark
+--	Sobkow.  For commercial licensing details, please contact msobkow@sasktel.net.
+--	
+--	You should have received copies of the complete license text for
+--	GPLv3.txt and EPLv1_0.txt, containing the text
+--	of the GNU General Public License v 3.0 and the Eclipse Public License v 1.0.
+--	
+--	Under the terms of the GPL:
+--	
+--		This program is free software: you can redistribute it and/or modify
+--		it under the terms of the GNU General Public License as published by
+--		the Free Software Foundation, either version 3 of the License, or
+--		(at your option) any later version.
+--	  
+--		This program is distributed in the hope that it will be useful,
+--		but WITHOUT ANY WARRANTY; without even the implied warranty of
+--		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--		GNU General Public License for more details.
+--	  
+--		You should have received a copy of the GNU General Public License
+--		along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--	
+--	This software incorporates code originally Copyright (c) Mark Sobkow 2014-2015
+--	and licensed under the BSD 3-Clause license as written by xfree86.org:
+--	
+--	Redistribution and use in source and binary forms, with or without
+--	modification, are permitted provided that the following conditions are
+--	met:
+--	
+--	    (1) Redistributions of source code must retain the above copyright
+--	    notice, this list of conditions and the following disclaimer. 
+--	
+--	    (2) Redistributions in binary form must reproduce the above copyright
+--	    notice, this list of conditions and the following disclaimer in
+--	    the documentation and/or other materials provided with the
+--	    distribution.  
+--	    
+--	    (3)The name of the author may not be used to
+--	    endorse or promote products derived from this software without
+--	    specific prior written permission.
+--	
+--	THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+--	IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+--	WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+--	DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT,
+--	INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+--	(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+--	SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+--	HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+--	STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+--	IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+--	POSSIBILITY OF SUCH DAMAGE.
+--	
+--
+-- **********************************************************************
+--
+--	Code manufactured by MSS Code Factory
+--
+
+use cfbam23
+go
+
+create proc sp_create_reldef
+	@argAuditClusterId bigint,
+	@argAuditUserId varchar(36),
+	@argAuditSessionId varchar(36),
+	@secClusterId bigint,
+	@secTenantId bigint,
+	@argClassCode CFBam23ClassCode,
+	@argTenantId decimal(21,0),
+	@argTableId decimal(21,0),
+	@argDefSchemaTenantId decimal(21,0),
+	@argDefSchemaId decimal(21,0),
+	@argName varchar(192),
+	@argShortName varchar(16),
+	@argLabel varchar(64),
+	@argShortDescription varchar(128),
+	@argDescription varchar(1023),
+	@argRelationTypeId smallint,
+	@argDbName varchar(32),
+	@argSuffix varchar(16),
+	@argFromIndexId decimal(21,0),
+	@argToTableId decimal(21,0),
+	@argToIndexId decimal(21,0),
+	@argIsRequired char(1),
+	@argIsAbstract char(1),
+	@argIsXsdContainer char(1),
+	@argNarrowedTenantId decimal(21,0),
+	@argNarrowedId decimal(21,0),
+	@argDefaultVisibility char(1)
+as
+	declare @rc int
+	declare @permissionFlag int
+	declare @argId decimal(21,0)
+begin
+	if( @argClassCode = 'RELD' )
+	begin
+		exec sp_is_tenant_user @permissionFlag output, @argTenantId, 'CreateRelation', @argAuditUserId
+		if( @permissionFlag = 0 )
+		begin
+			raiserror( 'Permission denied -- User not found in tenant TSecGroup for CreateRelation',
+				15,
+				1 )
+		end
+	end
+
+	exec sp_next_tenant_scopeidgen @argId output,
+		@argTenantId
+
+	insert into cfbam23..scopedef(
+			forcesynclock,
+			classcode,
+			createdby,
+			createdat,
+			updatedby,
+			updatedat,
+			tenantid,
+			id,
+			revision )
+	values (
+			0,
+			@argClassCode,
+			@argAuditUserId,
+			sysdatetime(),
+			@argAuditUserId,
+			sysdatetime(),
+			@argTenantId,
+			@argId,
+			1 )
+
+	insert into cfbam23..reldef(
+			tenantid,
+			tableid,
+			id,
+			defschtentid,
+			defschid,
+			name,
+			short_name,
+			label,
+			short_descr,
+			descr,
+			relationtypeid,
+			dbname,
+			suffix,
+			fromindexid,
+			totableid,
+			toindexid,
+			isrequired,
+			isabstract,
+			isxsdcontainer,
+			narrowedtenantid,
+			narrowedid,
+			dflt_vis )
+	values (
+			@argTenantId,
+			@argTableId,
+			@argId,
+			@argDefSchemaTenantId,
+			@argDefSchemaId,
+			@argName,
+			@argShortName,
+			@argLabel,
+			@argShortDescription,
+			@argDescription,
+			@argRelationTypeId,
+			@argDbName,
+			@argSuffix,
+			@argFromIndexId,
+			@argToTableId,
+			@argToIndexId,
+			@argIsRequired,
+			@argIsAbstract,
+			@argIsXsdContainer,
+			@argNarrowedTenantId,
+			@argNarrowedId,
+			@argDefaultVisibility )
+
+	if( @argClassCode = 'RELD' )
+	begin
+		insert into cfbam23..reldef_h (
+			tenantid,
+			id,
+			classcode,
+			auditclusterid,
+			auditsessionid,
+			auditstamp,
+			tableid,
+			defschtentid,
+			defschid,
+			name,
+			short_name,
+			label,
+			short_descr,
+			descr,
+			relationtypeid,
+			dbname,
+			suffix,
+			fromindexid,
+			totableid,
+			toindexid,
+			isrequired,
+			isabstract,
+			isxsdcontainer,
+			narrowedtenantid,
+			narrowedid,
+			dflt_vis,
+			revision,
+			auditaction )
+		select
+			scop.tenantid,
+			scop.id,
+			scop.classcode,
+			@argAuditClusterId,
+			@argAuditSessionId,
+			sysdatetime(),
+			reld.tableid,
+			reld.defschtentid,
+			reld.defschid,
+			reld.name,
+			reld.short_name,
+			reld.label,
+			reld.short_descr,
+			reld.descr,
+			reld.relationtypeid,
+			reld.dbname,
+			reld.suffix,
+			reld.fromindexid,
+			reld.totableid,
+			reld.toindexid,
+			reld.isrequired,
+			reld.isabstract,
+			reld.isxsdcontainer,
+			reld.narrowedtenantid,
+			reld.narrowedid,
+			reld.dflt_vis,
+			scop.revision,
+			1
+		from cfbam23..reldef as reld
+			inner join cfbam23..scopedef scop on
+				reld.tenantid = scop.tenantid
+				and reld.id = scop.id
+		where
+			reld.tenantid = @argTenantId
+			and reld.id = @argId
+	end
+
+	select
+			scop.classcode,
+			scop.createdby,
+			convert( varchar, scop.createdat, 120 ) as createdat,
+			scop.updatedby,
+			convert( varchar, scop.updatedat, 120 ) as updatedat,
+			scop.tenantid as tenantid,
+			scop.id as id,
+			reld.tableid as tableid,
+			reld.defschtentid as defschtentid,
+			reld.defschid as defschid,
+			reld.name as name,
+			reld.short_name as short_name,
+			reld.label as label,
+			reld.short_descr as short_descr,
+			reld.descr as descr,
+			reld.relationtypeid as relationtypeid,
+			reld.dbname as dbname,
+			reld.suffix as suffix,
+			reld.fromindexid as fromindexid,
+			reld.totableid as totableid,
+			reld.toindexid as toindexid,
+			reld.isrequired as isrequired,
+			reld.isabstract as isabstract,
+			reld.isxsdcontainer as isxsdcontainer,
+			reld.narrowedtenantid as narrowedtenantid,
+			reld.narrowedid as narrowedid,
+			reld.dflt_vis as dflt_vis,
+			scop.revision as revision
+	from cfbam23..reldef as reld
+			inner join cfbam23..scopedef scop on
+				reld.tenantid = scop.tenantid
+				and reld.id = scop.id
+	where
+			reld.tenantid = @argTenantId
+			and reld.id = @argId
+end
+go
+
+quit

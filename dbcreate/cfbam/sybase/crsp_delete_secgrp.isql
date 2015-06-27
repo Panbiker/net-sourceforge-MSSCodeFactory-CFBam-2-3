@@ -1,0 +1,303 @@
+--
+--	@(#) dbcreate/cfbam/sybase/crsp_delete_secgrp.isql
+--
+--	CFBam
+--
+--	Copyright (c) 2014-2015 Mark Sobkow
+--	
+--	This program is available as free software under the GNU GPL v3, under
+--	the Eclipse Public License 1.0, or under a commercial license from Mark
+--	Sobkow.  For commercial licensing details, please contact msobkow@sasktel.net.
+--	
+--	You should have received copies of the complete license text for
+--	GPLv3.txt and EPLv1_0.txt, containing the text
+--	of the GNU General Public License v 3.0 and the Eclipse Public License v 1.0.
+--	
+--	Under the terms of the GPL:
+--	
+--		This program is free software: you can redistribute it and/or modify
+--		it under the terms of the GNU General Public License as published by
+--		the Free Software Foundation, either version 3 of the License, or
+--		(at your option) any later version.
+--	  
+--		This program is distributed in the hope that it will be useful,
+--		but WITHOUT ANY WARRANTY; without even the implied warranty of
+--		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--		GNU General Public License for more details.
+--	  
+--		You should have received a copy of the GNU General Public License
+--		along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--	
+--	This software incorporates code originally Copyright (c) Mark Sobkow 2014-2015
+--	and licensed under the BSD 3-Clause license as written by xfree86.org:
+--	
+--	Redistribution and use in source and binary forms, with or without
+--	modification, are permitted provided that the following conditions are
+--	met:
+--	
+--	    (1) Redistributions of source code must retain the above copyright
+--	    notice, this list of conditions and the following disclaimer. 
+--	
+--	    (2) Redistributions in binary form must reproduce the above copyright
+--	    notice, this list of conditions and the following disclaimer in
+--	    the documentation and/or other materials provided with the
+--	    distribution.  
+--	    
+--	    (3)The name of the author may not be used to
+--	    endorse or promote products derived from this software without
+--	    specific prior written permission.
+--	
+--	THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+--	IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+--	WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+--	DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT,
+--	INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+--	(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+--	SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+--	HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+--	STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+--	IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+--	POSSIBILITY OF SUCH DAMAGE.
+--	
+--
+-- **********************************************************************
+--
+--	Code manufactured by MSS Code Factory
+--
+
+if exists ( select * from sysobjects where name = 'sp_delete_secgrp' )
+begin
+	drop proc sp_delete_secgrp
+end
+go
+
+create proc sp_delete_secgrp
+	@argAuditClusterId bigint,
+	@argAuditUserId varchar(36),
+	@argAuditSessionId varchar(36),
+	@secClusterId bigint,
+	@secTenantId bigint,
+	@argClusterId bigint,
+	@argSecGroupId integer,
+	@argRevision int
+as	declare @oldRevision int
+	declare @rc int
+	declare @oldClusterId bigint
+	declare @oldSecGroupId integer
+	declare @oldName varchar(64)
+	declare @oldAuditCreatedAt bigdatetime
+	declare @oldAuditCreatedBy varchar(36)
+	declare @oldAuditUpdatedAt bigdatetime
+	declare @oldAuditUpdatedBy varchar(36)
+	declare @permissionFlag int
+	declare @delsecgroupformsClusterId bigint
+	declare @delsecgroupformsSecGroupFormId bigint
+	declare @delsecgroupincludedbygroupClusterId bigint
+	declare @delsecgroupincludedbygroupSecGroupIncludeId bigint
+	declare @delsecgroupmembersClusterId bigint
+	declare @delsecgroupmembersSecGroupMemberId bigint
+	declare @delsecgroupincludesClusterId bigint
+	declare @delsecgroupincludesSecGroupIncludeId bigint
+begin
+	update cfbam23..SecGrp
+	set forcesynclock = forcesynclock + 1
+	where
+			clusterid = @argClusterId
+		and secgroupid = @argSecGroupId
+	select @rc = @@rowcount
+	if @rc != 1
+	begin
+		raiserror 17004 "Data collision detected -- primary key does not exist"
+	end
+
+	select
+		@oldAuditCreatedAt = sgrp.createdat,
+		@oldAuditCreatedBy = sgrp.createdby,
+		@oldAuditUpdatedAt = sgrp.updatedat,
+		@oldAuditUpdatedBy = sgrp.updatedby,
+		@oldClusterId = sgrp.clusterid,
+		@oldSecGroupId = sgrp.secgroupid,
+		@oldName = sgrp.name,
+		@oldRevision = sgrp.revision
+	from cfbam23..SecGrp as sgrp
+	where
+			sgrp.clusterid = @argClusterId
+			and sgrp.secgroupid = @argSecGroupId
+	if @argRevision != @oldRevision
+	begin
+		raiserror 17000 "sp_delete_secgrp() Data collision detected"
+	end
+
+	exec sp_is_cluster_user @permissionFlag output, @secClusterId, 'DeleteSecGroup', @argAuditUserId
+	if( @permissionFlag = 0 )
+	begin
+		raiserror 17008 "Permission denied -- User not found in cluster SecGroup for DeleteSecGroup"
+	end
+
+	insert into cfbam23..SecGrp_h (
+			clusterid,
+			secgroupid,
+			auditclusterid,
+			auditsessionid,
+			auditstamp,
+			name,
+			revision,
+			auditaction )
+		select
+			sgrp.clusterid,
+			sgrp.secgroupid,
+			@argAuditClusterId,
+			@argAuditSessionId,
+			current_bigdatetime(),
+			sgrp.name,
+			@argRevision + 1,
+			3
+		from cfbam23..SecGrp as sgrp
+		where
+			sgrp.clusterid = @argClusterId
+			and sgrp.secgroupid = @argSecGroupId
+
+	declare cursDelSecGroupForms insensitive cursor for
+		select
+			sgfm.clusid,
+			sgfm.secgrpfrmid
+		from cfbam23..SecGrp as sgrp
+			inner join cfbam23..SecGrpFrm sgfm on
+				sgrp.clusterid = sgfm.clusid
+				and sgrp.secgroupid = sgfm.secgrpid
+		where
+			sgrp.clusterid = @argClusterId
+			and sgrp.secgroupid = @argSecGroupId
+
+
+	open cursDelSecGroupForms
+	fetch cursDelSecGroupForms into
+			@delsecgroupformsClusterId,
+			@delsecgroupformsSecGroupFormId
+	while ( @@sqlstatus = 0 )
+	begin
+		exec sp_delete_secgrpfrm_by_ididx @argAuditClusterId,
+			@argAuditUserId,
+			@argAuditSessionId,
+			@secClusterId,
+			@secTenantId,
+			@delsecgroupformsClusterId,
+			@delsecgroupformsSecGroupFormId
+		fetch cursDelSecGroupForms into
+			@delsecgroupformsClusterId,
+			@delsecgroupformsSecGroupFormId
+	end
+	close cursDelSecGroupForms
+
+
+	declare cursDelSecGroupIncludedByGroup insensitive cursor for
+		select
+			sgnc.clusid,
+			sgnc.secgrpincid
+		from cfbam23..SecGrp as sgrp
+			inner join cfbam23..SecInc sgnc on
+				sgrp.clusterid = sgnc.clusid
+				and sgrp.secgroupid = sgnc.incgrpid
+		where
+			sgrp.clusterid = @argClusterId
+			and sgrp.secgroupid = @argSecGroupId
+
+
+	open cursDelSecGroupIncludedByGroup
+	fetch cursDelSecGroupIncludedByGroup into
+			@delsecgroupincludedbygroupClusterId,
+			@delsecgroupincludedbygroupSecGroupIncludeId
+	while ( @@sqlstatus = 0 )
+	begin
+		exec sp_delete_secinc_by_ididx @argAuditClusterId,
+			@argAuditUserId,
+			@argAuditSessionId,
+			@secClusterId,
+			@secTenantId,
+			@delsecgroupincludedbygroupClusterId,
+			@delsecgroupincludedbygroupSecGroupIncludeId
+		fetch cursDelSecGroupIncludedByGroup into
+			@delsecgroupincludedbygroupClusterId,
+			@delsecgroupincludedbygroupSecGroupIncludeId
+	end
+	close cursDelSecGroupIncludedByGroup
+
+
+	declare cursDelSecGroupMembers insensitive cursor for
+		select
+			sgmb.clusterid,
+			sgmb.secgroupmemberid
+		from cfbam23..SecGrp as sgrp
+			inner join cfbam23..SecMemb sgmb on
+				sgrp.clusterid = sgmb.clusterid
+				and sgrp.secgroupid = sgmb.secgroupid
+		where
+			sgrp.clusterid = @argClusterId
+			and sgrp.secgroupid = @argSecGroupId
+
+
+	open cursDelSecGroupMembers
+	fetch cursDelSecGroupMembers into
+			@delsecgroupmembersClusterId,
+			@delsecgroupmembersSecGroupMemberId
+	while ( @@sqlstatus = 0 )
+	begin
+		exec sp_delete_secmemb_by_ididx @argAuditClusterId,
+			@argAuditUserId,
+			@argAuditSessionId,
+			@secClusterId,
+			@secTenantId,
+			@delsecgroupmembersClusterId,
+			@delsecgroupmembersSecGroupMemberId
+		fetch cursDelSecGroupMembers into
+			@delsecgroupmembersClusterId,
+			@delsecgroupmembersSecGroupMemberId
+	end
+	close cursDelSecGroupMembers
+
+
+	declare cursDelSecGroupIncludes insensitive cursor for
+		select
+			sgnc.clusid,
+			sgnc.secgrpincid
+		from cfbam23..SecGrp as sgrp
+			inner join cfbam23..SecInc sgnc on
+				sgrp.clusterid = sgnc.clusid
+				and sgrp.secgroupid = sgnc.secgrpid
+		where
+			sgrp.clusterid = @argClusterId
+			and sgrp.secgroupid = @argSecGroupId
+
+
+	open cursDelSecGroupIncludes
+	fetch cursDelSecGroupIncludes into
+			@delsecgroupincludesClusterId,
+			@delsecgroupincludesSecGroupIncludeId
+	while ( @@sqlstatus = 0 )
+	begin
+		exec sp_delete_secinc_by_ididx @argAuditClusterId,
+			@argAuditUserId,
+			@argAuditSessionId,
+			@secClusterId,
+			@secTenantId,
+			@delsecgroupincludesClusterId,
+			@delsecgroupincludesSecGroupIncludeId
+		fetch cursDelSecGroupIncludes into
+			@delsecgroupincludesClusterId,
+			@delsecgroupincludesSecGroupIncludeId
+	end
+	close cursDelSecGroupIncludes
+
+	delete from cfbam23..SecGrp
+	where
+		clusterid = @argClusterId
+		and secgroupid = @argSecGroupId
+		and revision = @argRevision
+	select @rc = @@rowcount
+
+	if @rc != 1
+	begin
+		raiserror 17004 "sp_delete_secgrp() Data collision detected"
+	end
+end
+go

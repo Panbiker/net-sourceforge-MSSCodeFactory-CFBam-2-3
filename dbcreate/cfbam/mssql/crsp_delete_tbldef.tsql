@@ -1,0 +1,582 @@
+--
+--	@(#) dbcreate/cfbam/mssql/crsp_delete_tbldef.tsql
+--
+--	CFBam
+--
+--	Copyright (c) 2014-2015 Mark Sobkow
+--	
+--	This program is available as free software under the GNU GPL v3, under
+--	the Eclipse Public License 1.0, or under a commercial license from Mark
+--	Sobkow.  For commercial licensing details, please contact msobkow@sasktel.net.
+--	
+--	You should have received copies of the complete license text for
+--	GPLv3.txt and EPLv1_0.txt, containing the text
+--	of the GNU General Public License v 3.0 and the Eclipse Public License v 1.0.
+--	
+--	Under the terms of the GPL:
+--	
+--		This program is free software: you can redistribute it and/or modify
+--		it under the terms of the GNU General Public License as published by
+--		the Free Software Foundation, either version 3 of the License, or
+--		(at your option) any later version.
+--	  
+--		This program is distributed in the hope that it will be useful,
+--		but WITHOUT ANY WARRANTY; without even the implied warranty of
+--		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--		GNU General Public License for more details.
+--	  
+--		You should have received a copy of the GNU General Public License
+--		along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--	
+--	This software incorporates code originally Copyright (c) Mark Sobkow 2014-2015
+--	and licensed under the BSD 3-Clause license as written by xfree86.org:
+--	
+--	Redistribution and use in source and binary forms, with or without
+--	modification, are permitted provided that the following conditions are
+--	met:
+--	
+--	    (1) Redistributions of source code must retain the above copyright
+--	    notice, this list of conditions and the following disclaimer. 
+--	
+--	    (2) Redistributions in binary form must reproduce the above copyright
+--	    notice, this list of conditions and the following disclaimer in
+--	    the documentation and/or other materials provided with the
+--	    distribution.  
+--	    
+--	    (3)The name of the author may not be used to
+--	    endorse or promote products derived from this software without
+--	    specific prior written permission.
+--	
+--	THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+--	IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+--	WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+--	DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT,
+--	INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+--	(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+--	SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+--	HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+--	STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+--	IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+--	POSSIBILITY OF SUCH DAMAGE.
+--	
+--
+-- **********************************************************************
+--
+--	Code manufactured by MSS Code Factory
+--
+
+use cfbam23
+go
+
+create proc sp_delete_tbldef
+	@argAuditClusterId bigint,
+	@argAuditUserId varchar(36),
+	@argAuditSessionId varchar(36),
+	@secClusterId bigint,
+	@secTenantId bigint,
+	@argTenantId decimal(21,0),
+	@argId decimal(21,0),
+	@argRevision int
+as
+	declare @oldRevision int
+	declare @oldClassCode CFBam23ClassCode
+	declare @oldTenantId decimal(21,0)
+	declare @oldAuditCreatedAt datetime2
+	declare @oldAuditCreatedBy varchar(36)
+	declare @oldAuditUpdatedAt datetime2
+	declare @oldAuditUpdatedBy varchar(36)
+	declare @permissionFlag int
+	declare @deltablemethodsTenantId decimal(21,0)
+	declare @deltablemethodsId decimal(21,0)
+	declare @deltablechainTenantId decimal(21,0)
+	declare @deltablechainId decimal(21,0)
+	declare @deltablerelationcolTenantId decimal(21,0)
+	declare @deltablerelationcolId decimal(21,0)
+	declare @deltablerelationTenantId decimal(21,0)
+	declare @deltablerelationId decimal(21,0)
+	declare @deltableindexcolTenantId decimal(21,0)
+	declare @deltableindexcolId decimal(21,0)
+	declare @deltableindexTenantId decimal(21,0)
+	declare @deltableindexId decimal(21,0)
+	declare @deltablecolumnsTenantId decimal(21,0)
+	declare @deltablecolumnsId decimal(21,0)
+	declare cursDelTableMethods cursor local for
+		select
+			srvm.tenantid,
+			srvm.id
+		from cfbam23..tbldef as tbld
+			inner join cfbam23..srvmeth srvm on
+				tbld.tenantid = srvm.tenantid
+				and tbld.id = srvm.tableid
+		where
+			tbld.tenantid = @argTenantId
+			and tbld.id = @argId
+	declare cursDelTableChain cursor local for
+		select
+			chn.tenantid,
+			chn.id
+		from cfbam23..tbldef as tbld
+			inner join cfbam23..chain_def chn on
+				tbld.tenantid = chn.tenantid
+				and tbld.id = chn.tableid
+		where
+			tbld.tenantid = @argTenantId
+			and tbld.id = @argId
+	declare cursDelTableRelationCol cursor local for
+		select
+			relc.tenantid,
+			relc.id
+		from cfbam23..tbldef as tbld
+			inner join cfbam23..reldef reld on
+				tbld.tenantid = reld.tenantid
+				and tbld.id = reld.tableid
+			inner join cfbam23..relcol relc on
+				reld.tenantid = relc.tenantid
+				and reld.id = relc.relationid
+		where
+			tbld.tenantid = @argTenantId
+			and tbld.id = @argId
+	declare cursDelTableRelation cursor local for
+		select
+			reld.tenantid,
+			reld.id
+		from cfbam23..tbldef as tbld
+			inner join cfbam23..reldef reld on
+				tbld.tenantid = reld.tenantid
+				and tbld.id = reld.tableid
+		where
+			tbld.tenantid = @argTenantId
+			and tbld.id = @argId
+	declare cursDelTableIndexCol cursor local for
+		select
+			idxc.tenantid,
+			idxc.id
+		from cfbam23..tbldef as tbld
+			inner join cfbam23..idxdef idxd on
+				tbld.tenantid = idxd.tenantid
+				and tbld.id = idxd.tableid
+			inner join cfbam23..idxcol idxc on
+				idxd.tenantid = idxc.tenantid
+				and idxd.id = idxc.indexid
+		where
+			tbld.tenantid = @argTenantId
+			and tbld.id = @argId
+	declare cursDelTableIndex cursor local for
+		select
+			idxd.tenantid,
+			idxd.id
+		from cfbam23..tbldef as tbld
+			inner join cfbam23..idxdef idxd on
+				tbld.tenantid = idxd.tenantid
+				and tbld.id = idxd.tableid
+		where
+			tbld.tenantid = @argTenantId
+			and tbld.id = @argId
+	declare cursDelTableColumns cursor local for
+		select
+			valu.tenantid,
+			valu.id
+		from cfbam23..tbldef as tbld
+			inner join cfbam23..valdef valu on
+				tbld.tenantid = valu.tenantid
+				and tbld.id = valu.scopeid
+		where
+			tbld.tenantid = @argTenantId
+			and tbld.id = @argId
+begin
+	update cfbam23..scopedef
+	set forcesynclock = forcesynclock + 1
+	where
+			tenantid = @argTenantId
+		and id = @argId
+	if @@rowcount != 1
+	begin
+		raiserror( 'Data collision detected -- primary key does not exist',
+			15,
+			1 )
+	end
+
+	select
+		@oldClassCode = scop.classcode,
+		@oldTenantId = scop.tenantid,
+		@oldRevision = scop.revision
+	from cfbam23..tbldef as tbld
+			inner join cfbam23..scopedef scop on
+				tbld.tenantid = scop.tenantid
+				and tbld.id = scop.id
+	where
+			scop.tenantid = @argTenantId
+			and scop.id = @argId
+
+	exec sp_is_tenant_user @permissionFlag output, @secTenantId, 'DeleteTable', @argAuditUserId
+	if( @permissionFlag = 0 )
+	begin
+		raiserror( 'Permission denied -- User not found in tenant TSecGroup for DeleteTable',
+			15,
+			1 )
+	end
+
+	if( @oldClassCode = 'TBLD' )
+	begin
+		insert into cfbam23..tbldef_h (
+			tenantid,
+			id,
+			classcode,
+			auditclusterid,
+			auditsessionid,
+			auditstamp,
+			schemadefid,
+			defschtentid,
+			defschid,
+			name,
+			dbname,
+			short_name,
+			label,
+			short_descr,
+			descr,
+			primidxtentid,
+			primidxid,
+			tblclscd,
+			lookidxtentid,
+			lookidxid,
+			altidxtentid,
+			altidxid,
+			qualtentid,
+			qualtblid,
+			polybase,
+			isinstantiable,
+			hashistory,
+			hasauditcolumns,
+			loadbehavid,
+			datascopeid,
+			secscopeid,
+			vasecid,
+			easecid,
+			vafid,
+			eafid,
+			jobj_memb,
+			jobj_xface,
+			jtbl_objimp,
+			jobj_impl,
+			jedt_memb,
+			jedt_xface,
+			jtbl_eobjimp,
+			jedt_impl,
+			jtbl_imp,
+			jtbl_memb,
+			jtbl_xface,
+			jtbl_impl,
+			jtbl_objimp,
+			jtbl_objmemb,
+			jtbl_objxface,
+			jtbl_objimpl,
+			jtbl_db2imp,
+			jdb2_memb,
+			jdb2_impl,
+			jtbl_msimp,
+			jmssql_memb,
+			jmssql_impl,
+			jtbl_myimp,
+			jmysql_memb,
+			jmysql_impl,
+			jtbl_oraimp,
+			joracle_memb,
+			joracle_impl,
+			jtbl_pgimp,
+			jpgsql_memb,
+			jpgsql_impl,
+			jtbl_sybaseimp,
+			jsybase_memb,
+			jsybase_impl,
+			jtbl_ramimp,
+			jram_memb,
+			jram_impl,
+			jtbl_saxldimp,
+			jsaxstart_memb,
+			jsaxend_impl,
+			jxmtbl_imp,
+			jxmtbl_fmt,
+			jxmtbl_rqstimp,
+			jxmtbl_rspnimp,
+			jxmtbl_clntimp,
+			jxmtbl_rqstbdy,
+			jxmtbl_rspnbdy,
+			jxmtbl_clntbdy,
+			dflt_vis,
+			revision,
+			auditaction )
+		select
+			scop.tenantid,
+			scop.id,
+			scop.classcode,
+			@argAuditClusterId,
+			@argAuditSessionId,
+			sysdatetime(),
+			tbld.schemadefid,
+			tbld.defschtentid,
+			tbld.defschid,
+			tbld.name,
+			tbld.dbname,
+			tbld.short_name,
+			tbld.label,
+			tbld.short_descr,
+			tbld.descr,
+			tbld.primidxtentid,
+			tbld.primidxid,
+			tbld.tblclscd,
+			tbld.lookidxtentid,
+			tbld.lookidxid,
+			tbld.altidxtentid,
+			tbld.altidxid,
+			tbld.qualtentid,
+			tbld.qualtblid,
+			tbld.polybase,
+			tbld.isinstantiable,
+			tbld.hashistory,
+			tbld.hasauditcolumns,
+			tbld.loadbehavid,
+			tbld.datascopeid,
+			tbld.secscopeid,
+			tbld.vasecid,
+			tbld.easecid,
+			tbld.vafid,
+			tbld.eafid,
+			tbld.jobj_memb,
+			tbld.jobj_xface,
+			tbld.jtbl_objimp,
+			tbld.jobj_impl,
+			tbld.jedt_memb,
+			tbld.jedt_xface,
+			tbld.jtbl_eobjimp,
+			tbld.jedt_impl,
+			tbld.jtbl_imp,
+			tbld.jtbl_memb,
+			tbld.jtbl_xface,
+			tbld.jtbl_impl,
+			tbld.jtbl_objimp,
+			tbld.jtbl_objmemb,
+			tbld.jtbl_objxface,
+			tbld.jtbl_objimpl,
+			tbld.jtbl_db2imp,
+			tbld.jdb2_memb,
+			tbld.jdb2_impl,
+			tbld.jtbl_msimp,
+			tbld.jmssql_memb,
+			tbld.jmssql_impl,
+			tbld.jtbl_myimp,
+			tbld.jmysql_memb,
+			tbld.jmysql_impl,
+			tbld.jtbl_oraimp,
+			tbld.joracle_memb,
+			tbld.joracle_impl,
+			tbld.jtbl_pgimp,
+			tbld.jpgsql_memb,
+			tbld.jpgsql_impl,
+			tbld.jtbl_sybaseimp,
+			tbld.jsybase_memb,
+			tbld.jsybase_impl,
+			tbld.jtbl_ramimp,
+			tbld.jram_memb,
+			tbld.jram_impl,
+			tbld.jtbl_saxldimp,
+			tbld.jsaxstart_memb,
+			tbld.jsaxend_impl,
+			tbld.jxmtbl_imp,
+			tbld.jxmtbl_fmt,
+			tbld.jxmtbl_rqstimp,
+			tbld.jxmtbl_rspnimp,
+			tbld.jxmtbl_clntimp,
+			tbld.jxmtbl_rqstbdy,
+			tbld.jxmtbl_rspnbdy,
+			tbld.jxmtbl_clntbdy,
+			tbld.dflt_vis,
+			@argRevision + 1,
+			3
+		from cfbam23..tbldef as tbld
+			inner join cfbam23..scopedef scop on
+				tbld.tenantid = scop.tenantid
+				and tbld.id = scop.id
+		where
+			tbld.tenantid = @argTenantId
+			and tbld.id = @argId
+	end
+
+	update cfbam23..tbldef
+	set
+		tenantid = @argTenantId,
+		lookidxtentid = null,
+		lookidxid = null,
+		altidxtentid = null,
+		altidxid = null,
+		primidxtentid = null,
+		primidxid = null
+	where
+		tenantid = @argTenantId
+		and id = @argId
+
+	open cursDelTableMethods
+	fetch next from cursDelTableMethods into
+			@deltablemethodsTenantId,
+			@deltablemethodsId
+	while ( @@fetch_status = 0 )
+	begin
+		exec sp_delete_srvmeth_by_ididx @argAuditClusterId,
+			@argAuditUserId,
+			@argAuditSessionId,
+			@secClusterId,
+			@secTenantId,
+			@deltablemethodsTenantId,
+			@deltablemethodsId
+		fetch next from cursDelTableMethods into
+			@deltablemethodsTenantId,
+			@deltablemethodsId
+	end
+	close cursDelTableMethods
+	deallocate cursDelTableMethods
+
+	open cursDelTableChain
+	fetch next from cursDelTableChain into
+			@deltablechainTenantId,
+			@deltablechainId
+	while ( @@fetch_status = 0 )
+	begin
+		exec sp_delete_chain_def_by_ididx @argAuditClusterId,
+			@argAuditUserId,
+			@argAuditSessionId,
+			@secClusterId,
+			@secTenantId,
+			@deltablechainTenantId,
+			@deltablechainId
+		fetch next from cursDelTableChain into
+			@deltablechainTenantId,
+			@deltablechainId
+	end
+	close cursDelTableChain
+	deallocate cursDelTableChain
+
+	open cursDelTableRelationCol
+	fetch next from cursDelTableRelationCol into
+			@deltablerelationcolTenantId,
+			@deltablerelationcolId
+	while ( @@fetch_status = 0 )
+	begin
+		exec sp_delete_relcol_by_ididx @argAuditClusterId,
+			@argAuditUserId,
+			@argAuditSessionId,
+			@secClusterId,
+			@secTenantId,
+			@deltablerelationcolTenantId,
+			@deltablerelationcolId
+		fetch next from cursDelTableRelationCol into
+			@deltablerelationcolTenantId,
+			@deltablerelationcolId
+	end
+	close cursDelTableRelationCol
+	deallocate cursDelTableRelationCol
+
+	open cursDelTableRelation
+	fetch next from cursDelTableRelation into
+			@deltablerelationTenantId,
+			@deltablerelationId
+	while ( @@fetch_status = 0 )
+	begin
+		exec sp_delete_reldef_by_ididx @argAuditClusterId,
+			@argAuditUserId,
+			@argAuditSessionId,
+			@secClusterId,
+			@secTenantId,
+			@deltablerelationTenantId,
+			@deltablerelationId
+		fetch next from cursDelTableRelation into
+			@deltablerelationTenantId,
+			@deltablerelationId
+	end
+	close cursDelTableRelation
+	deallocate cursDelTableRelation
+
+	open cursDelTableIndexCol
+	fetch next from cursDelTableIndexCol into
+			@deltableindexcolTenantId,
+			@deltableindexcolId
+	while ( @@fetch_status = 0 )
+	begin
+		exec sp_delete_idxcol_by_ididx @argAuditClusterId,
+			@argAuditUserId,
+			@argAuditSessionId,
+			@secClusterId,
+			@secTenantId,
+			@deltableindexcolTenantId,
+			@deltableindexcolId
+		fetch next from cursDelTableIndexCol into
+			@deltableindexcolTenantId,
+			@deltableindexcolId
+	end
+	close cursDelTableIndexCol
+	deallocate cursDelTableIndexCol
+
+	open cursDelTableIndex
+	fetch next from cursDelTableIndex into
+			@deltableindexTenantId,
+			@deltableindexId
+	while ( @@fetch_status = 0 )
+	begin
+		exec sp_delete_idxdef_by_ididx @argAuditClusterId,
+			@argAuditUserId,
+			@argAuditSessionId,
+			@secClusterId,
+			@secTenantId,
+			@deltableindexTenantId,
+			@deltableindexId
+		fetch next from cursDelTableIndex into
+			@deltableindexTenantId,
+			@deltableindexId
+	end
+	close cursDelTableIndex
+	deallocate cursDelTableIndex
+
+	open cursDelTableColumns
+	fetch next from cursDelTableColumns into
+			@deltablecolumnsTenantId,
+			@deltablecolumnsId
+	while ( @@fetch_status = 0 )
+	begin
+		exec sp_delete_valdef_by_ididx @argAuditClusterId,
+			@argAuditUserId,
+			@argAuditSessionId,
+			@secClusterId,
+			@secTenantId,
+			@deltablecolumnsTenantId,
+			@deltablecolumnsId
+		fetch next from cursDelTableColumns into
+			@deltablecolumnsTenantId,
+			@deltablecolumnsId
+	end
+	close cursDelTableColumns
+	deallocate cursDelTableColumns
+
+	delete from cfbam23..tbldef
+	where
+		tenantid = @argTenantId
+		and id = @argId
+	if @@rowcount != 1
+	begin
+		raiserror( 'sp_delete_tbldef() Data collision detected',
+			15,
+			1 )
+	end
+
+	delete from cfbam23..scopedef
+	where
+		tenantid = @argTenantId
+		and id = @argId
+	if @@rowcount != 1
+	begin
+		raiserror( 'sp_delete_tbldef() Data collision detected',
+			15,
+			1 )
+	end
+
+end
+go
+
+quit

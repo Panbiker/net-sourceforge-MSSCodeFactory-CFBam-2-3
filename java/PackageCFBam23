@@ -1,0 +1,19 @@
+#!/bin/bash
+if [ -d dbcreate ]; then
+	rm -Rf dbcreate
+fi
+cp -R ../dbcreate ./dbcreate
+let Revision=$1
+rm -Rf `find dbcreate -name .git -o -name '*.log'`
+ZipFile="installer/net-sourceforge-MSSCodeFactory-CFBam-2.3.${Revision}-installer.zip"
+zip -q ${ZipFile} ./bin/*.jar ./bin/*.war ./bin/*.bat ./bin/CF* ./bin/testdata/*.xml bin/initdata/*.xml bin/GPLv3.txt bin/EPLv1_0.txt
+zip -q ${ZipFile} ./dbcreate/cfbam/db2luw/*
+zip -q ${ZipFile} ./dbcreate/cfbam/mssql/*
+zip -q ${ZipFile} ./dbcreate/cfbam/mysql/*
+zip -q ${ZipFile} ./dbcreate/cfbam/oracle/*
+zip -q ${ZipFile} ./dbcreate/cfbam/pgsql/*
+zip -q ${ZipFile} ./dbcreate/cfbam/sybase/*
+#zip -q ${ZipFile} ./SampleServer
+rm -Rf dbcreate
+echo "Packaged ${ZipFile}"
+ls -l ${ZipFile}

@@ -1,0 +1,375 @@
+--
+--	@(#) dbcreate/cfbam/mssql/drdb_types.tsql
+--
+--	CFBam
+--
+--	Copyright (c) 2014-2015 Mark Sobkow
+--	
+--	This program is available as free software under the GNU GPL v3, under
+--	the Eclipse Public License 1.0, or under a commercial license from Mark
+--	Sobkow.  For commercial licensing details, please contact msobkow@sasktel.net.
+--	
+--	You should have received copies of the complete license text for
+--	GPLv3.txt and EPLv1_0.txt, containing the text
+--	of the GNU General Public License v 3.0 and the Eclipse Public License v 1.0.
+--	
+--	Under the terms of the GPL:
+--	
+--		This program is free software: you can redistribute it and/or modify
+--		it under the terms of the GNU General Public License as published by
+--		the Free Software Foundation, either version 3 of the License, or
+--		(at your option) any later version.
+--	  
+--		This program is distributed in the hope that it will be useful,
+--		but WITHOUT ANY WARRANTY; without even the implied warranty of
+--		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--		GNU General Public License for more details.
+--	  
+--		You should have received a copy of the GNU General Public License
+--		along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--	
+--	This software incorporates code originally Copyright (c) Mark Sobkow 2014-2015
+--	and licensed under the BSD 3-Clause license as written by xfree86.org:
+--	
+--	Redistribution and use in source and binary forms, with or without
+--	modification, are permitted provided that the following conditions are
+--	met:
+--	
+--	    (1) Redistributions of source code must retain the above copyright
+--	    notice, this list of conditions and the following disclaimer. 
+--	
+--	    (2) Redistributions in binary form must reproduce the above copyright
+--	    notice, this list of conditions and the following disclaimer in
+--	    the documentation and/or other materials provided with the
+--	    distribution.  
+--	    
+--	    (3)The name of the author may not be used to
+--	    endorse or promote products derived from this software without
+--	    specific prior written permission.
+--	
+--	THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+--	IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+--	WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+--	DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT,
+--	INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+--	(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+--	SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+--	HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+--	STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+--	IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+--	POSSIBILITY OF SUCH DAMAGE.
+--	
+--
+-- **********************************************************************
+--
+--	Code manufactured by MSS Code Factory
+--
+
+use cfbam23
+go
+
+if exists ( select * from systypes where name = 'OmxClassCode' )
+begin
+	exec sp_droptype OmxClassCode
+end
+if exists ( select * from systypes where name = 'cfbam23ClassCode' )
+begin
+	exec sp_droptype cfbam23ClassCode
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23ISOCountryCode' )
+begin
+	exec sp_droptype CFBam23ISOCountryCode
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23ISOCountryCode3' )
+begin
+	exec sp_droptype CFBam23ISOCountryCode3
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23ISOCountryEnum' )
+begin
+	exec sp_droptype CFBam23ISOCountryEnum
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23ISOCurrencyEnum' )
+begin
+	exec sp_droptype CFBam23ISOCurrencyEnum
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23ISOCurrencyCode' )
+begin
+	exec sp_droptype CFBam23ISOCurrencyCode
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23ISOLanguageEnum' )
+begin
+	exec sp_droptype CFBam23ISOLanguageEnum
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23ISOBaseLanguageCode' )
+begin
+	exec sp_droptype CFBam23ISOBaseLanguageCode
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23ISOLanguageCode' )
+begin
+	exec sp_droptype CFBam23ISOLanguageCode
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23ISOTimezoneEnum' )
+begin
+	exec sp_droptype CFBam23ISOTimezoneEnum
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23AuditActionEnum' )
+begin
+	exec sp_droptype CFBam23AuditActionEnum
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23ServiceTypeIdGenSeq' )
+begin
+	exec sp_droptype CFBam23ServiceTypeIdGenSeq
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23ClusterIdGenSeq' )
+begin
+	exec sp_droptype CFBam23ClusterIdGenSeq
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23TenantIdGenSeq' )
+begin
+	exec sp_droptype CFBam23TenantIdGenSeq
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23SecAppIdGen' )
+begin
+	exec sp_droptype CFBam23SecAppIdGen
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23SecFormIdGen' )
+begin
+	exec sp_droptype CFBam23SecFormIdGen
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23SecGroupIdGen' )
+begin
+	exec sp_droptype CFBam23SecGroupIdGen
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23SecGroupMemberIdGen' )
+begin
+	exec sp_droptype CFBam23SecGroupMemberIdGen
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23SecGroupIncludeIdGen' )
+begin
+	exec sp_droptype CFBam23SecGroupIncludeIdGen
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23SecGroupFormIdGen' )
+begin
+	exec sp_droptype CFBam23SecGroupFormIdGen
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23SecSessionIdGen' )
+begin
+	exec sp_droptype CFBam23SecSessionIdGen
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23SecUserIdGen' )
+begin
+	exec sp_droptype CFBam23SecUserIdGen
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23ServiceIdGen' )
+begin
+	exec sp_droptype CFBam23ServiceIdGen
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23HostNodeIdGen' )
+begin
+	exec sp_droptype CFBam23HostNodeIdGen
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23TSecGroupIdGen' )
+begin
+	exec sp_droptype CFBam23TSecGroupIdGen
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23TSecGroupMemberIdGen' )
+begin
+	exec sp_droptype CFBam23TSecGroupMemberIdGen
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23TSecGroupIncludeIdGen' )
+begin
+	exec sp_droptype CFBam23TSecGroupIncludeIdGen
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23DeviceName' )
+begin
+	exec sp_droptype CFBam23DeviceName
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23SHA512HexHash' )
+begin
+	exec sp_droptype CFBam23SHA512HexHash
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23MimeTypeIdGenSeq' )
+begin
+	exec sp_droptype CFBam23MimeTypeIdGenSeq
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23URLProtocolEnum' )
+begin
+	exec sp_droptype CFBam23URLProtocolEnum
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23DomainNameType' )
+begin
+	exec sp_droptype CFBam23DomainNameType
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23TldIdGen' )
+begin
+	exec sp_droptype CFBam23TldIdGen
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23DomainIdGen' )
+begin
+	exec sp_droptype CFBam23DomainIdGen
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23DescriptionType' )
+begin
+	exec sp_droptype CFBam23DescriptionType
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23NameType' )
+begin
+	exec sp_droptype CFBam23NameType
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23ScopeIdGen' )
+begin
+	exec sp_droptype CFBam23ScopeIdGen
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23IndexColIdGen' )
+begin
+	exec sp_droptype CFBam23IndexColIdGen
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23LicenseIdGen' )
+begin
+	exec sp_droptype CFBam23LicenseIdGen
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23RelationColIdGen' )
+begin
+	exec sp_droptype CFBam23RelationColIdGen
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23ValueIdGen' )
+begin
+	exec sp_droptype CFBam23ValueIdGen
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23EnumTagIdGen' )
+begin
+	exec sp_droptype CFBam23EnumTagIdGen
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23ChainIdGen' )
+begin
+	exec sp_droptype CFBam23ChainIdGen
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23ParamIdGen' )
+begin
+	exec sp_droptype CFBam23ParamIdGen
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23LoaderBehaviourEnum' )
+begin
+	exec sp_droptype CFBam23LoaderBehaviourEnum
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23SecurityScopeEnum' )
+begin
+	exec sp_droptype CFBam23SecurityScopeEnum
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23DataScopeEnum' )
+begin
+	exec sp_droptype CFBam23DataScopeEnum
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23AccessFrequencyEnum' )
+begin
+	exec sp_droptype CFBam23AccessFrequencyEnum
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23AccessSecurityEnum' )
+begin
+	exec sp_droptype CFBam23AccessSecurityEnum
+end
+go
+
+if exists ( select * from systypes where name = 'CFBam23RelationTypeEnum' )
+begin
+	exec sp_droptype CFBam23RelationTypeEnum
+end
+go
+
+quit

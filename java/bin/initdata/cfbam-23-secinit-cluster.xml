@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CFSecurity
+		xmlns="uri://cfsecurity/cfsecurity"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		xsi:schemaLocation="uri://cfsecurity/cfsecurity file://xsd/cfsecurity-22-structured.xsd" >
+	<Cluster FullDomainName="system" Description="system">
+		<SecGroup Name="ClusterAdmin">
+			<SecGroupMember User="system" />
+		</SecGroup>
+		<SecGroup Name="CFBamAdmin">
+			<SecGroupInclude SubGroup="ClusterAdmin" />
+		</SecGroup>
+		<SecGroup Name="CFBamReader">
+			<SecGroupInclude SubGroup="CFBamAdmin" />
+		</SecGroup>
+		<SecGroup Name="CFBamCreator">
+			<SecGroupInclude SubGroup="CFBamAdmin" />
+		</SecGroup>
+		<SecGroup Name="CFBamUpdater">
+			<SecGroupInclude SubGroup="CFBamAdmin" />
+		</SecGroup>
+		<SecGroup Name="CFBamDeleter">
+			<SecGroupInclude SubGroup="CFBamAdmin" />
+		</SecGroup>
+		<SecGroup Name="CFSecurityAdmin">
+			<SecGroupInclude SubGroup="ClusterAdmin" />
+		</SecGroup>
+		<SecGroup Name="CFSecurityReader">
+			<SecGroupInclude SubGroup="CFSecurityAdmin" />
+		</SecGroup>
+		<SecGroup Name="CFSecurityCreator">
+			<SecGroupInclude SubGroup="CFSecurityAdmin" />
+		</SecGroup>
+		<SecGroup Name="CFSecurityUpdater">
+			<SecGroupInclude SubGroup="CFSecurityAdmin" />
+		</SecGroup>
+		<SecGroup Name="CFSecurityDeleter">
+			<SecGroupInclude SubGroup="CFSecurityAdmin" />
+		</SecGroup>
+		<SecGroup Name="CFInternetAdmin">
+			<SecGroupInclude SubGroup="ClusterAdmin" />
+		</SecGroup>
+		<SecGroup Name="CFInternetReader">
+			<SecGroupInclude SubGroup="CFInternetAdmin" />
+		</SecGroup>
+		<SecGroup Name="CFInternetCreator">
+			<SecGroupInclude SubGroup="CFInternetAdmin" />
+		</SecGroup>
+		<SecGroup Name="CFInternetUpdater">
+			<SecGroupInclude SubGroup="CFInternetAdmin" />
+		</SecGroup>
+		<SecGroup Name="CFInternetDeleter">
+			<SecGroupInclude SubGroup="CFInternetAdmin" />
+		</SecGroup>
+		<SecGroup Name="ReadHostNode">
+			<SecGroupInclude SubGroup="CFSecurityReader" />
+		</SecGroup>
+		<SecGroup Name="CreateHostNode">
+			<SecGroupInclude SubGroup="CFSecurityCreator" />
+		</SecGroup>
+		<SecGroup Name="UpdateHostNode">
+			<SecGroupInclude SubGroup="CFSecurityUpdater" />
+		</SecGroup>
+		<SecGroup Name="DeleteHostNode">
+			<SecGroupInclude SubGroup="CFSecurityDeleter" />
+		</SecGroup>
+		<SecGroup Name="ReadSecApp">
+			<SecGroupInclude SubGroup="CFSecurityReader" />
+		</SecGroup>
+		<SecGroup Name="CreateSecApp">
+			<SecGroupInclude SubGroup="CFSecurityCreator" />
+		</SecGroup>
+		<SecGroup Name="UpdateSecApp">
+			<SecGroupInclude SubGroup="CFSecurityUpdater" />
+		</SecGroup>
+		<SecGroup Name="DeleteSecApp">
+			<SecGroupInclude SubGroup="CFSecurityDeleter" />
+		</SecGroup>
+		<SecGroup Name="ReadSecForm">
+			<SecGroupInclude SubGroup="CFSecurityReader" />
+		</SecGroup>
+		<SecGroup Name="CreateSecForm">
+			<SecGroupInclude SubGroup="CFSecurityCreator" />
+		</SecGroup>
+		<SecGroup Name="UpdateSecForm">
+			<SecGroupInclude SubGroup="CFSecurityUpdater" />
+		</SecGroup>
+		<SecGroup Name="DeleteSecForm">
+			<SecGroupInclude SubGroup="CFSecurityDeleter" />
+		</SecGroup>
+		<SecGroup Name="ReadSecGroup">
+			<SecGroupInclude SubGroup="CFSecurityReader" />
+		</SecGroup>
+		<SecGroup Name="CreateSecGroup">
+			<SecGroupInclude SubGroup="CFSecurityCreator" />
+		</SecGroup>
+		<SecGroup Name="UpdateSecGroup">
+			<SecGroupInclude SubGroup="CFSecurityUpdater" />
+		</SecGroup>
+		<SecGroup Name="DeleteSecGroup">
+			<SecGroupInclude SubGroup="CFSecurityDeleter" />
+		</SecGroup>
+		<SecGroup Name="ReadSecGroupForm">
+			<SecGroupInclude SubGroup="CFSecurityReader" />
+		</SecGroup>
+		<SecGroup Name="CreateSecGroupForm">
+			<SecGroupInclude SubGroup="CFSecurityCreator" />
+		</SecGroup>
+		<SecGroup Name="UpdateSecGroupForm">
+			<SecGroupInclude SubGroup="CFSecurityUpdater" />
+		</SecGroup>
+		<SecGroup Name="DeleteSecGroupForm">
+			<SecGroupInclude SubGroup="CFSecurityDeleter" />
+		</SecGroup>
+		<SecGroup Name="ReadSecGroupInclude">
+			<SecGroupInclude SubGroup="CFSecurityReader" />
+		</SecGroup>
+		<SecGroup Name="CreateSecGroupInclude">
+			<SecGroupInclude SubGroup="CFSecurityCreator" />
+		</SecGroup>
+		<SecGroup Name="UpdateSecGroupInclude">
+			<SecGroupInclude SubGroup="CFSecurityUpdater" />
+		</SecGroup>
+		<SecGroup Name="DeleteSecGroupInclude">
+			<SecGroupInclude SubGroup="CFSecurityDeleter" />
+		</SecGroup>
+		<SecGroup Name="ReadSecGroupMember">
+			<SecGroupInclude SubGroup="CFSecurityReader" />
+		</SecGroup>
+		<SecGroup Name="CreateSecGroupMember">
+			<SecGroupInclude SubGroup="CFSecurityCreator" />
+		</SecGroup>
+		<SecGroup Name="UpdateSecGroupMember">
+			<SecGroupInclude SubGroup="CFSecurityUpdater" />
+		</SecGroup>
+		<SecGroup Name="DeleteSecGroupMember">
+			<SecGroupInclude SubGroup="CFSecurityDeleter" />
+		</SecGroup>
+		<SecGroup Name="ReadService">
+			<SecGroupInclude SubGroup="CFSecurityReader" />
+		</SecGroup>
+		<SecGroup Name="CreateService">
+			<SecGroupInclude SubGroup="CFSecurityCreator" />
+		</SecGroup>
+		<SecGroup Name="UpdateService">
+			<SecGroupInclude SubGroup="CFSecurityUpdater" />
+		</SecGroup>
+		<SecGroup Name="DeleteService">
+			<SecGroupInclude SubGroup="CFSecurityDeleter" />
+		</SecGroup>
+	</Cluster>
+</CFSecurity>

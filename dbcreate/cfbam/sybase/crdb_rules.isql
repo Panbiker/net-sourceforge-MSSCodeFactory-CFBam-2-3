@@ -1,0 +1,508 @@
+--
+--	@(#) dbcreate/cfbam/sybase/crdb_rules.isql
+--
+--	CFBam
+--
+--	Copyright (c) 2014-2015 Mark Sobkow
+--	
+--	This program is available as free software under the GNU GPL v3, under
+--	the Eclipse Public License 1.0, or under a commercial license from Mark
+--	Sobkow.  For commercial licensing details, please contact msobkow@sasktel.net.
+--	
+--	You should have received copies of the complete license text for
+--	GPLv3.txt and EPLv1_0.txt, containing the text
+--	of the GNU General Public License v 3.0 and the Eclipse Public License v 1.0.
+--	
+--	Under the terms of the GPL:
+--	
+--		This program is free software: you can redistribute it and/or modify
+--		it under the terms of the GNU General Public License as published by
+--		the Free Software Foundation, either version 3 of the License, or
+--		(at your option) any later version.
+--	  
+--		This program is distributed in the hope that it will be useful,
+--		but WITHOUT ANY WARRANTY; without even the implied warranty of
+--		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--		GNU General Public License for more details.
+--	  
+--		You should have received a copy of the GNU General Public License
+--		along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--	
+--	This software incorporates code originally Copyright (c) Mark Sobkow 2014-2015
+--	and licensed under the BSD 3-Clause license as written by xfree86.org:
+--	
+--	Redistribution and use in source and binary forms, with or without
+--	modification, are permitted provided that the following conditions are
+--	met:
+--	
+--	    (1) Redistributions of source code must retain the above copyright
+--	    notice, this list of conditions and the following disclaimer. 
+--	
+--	    (2) Redistributions in binary form must reproduce the above copyright
+--	    notice, this list of conditions and the following disclaimer in
+--	    the documentation and/or other materials provided with the
+--	    distribution.  
+--	    
+--	    (3)The name of the author may not be used to
+--	    endorse or promote products derived from this software without
+--	    specific prior written permission.
+--	
+--	THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+--	IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+--	WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+--	DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT,
+--	INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+--	(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+--	SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+--	HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+--	STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+--	IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+--	POSSIBILITY OF SUCH DAMAGE.
+--	
+--
+-- **********************************************************************
+--
+--	Code manufactured by MSS Code Factory
+--
+
+--
+--	Create CFBam23 rule rul_CFBam23ISOCountryCode
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23ISOCountryCode' )
+begin
+	drop rule rul_CFBam23ISOCountryCode
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23ISOCountryCode3
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23ISOCountryCode3' )
+begin
+	drop rule rul_CFBam23ISOCountryCode3
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23ISOCountryEnum
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23ISOCountryEnum' )
+begin
+	drop rule rul_CFBam23ISOCountryEnum
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23ISOCurrencyEnum
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23ISOCurrencyEnum' )
+begin
+	drop rule rul_CFBam23ISOCurrencyEnum
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23ISOCurrencyCode
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23ISOCurrencyCode' )
+begin
+	drop rule rul_CFBam23ISOCurrencyCode
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23ISOLanguageEnum
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23ISOLanguageEnum' )
+begin
+	drop rule rul_CFBam23ISOLanguageEnum
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23ISOBaseLanguageCode
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23ISOBaseLanguageCode' )
+begin
+	drop rule rul_CFBam23ISOBaseLanguageCode
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23ISOLanguageCode
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23ISOLanguageCode' )
+begin
+	drop rule rul_CFBam23ISOLanguageCode
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23ISOTimezoneEnum
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23ISOTimezoneEnum' )
+begin
+	drop rule rul_CFBam23ISOTimezoneEnum
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23AuditActionEnum
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23AuditActionEnum' )
+begin
+	drop rule rul_CFBam23AuditActionEnum
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23ServiceTypeIdGenSeq
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23ServiceTypeIdGenSeq' )
+begin
+	drop rule rul_CFBam23ServiceTypeIdGenSeq
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23ClusterIdGenSeq
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23ClusterIdGenSeq' )
+begin
+	drop rule rul_CFBam23ClusterIdGenSeq
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23TenantIdGenSeq
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23TenantIdGenSeq' )
+begin
+	drop rule rul_CFBam23TenantIdGenSeq
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23SecAppIdGen
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23SecAppIdGen' )
+begin
+	drop rule rul_CFBam23SecAppIdGen
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23SecFormIdGen
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23SecFormIdGen' )
+begin
+	drop rule rul_CFBam23SecFormIdGen
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23SecGroupIdGen
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23SecGroupIdGen' )
+begin
+	drop rule rul_CFBam23SecGroupIdGen
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23SecGroupMemberIdGen
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23SecGroupMemberIdGen' )
+begin
+	drop rule rul_CFBam23SecGroupMemberIdGen
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23SecGroupIncludeIdGen
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23SecGroupIncludeIdGen' )
+begin
+	drop rule rul_CFBam23SecGroupIncludeIdGen
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23SecGroupFormIdGen
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23SecGroupFormIdGen' )
+begin
+	drop rule rul_CFBam23SecGroupFormIdGen
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23SecSessionIdGen
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23SecSessionIdGen' )
+begin
+	drop rule rul_CFBam23SecSessionIdGen
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23SecUserIdGen
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23SecUserIdGen' )
+begin
+	drop rule rul_CFBam23SecUserIdGen
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23ServiceIdGen
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23ServiceIdGen' )
+begin
+	drop rule rul_CFBam23ServiceIdGen
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23HostNodeIdGen
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23HostNodeIdGen' )
+begin
+	drop rule rul_CFBam23HostNodeIdGen
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23TSecGroupIdGen
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23TSecGroupIdGen' )
+begin
+	drop rule rul_CFBam23TSecGroupIdGen
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23TSecGroupMemberIdGen
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23TSecGroupMemberIdGen' )
+begin
+	drop rule rul_CFBam23TSecGroupMemberIdGen
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23TSecGroupIncludeIdGen
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23TSecGroupIncludeIdGen' )
+begin
+	drop rule rul_CFBam23TSecGroupIncludeIdGen
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23DeviceName
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23DeviceName' )
+begin
+	drop rule rul_CFBam23DeviceName
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23SHA512HexHash
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23SHA512HexHash' )
+begin
+	drop rule rul_CFBam23SHA512HexHash
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23MimeTypeIdGenSeq
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23MimeTypeIdGenSeq' )
+begin
+	drop rule rul_CFBam23MimeTypeIdGenSeq
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23URLProtocolEnum
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23URLProtocolEnum' )
+begin
+	drop rule rul_CFBam23URLProtocolEnum
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23DomainNameType
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23DomainNameType' )
+begin
+	drop rule rul_CFBam23DomainNameType
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23TldIdGen
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23TldIdGen' )
+begin
+	drop rule rul_CFBam23TldIdGen
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23DomainIdGen
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23DomainIdGen' )
+begin
+	drop rule rul_CFBam23DomainIdGen
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23DescriptionType
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23DescriptionType' )
+begin
+	drop rule rul_CFBam23DescriptionType
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23NameType
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23NameType' )
+begin
+	drop rule rul_CFBam23NameType
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23ScopeIdGen
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23ScopeIdGen' )
+begin
+	drop rule rul_CFBam23ScopeIdGen
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23IndexColIdGen
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23IndexColIdGen' )
+begin
+	drop rule rul_CFBam23IndexColIdGen
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23LicenseIdGen
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23LicenseIdGen' )
+begin
+	drop rule rul_CFBam23LicenseIdGen
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23RelationColIdGen
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23RelationColIdGen' )
+begin
+	drop rule rul_CFBam23RelationColIdGen
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23ValueIdGen
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23ValueIdGen' )
+begin
+	drop rule rul_CFBam23ValueIdGen
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23EnumTagIdGen
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23EnumTagIdGen' )
+begin
+	drop rule rul_CFBam23EnumTagIdGen
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23ChainIdGen
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23ChainIdGen' )
+begin
+	drop rule rul_CFBam23ChainIdGen
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23ParamIdGen
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23ParamIdGen' )
+begin
+	drop rule rul_CFBam23ParamIdGen
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23LoaderBehaviourEnum
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23LoaderBehaviourEnum' )
+begin
+	drop rule rul_CFBam23LoaderBehaviourEnum
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23SecurityScopeEnum
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23SecurityScopeEnum' )
+begin
+	drop rule rul_CFBam23SecurityScopeEnum
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23DataScopeEnum
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23DataScopeEnum' )
+begin
+	drop rule rul_CFBam23DataScopeEnum
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23AccessFrequencyEnum
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23AccessFrequencyEnum' )
+begin
+	drop rule rul_CFBam23AccessFrequencyEnum
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23AccessSecurityEnum
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23AccessSecurityEnum' )
+begin
+	drop rule rul_CFBam23AccessSecurityEnum
+end
+go
+
+--
+--	Create CFBam23 rule rul_CFBam23RelationTypeEnum
+--
+if exists ( select * from sysobjects where name = 'rul_CFBam23RelationTypeEnum' )
+begin
+	drop rule rul_CFBam23RelationTypeEnum
+end
+go
+

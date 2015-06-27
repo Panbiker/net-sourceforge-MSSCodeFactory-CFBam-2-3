@@ -1,0 +1,182 @@
+--
+--	@(#) dbcreate/cfbam/sybase/crsp_update_svctype.isql
+--
+--	CFBam
+--
+--	Copyright (c) 2014-2015 Mark Sobkow
+--	
+--	This program is available as free software under the GNU GPL v3, under
+--	the Eclipse Public License 1.0, or under a commercial license from Mark
+--	Sobkow.  For commercial licensing details, please contact msobkow@sasktel.net.
+--	
+--	You should have received copies of the complete license text for
+--	GPLv3.txt and EPLv1_0.txt, containing the text
+--	of the GNU General Public License v 3.0 and the Eclipse Public License v 1.0.
+--	
+--	Under the terms of the GPL:
+--	
+--		This program is free software: you can redistribute it and/or modify
+--		it under the terms of the GNU General Public License as published by
+--		the Free Software Foundation, either version 3 of the License, or
+--		(at your option) any later version.
+--	  
+--		This program is distributed in the hope that it will be useful,
+--		but WITHOUT ANY WARRANTY; without even the implied warranty of
+--		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--		GNU General Public License for more details.
+--	  
+--		You should have received a copy of the GNU General Public License
+--		along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--	
+--	This software incorporates code originally Copyright (c) Mark Sobkow 2014-2015
+--	and licensed under the BSD 3-Clause license as written by xfree86.org:
+--	
+--	Redistribution and use in source and binary forms, with or without
+--	modification, are permitted provided that the following conditions are
+--	met:
+--	
+--	    (1) Redistributions of source code must retain the above copyright
+--	    notice, this list of conditions and the following disclaimer. 
+--	
+--	    (2) Redistributions in binary form must reproduce the above copyright
+--	    notice, this list of conditions and the following disclaimer in
+--	    the documentation and/or other materials provided with the
+--	    distribution.  
+--	    
+--	    (3)The name of the author may not be used to
+--	    endorse or promote products derived from this software without
+--	    specific prior written permission.
+--	
+--	THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+--	IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+--	WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+--	DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT,
+--	INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+--	(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+--	SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+--	HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+--	STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+--	IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+--	POSSIBILITY OF SUCH DAMAGE.
+--	
+--
+-- **********************************************************************
+--
+--	Code manufactured by MSS Code Factory
+--
+
+
+if exists ( select * from sysobjects where name = 'sp_update_svctype' )
+begin
+	drop proc sp_update_svctype
+end
+go
+
+create proc sp_update_svctype
+	@argAuditClusterId bigint,
+	@argAuditUserId varchar(36),
+	@argAuditSessionId varchar(36),
+	@secClusterId bigint,
+	@secTenantId bigint,
+	@argClassCode MssCFClassCode,
+	@argServiceTypeId integer,
+	@argDescription varchar(50),
+	@argRevision integer
+as
+	declare @oldRevision int
+	declare @rc int
+	declare @oldServiceTypeId integer
+	declare @oldDescription varchar(50)
+	declare @oldAuditCreatedAt bigdatetime
+	declare @oldAuditCreatedBy varchar(36)
+	declare @oldAuditUpdatedAt bigdatetime
+	declare @oldAuditUpdatedBy varchar(36)
+	declare @permissionFlag int
+begin
+
+	if( @argClassCode = 'SVCT' )
+	begin
+		exec sp_is_system_user @permissionFlag output, @argAuditUserId
+		if( @permissionFlag = 0 )
+		begin
+			raiserror 17007 "Permission denied -- only system user can update ServiceType records"
+		end
+	end
+
+	update cfbam23..SvcType
+	set forcesynclock = forcesynclock + 1
+	where
+			servicetypeid = @argServiceTypeId
+	select @rc = @@rowcount
+	if @rc != 1
+	begin
+		raiserror 17004 "Data collision detected -- primary key does not exist"
+	end
+
+	select
+		@oldAuditCreatedAt = svct.createdat,
+		@oldAuditCreatedBy = svct.createdby,
+		@oldAuditUpdatedAt = svct.updatedat,
+		@oldAuditUpdatedBy = svct.updatedby,
+		@oldServiceTypeId = svct.servicetypeid,
+		@oldDescription = svct.description,
+		@oldRevision = svct.revision
+	from cfbam23..SvcType as svct
+	where
+			svct.servicetypeid = @argServiceTypeId
+
+	if @argRevision != @oldRevision
+	begin
+		raiserror 17002 "sp_update_svctype() Data collision detected"
+	end
+
+
+	update cfbam23..SvcType
+	set
+		revision = @argRevision + 1,
+		description = @argDescription
+	where
+		servicetypeid = @argServiceTypeId
+		and revision = @argRevision
+
+	select @rc = @@rowcount
+
+	if @rc != 1
+	begin
+		raiserror 17003 "sp_update_svctype() Data collision detected"
+	end
+
+	insert into cfbam23..SvcType_h (
+			servicetypeid,
+			auditclusterid,
+			auditsessionid,
+			auditstamp,
+			description,
+			revision,
+			auditaction )
+		select
+			svct.servicetypeid,
+			@argAuditClusterId,
+			@argAuditSessionId,
+			current_bigdatetime(),
+			svct.description,
+			svct.revision,
+			2
+		from cfbam23..SvcType as svct
+		where
+			svct.servicetypeid = @argServiceTypeId
+
+	select
+			svct.createdby,
+			convert( varchar, svct.createdat, 23 ) as createdat,
+			svct.updatedby,
+			convert( varchar, svct.updatedat, 23 ) as updatedat,
+			svct.servicetypeid as servicetypeid,
+			svct.description as description,
+		svct.revision as revision
+	from cfbam23..SvcType as svct
+	where
+		svct.servicetypeid = @argServiceTypeId
+end
+go
+

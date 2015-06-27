@@ -1,0 +1,336 @@
+--
+--	@(#) dbcreate/cfbam/mssql/crsp_delete_secuser.tsql
+--
+--	CFBam
+--
+--	Copyright (c) 2014-2015 Mark Sobkow
+--	
+--	This program is available as free software under the GNU GPL v3, under
+--	the Eclipse Public License 1.0, or under a commercial license from Mark
+--	Sobkow.  For commercial licensing details, please contact msobkow@sasktel.net.
+--	
+--	You should have received copies of the complete license text for
+--	GPLv3.txt and EPLv1_0.txt, containing the text
+--	of the GNU General Public License v 3.0 and the Eclipse Public License v 1.0.
+--	
+--	Under the terms of the GPL:
+--	
+--		This program is free software: you can redistribute it and/or modify
+--		it under the terms of the GNU General Public License as published by
+--		the Free Software Foundation, either version 3 of the License, or
+--		(at your option) any later version.
+--	  
+--		This program is distributed in the hope that it will be useful,
+--		but WITHOUT ANY WARRANTY; without even the implied warranty of
+--		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--		GNU General Public License for more details.
+--	  
+--		You should have received a copy of the GNU General Public License
+--		along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--	
+--	This software incorporates code originally Copyright (c) Mark Sobkow 2014-2015
+--	and licensed under the BSD 3-Clause license as written by xfree86.org:
+--	
+--	Redistribution and use in source and binary forms, with or without
+--	modification, are permitted provided that the following conditions are
+--	met:
+--	
+--	    (1) Redistributions of source code must retain the above copyright
+--	    notice, this list of conditions and the following disclaimer. 
+--	
+--	    (2) Redistributions in binary form must reproduce the above copyright
+--	    notice, this list of conditions and the following disclaimer in
+--	    the documentation and/or other materials provided with the
+--	    distribution.  
+--	    
+--	    (3)The name of the author may not be used to
+--	    endorse or promote products derived from this software without
+--	    specific prior written permission.
+--	
+--	THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+--	IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+--	WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+--	DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT,
+--	INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+--	(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+--	SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+--	HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+--	STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+--	IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+--	POSSIBILITY OF SUCH DAMAGE.
+--	
+--
+-- **********************************************************************
+--
+--	Code manufactured by MSS Code Factory
+--
+
+use cfbam23
+go
+
+create proc sp_delete_secuser
+	@argAuditClusterId bigint,
+	@argAuditUserId varchar(36),
+	@argAuditSessionId varchar(36),
+	@secClusterId bigint,
+	@secTenantId bigint,
+	@argSecUserId varchar(36),
+	@argRevision int
+as
+	declare @oldRevision int
+	declare @oldAuditCreatedAt datetime2
+	declare @oldAuditCreatedBy varchar(36)
+	declare @oldAuditUpdatedAt datetime2
+	declare @oldAuditUpdatedBy varchar(36)
+	declare @permissionFlag int
+	declare @clearsecuserdefdevSecUserId varchar(36)
+	declare @clearsecuserdefdevDevName varchar(127)
+	declare @deltsecgroupmembersTenantId decimal(21,0)
+	declare @deltsecgroupmembersTSecGroupMemberId decimal(21,0)
+	declare @delsecgroupmembersClusterId decimal(21,0)
+	declare @delsecgroupmembersSecGroupMemberId decimal(21,0)
+	declare @delsecsessionsSecSessionId varchar(36)
+	declare @delsecproxysessionsSecSessionId varchar(36)
+	declare @delsecdevicesSecUserId varchar(36)
+	declare @delsecdevicesDevName varchar(127)
+	declare cursClearSecUserDefDev cursor local for
+		select
+			susr.secuserid as secuserid
+		from cfbam23..SecUser as susr
+		where
+			susr.secuserid = @argSecUserId
+	declare cursDelTSecGroupMembers cursor local for
+		select
+			tgmb.tenantid,
+			tgmb.tsecgroupmemberid
+		from cfbam23..SecUser as susr
+			inner join cfbam23..tsecmemb tgmb on
+				susr.secuserid = tgmb.secuserid
+		where
+			susr.secuserid = @argSecUserId
+	declare cursDelSecGroupMembers cursor local for
+		select
+			sgmb.clusterid,
+			sgmb.secgroupmemberid
+		from cfbam23..SecUser as susr
+			inner join cfbam23..secmemb sgmb on
+				susr.secuserid = sgmb.secuserid
+		where
+			susr.secuserid = @argSecUserId
+	declare cursDelSecSessions cursor local for
+		select
+			sess.secsessionid
+		from cfbam23..SecUser as susr
+			inner join cfbam23..secsess sess on
+				susr.secuserid = sess.secuserid
+		where
+			susr.secuserid = @argSecUserId
+	declare cursDelSecProxySessions cursor local for
+		select
+			sess.secsessionid
+		from cfbam23..SecUser as susr
+			inner join cfbam23..secsess sess on
+				susr.secuserid = sess.secproxyid
+		where
+			susr.secuserid = @argSecUserId
+	declare cursDelSecDevices cursor local for
+		select
+			sdev.secuserid,
+			sdev.devname
+		from cfbam23..SecUser as susr
+			inner join cfbam23..secdev sdev on
+				susr.secuserid = sdev.secuserid
+		where
+			susr.secuserid = @argSecUserId
+begin
+	update cfbam23..SecUser
+	set forcesynclock = forcesynclock + 1
+	where
+			secuserid = @argSecUserId
+	if @@rowcount != 1
+	begin
+		raiserror( 'Data collision detected -- primary key does not exist',
+			15,
+			1 )
+	end
+
+	select
+		@oldRevision = susr.revision
+	from cfbam23..SecUser as susr
+	where
+			susr.secuserid = @argSecUserId
+
+	exec sp_is_system_user @permissionFlag output, @argAuditUserId
+	if( @permissionFlag = 0 )
+	begin
+		raiserror( 'Permission denied -- only system user can delete SecUser records',
+			10,
+			1 )
+	end
+
+	insert into cfbam23..SecUser_h (
+			secuserid,
+			auditclusterid,
+			auditsessionid,
+			auditstamp,
+			login_id,
+			email_addr,
+			em_confuuid,
+			defdevuserid,
+			defdevname,
+			pwd_hash,
+			pwdrstuuid,
+			revision,
+			auditaction )
+		select
+			susr.secuserid,
+			@argAuditClusterId,
+			@argAuditSessionId,
+			sysdatetime(),
+			susr.login_id,
+			susr.email_addr,
+			susr.em_confuuid,
+			susr.defdevuserid,
+			susr.defdevname,
+			susr.pwd_hash,
+			susr.pwdrstuuid,
+			@argRevision + 1,
+			3
+		from cfbam23..SecUser as susr
+		where
+			susr.secuserid = @argSecUserId
+
+	open cursClearSecUserDefDev
+	fetch next from cursClearSecUserDefDev into
+			@clearsecuserdefdevSecUserId
+	while ( @@fetch_status = 0 )
+	begin
+		update cfbam23..secuser
+		set
+			defdevuserid = null,
+			defdevname = null
+		where
+			secuserid = @clearsecuserdefdevSecUserId
+
+		fetch next from cursClearSecUserDefDev into
+			@clearsecuserdefdevSecUserId
+	end
+	close cursClearSecUserDefDev
+	deallocate cursClearSecUserDefDev
+
+	update cfbam23..SecUser
+	set
+		secuserid = @argSecUserId,
+		defdevuserid = null,
+		defdevname = null
+	where
+		secuserid = @argSecUserId
+
+	open cursDelTSecGroupMembers
+	fetch next from cursDelTSecGroupMembers into
+			@deltsecgroupmembersTenantId,
+			@deltsecgroupmembersTSecGroupMemberId
+	while ( @@fetch_status = 0 )
+	begin
+		exec sp_delete_tsecmemb_by_ididx @argAuditClusterId,
+			@argAuditUserId,
+			@argAuditSessionId,
+			@secClusterId,
+			@secTenantId,
+			@deltsecgroupmembersTenantId,
+			@deltsecgroupmembersTSecGroupMemberId
+		fetch next from cursDelTSecGroupMembers into
+			@deltsecgroupmembersTenantId,
+			@deltsecgroupmembersTSecGroupMemberId
+	end
+	close cursDelTSecGroupMembers
+	deallocate cursDelTSecGroupMembers
+
+	open cursDelSecGroupMembers
+	fetch next from cursDelSecGroupMembers into
+			@delsecgroupmembersClusterId,
+			@delsecgroupmembersSecGroupMemberId
+	while ( @@fetch_status = 0 )
+	begin
+		exec sp_delete_secmemb_by_ididx @argAuditClusterId,
+			@argAuditUserId,
+			@argAuditSessionId,
+			@secClusterId,
+			@secTenantId,
+			@delsecgroupmembersClusterId,
+			@delsecgroupmembersSecGroupMemberId
+		fetch next from cursDelSecGroupMembers into
+			@delsecgroupmembersClusterId,
+			@delsecgroupmembersSecGroupMemberId
+	end
+	close cursDelSecGroupMembers
+	deallocate cursDelSecGroupMembers
+
+	open cursDelSecSessions
+	fetch next from cursDelSecSessions into
+			@delsecsessionsSecSessionId
+	while ( @@fetch_status = 0 )
+	begin
+		exec sp_delete_secsess_by_ididx @argAuditClusterId,
+			@argAuditUserId,
+			@argAuditSessionId,
+			@secClusterId,
+			@secTenantId,
+			@delsecsessionsSecSessionId
+		fetch next from cursDelSecSessions into
+			@delsecsessionsSecSessionId
+	end
+	close cursDelSecSessions
+	deallocate cursDelSecSessions
+
+	open cursDelSecProxySessions
+	fetch next from cursDelSecProxySessions into
+			@delsecproxysessionsSecSessionId
+	while ( @@fetch_status = 0 )
+	begin
+		exec sp_delete_secsess_by_ididx @argAuditClusterId,
+			@argAuditUserId,
+			@argAuditSessionId,
+			@secClusterId,
+			@secTenantId,
+			@delsecproxysessionsSecSessionId
+		fetch next from cursDelSecProxySessions into
+			@delsecproxysessionsSecSessionId
+	end
+	close cursDelSecProxySessions
+	deallocate cursDelSecProxySessions
+
+	open cursDelSecDevices
+	fetch next from cursDelSecDevices into
+			@delsecdevicesSecUserId,
+			@delsecdevicesDevName
+	while ( @@fetch_status = 0 )
+	begin
+		exec sp_delete_secdev_by_ididx @argAuditClusterId,
+			@argAuditUserId,
+			@argAuditSessionId,
+			@secClusterId,
+			@secTenantId,
+			@delsecdevicesSecUserId,
+			@delsecdevicesDevName
+		fetch next from cursDelSecDevices into
+			@delsecdevicesSecUserId,
+			@delsecdevicesDevName
+	end
+	close cursDelSecDevices
+	deallocate cursDelSecDevices
+
+	delete from cfbam23..SecUser
+	where
+		secuserid = @argSecUserId
+	if @@rowcount != 1
+	begin
+		raiserror( 'sp_delete_secuser() Data collision detected',
+			15,
+			1 )
+	end
+
+end
+go
+
+quit

@@ -1,0 +1,346 @@
+--
+--	@(#) dbcreate/cfbam/mysql/crsp_delete_secuser.mysql
+-- **********************************************************************
+--
+--	CFBam
+--
+--	Copyright (c) 2014-2015 Mark Sobkow
+--	
+--	This program is available as free software under the GNU GPL v3, under
+--	the Eclipse Public License 1.0, or under a commercial license from Mark
+--	Sobkow.  For commercial licensing details, please contact msobkow@sasktel.net.
+--	
+--	You should have received copies of the complete license text for
+--	GPLv3.txt and EPLv1_0.txt, containing the text
+--	of the GNU General Public License v 3.0 and the Eclipse Public License v 1.0.
+--	
+--	Under the terms of the GPL:
+--	
+--		This program is free software: you can redistribute it and/or modify
+--		it under the terms of the GNU General Public License as published by
+--		the Free Software Foundation, either version 3 of the License, or
+--		(at your option) any later version.
+--	  
+--		This program is distributed in the hope that it will be useful,
+--		but WITHOUT ANY WARRANTY; without even the implied warranty of
+--		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--		GNU General Public License for more details.
+--	  
+--		You should have received a copy of the GNU General Public License
+--		along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--	
+--	This software incorporates code originally Copyright (c) Mark Sobkow 2014-2015
+--	and licensed under the BSD 3-Clause license as written by xfree86.org:
+--	
+--	Redistribution and use in source and binary forms, with or without
+--	modification, are permitted provided that the following conditions are
+--	met:
+--	
+--	    (1) Redistributions of source code must retain the above copyright
+--	    notice, this list of conditions and the following disclaimer. 
+--	
+--	    (2) Redistributions in binary form must reproduce the above copyright
+--	    notice, this list of conditions and the following disclaimer in
+--	    the documentation and/or other materials provided with the
+--	    distribution.  
+--	    
+--	    (3)The name of the author may not be used to
+--	    endorse or promote products derived from this software without
+--	    specific prior written permission.
+--	
+--	THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+--	IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+--	WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+--	DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT,
+--	INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+--	(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+--	SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+--	HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+--	STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+--	IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+--	POSSIBILITY OF SUCH DAMAGE.
+--	
+--
+-- ***********************************************************************
+--
+--	Code manufactured by MSS Code Factory
+--
+
+delimiter ////
+create procedure cfbam23.sp_delete_secuser(
+	argAuditClusterId bigint,
+	argAuditUserId varchar(36),
+	argAuditSessionId varchar(36),
+	secClusterId bigint,
+	secTenantId bigint,
+	argSecUserId varchar(36),
+	argRevision int )
+not deterministic
+modifies sql data
+begin
+	declare RowsAffected bigint;
+	declare oldSecUserId varchar(36);
+	declare oldLoginId varchar(32);
+	declare oldEMailAddress varchar(192);
+	declare oldEMailConfirmationUuid varchar(36);
+	declare oldDefaultDevSecUserId varchar(36);
+	declare oldDefaultDevName varchar(127);
+	declare oldPasswordHash varchar(256);
+	declare oldPasswordResetUuid varchar(36);
+	declare oldRevision int;
+	declare permissionFlag boolean;
+	declare isSystemUser boolean;
+	declare done int default false;
+	declare clearsecuserdefdevSecUserId varchar(36);
+	declare clearsecuserdefdevDevName varchar(127);
+	declare deltsecgroupmembersTenantId bigint;
+	declare deltsecgroupmembersTSecGroupMemberId bigint;
+	declare delsecgroupmembersClusterId bigint;
+	declare delsecgroupmembersSecGroupMemberId bigint;
+	declare delsecsessionsSecSessionId varchar(36);
+	declare delsecproxysessionsSecSessionId varchar(36);
+	declare delsecdevicesSecUserId varchar(36);
+	declare delsecdevicesDevName varchar(127);
+	declare cur_clearsecuserdefdev cursor for
+		select
+			susr.secuserid as secuserid
+		from cfbam23.SecUser as susr
+		where
+			susr.secuserid = argSecUserId;
+	declare cur_deltsecgroupmembers cursor for
+		select
+			tgmb.tenantid,
+			tgmb.tsecgroupmemberid
+		from cfbam23.SecUser as susr
+			inner join cfbam23.tsecmemb tgmb on
+				susr.secuserid = tgmb.secuserid
+		where
+			susr.secuserid = argSecUserId;
+	declare cur_delsecgroupmembers cursor for
+		select
+			sgmb.clusterid,
+			sgmb.secgroupmemberid
+		from cfbam23.SecUser as susr
+			inner join cfbam23.secmemb sgmb on
+				susr.secuserid = sgmb.secuserid
+		where
+			susr.secuserid = argSecUserId;
+	declare cur_delsecsessions cursor for
+		select
+			sess.secsessionid
+		from cfbam23.SecUser as susr
+			inner join cfbam23.secsess sess on
+				susr.secuserid = sess.secuserid
+		where
+			susr.secuserid = argSecUserId;
+	declare cur_delsecproxysessions cursor for
+		select
+			sess.secsessionid
+		from cfbam23.SecUser as susr
+			inner join cfbam23.secsess sess on
+				susr.secuserid = sess.secproxyid
+		where
+			susr.secuserid = argSecUserId;
+	declare cur_delsecdevices cursor for
+		select
+			sdev.secuserid,
+			sdev.devname
+		from cfbam23.SecUser as susr
+			inner join cfbam23.secdev sdev on
+				susr.secuserid = sdev.secuserid
+		where
+			susr.secuserid = argSecUserId;
+	declare continue handler for not found set done = true;
+	select
+			SecUserId,
+		login_id,
+		email_addr,
+		em_confuuid,
+		DefDevUserId,
+		DefDevName,
+		pwd_hash,
+		pwdrstuuid,
+			revision
+	into
+		oldSecUserId,
+			oldLoginId,
+			oldEMailAddress,
+			oldEMailConfirmationUuid,
+			oldDefaultDevSecUserId,
+			oldDefaultDevName,
+			oldPasswordHash,
+			oldPasswordResetUuid,
+		oldRevision
+	from cfbam23.SecUser
+	where
+		SecUserId = argSecUserId
+	for update;
+	select cfbam23.sp_is_system_user( argAuditUserId ) into permissionFlag;
+
+	if( permissionFlag = false )
+	then
+		signal sqlstate '45001'
+		set message_text = 'sp_delete_secuser() Permission denied, not identified as system',
+			schema_name = 'cfbam23',
+			table_name = 'SecUser';
+	end if;
+
+	insert into cfbam23.SecUser_h (
+			secuserid,
+			auditclusterid,
+			auditsessionid,
+			auditstamp,
+			login_id,
+			email_addr,
+			em_confuuid,
+			defdevuserid,
+			defdevname,
+			pwd_hash,
+			pwdrstuuid,
+			revision,
+			auditaction )
+		select
+			susr.secuserid,
+			argAuditClusterId,
+			argAuditSessionId,
+			now(),
+			susr.login_id,
+			susr.email_addr,
+			susr.em_confuuid,
+			susr.defdevuserid,
+			susr.defdevname,
+			susr.pwd_hash,
+			susr.pwdrstuuid,
+			susr.revision + 1,
+			3
+		from cfbam23.SecUser as susr
+		where
+			susr.secuserid = argSecUserId;
+
+	set done = false;
+	open cur_clearsecuserdefdev;
+	read_loop_clearsecuserdefdev: loop
+		fetch cur_clearsecuserdefdev into
+			clearsecuserdefdevSecUserId;
+		if done then
+			leave read_loop_clearsecuserdefdev;
+		end if;
+		update cfbam23.secuser
+		set
+			defdevuserid = null,
+			defdevname = null
+		where
+			secuserid = clearsecuserdefdevSecUserId;
+
+	end loop;
+	close cur_clearsecuserdefdev;
+
+	update cfbam23.SecUser
+	set
+		secuserid = argSecUserId,
+		defdevuserid = null,
+		defdevname = null
+	where
+		SecUserId = argSecUserId;
+
+	set done = false;
+	open cur_deltsecgroupmembers;
+	read_loop_deltsecgroupmembers: loop
+		fetch cur_deltsecgroupmembers into
+			deltsecgroupmembersTenantId,
+			deltsecgroupmembersTSecGroupMemberId;
+		if done then
+			leave read_loop_deltsecgroupmembers;
+		end if;
+		call cfbam23.sp_delete_tsecmemb_by_ididx( argAuditClusterId,
+			argAuditUserId,
+			argAuditSessionId,
+			secClusterId,
+			secTenantId,
+			deltsecgroupmembersTenantId,
+			deltsecgroupmembersTSecGroupMemberId );
+	end loop;
+	close cur_deltsecgroupmembers;
+	set done = false;
+	open cur_delsecgroupmembers;
+	read_loop_delsecgroupmembers: loop
+		fetch cur_delsecgroupmembers into
+			delsecgroupmembersClusterId,
+			delsecgroupmembersSecGroupMemberId;
+		if done then
+			leave read_loop_delsecgroupmembers;
+		end if;
+		call cfbam23.sp_delete_secmemb_by_ididx( argAuditClusterId,
+			argAuditUserId,
+			argAuditSessionId,
+			secClusterId,
+			secTenantId,
+			delsecgroupmembersClusterId,
+			delsecgroupmembersSecGroupMemberId );
+	end loop;
+	close cur_delsecgroupmembers;
+	set done = false;
+	open cur_delsecsessions;
+	read_loop_delsecsessions: loop
+		fetch cur_delsecsessions into
+			delsecsessionsSecSessionId;
+		if done then
+			leave read_loop_delsecsessions;
+		end if;
+		call cfbam23.sp_delete_secsess_by_ididx( argAuditClusterId,
+			argAuditUserId,
+			argAuditSessionId,
+			secClusterId,
+			secTenantId,
+			delsecsessionsSecSessionId );
+	end loop;
+	close cur_delsecsessions;
+	set done = false;
+	open cur_delsecproxysessions;
+	read_loop_delsecproxysessions: loop
+		fetch cur_delsecproxysessions into
+			delsecproxysessionsSecSessionId;
+		if done then
+			leave read_loop_delsecproxysessions;
+		end if;
+		call cfbam23.sp_delete_secsess_by_ididx( argAuditClusterId,
+			argAuditUserId,
+			argAuditSessionId,
+			secClusterId,
+			secTenantId,
+			delsecproxysessionsSecSessionId );
+	end loop;
+	close cur_delsecproxysessions;
+	set done = false;
+	open cur_delsecdevices;
+	read_loop_delsecdevices: loop
+		fetch cur_delsecdevices into
+			delsecdevicesSecUserId,
+			delsecdevicesDevName;
+		if done then
+			leave read_loop_delsecdevices;
+		end if;
+		call cfbam23.sp_delete_secdev_by_ididx( argAuditClusterId,
+			argAuditUserId,
+			argAuditSessionId,
+			secClusterId,
+			secTenantId,
+			delsecdevicesSecUserId,
+			delsecdevicesDevName );
+	end loop;
+	close cur_delsecdevices;
+	delete from cfbam23.SecUser
+	where
+		secuserid = argSecUserId;
+	select row_count()
+	into RowsAffected;
+
+	if RowsAffected != 1 and RowsAffected != 0
+	then
+		signal sqlstate '45000'
+		set message_text = 'sp_delete_secuser() Expected to affect 1 SecUser',
+			schema_name = 'cfbam23',
+			table_name = 'SecUser';
+	end if;
+
+end;////

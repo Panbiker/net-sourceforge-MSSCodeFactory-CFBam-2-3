@@ -1,0 +1,830 @@
+--
+--	@(#) dbcreate/cfbam/mysql/crsp_delete_tbldef.mysql
+-- **********************************************************************
+--
+--	CFBam
+--
+--	Copyright (c) 2014-2015 Mark Sobkow
+--	
+--	This program is available as free software under the GNU GPL v3, under
+--	the Eclipse Public License 1.0, or under a commercial license from Mark
+--	Sobkow.  For commercial licensing details, please contact msobkow@sasktel.net.
+--	
+--	You should have received copies of the complete license text for
+--	GPLv3.txt and EPLv1_0.txt, containing the text
+--	of the GNU General Public License v 3.0 and the Eclipse Public License v 1.0.
+--	
+--	Under the terms of the GPL:
+--	
+--		This program is free software: you can redistribute it and/or modify
+--		it under the terms of the GNU General Public License as published by
+--		the Free Software Foundation, either version 3 of the License, or
+--		(at your option) any later version.
+--	  
+--		This program is distributed in the hope that it will be useful,
+--		but WITHOUT ANY WARRANTY; without even the implied warranty of
+--		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--		GNU General Public License for more details.
+--	  
+--		You should have received a copy of the GNU General Public License
+--		along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--	
+--	This software incorporates code originally Copyright (c) Mark Sobkow 2014-2015
+--	and licensed under the BSD 3-Clause license as written by xfree86.org:
+--	
+--	Redistribution and use in source and binary forms, with or without
+--	modification, are permitted provided that the following conditions are
+--	met:
+--	
+--	    (1) Redistributions of source code must retain the above copyright
+--	    notice, this list of conditions and the following disclaimer. 
+--	
+--	    (2) Redistributions in binary form must reproduce the above copyright
+--	    notice, this list of conditions and the following disclaimer in
+--	    the documentation and/or other materials provided with the
+--	    distribution.  
+--	    
+--	    (3)The name of the author may not be used to
+--	    endorse or promote products derived from this software without
+--	    specific prior written permission.
+--	
+--	THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+--	IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+--	WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+--	DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT,
+--	INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+--	(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+--	SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+--	HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+--	STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+--	IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+--	POSSIBILITY OF SUCH DAMAGE.
+--	
+--
+-- ***********************************************************************
+--
+--	Code manufactured by MSS Code Factory
+--
+
+delimiter ////
+create procedure cfbam23.sp_delete_tbldef(
+	argAuditClusterId bigint,
+	argAuditUserId varchar(36),
+	argAuditSessionId varchar(36),
+	secClusterId bigint,
+	secTenantId bigint,
+	argTenantId bigint,
+	argId bigint,
+	argRevision int )
+not deterministic
+modifies sql data
+begin
+	declare RowsAffected bigint;
+	declare oldClassCode varchar(4);
+	declare oldTenantId bigint;
+	declare oldId bigint;
+	declare oldRevision int;
+	declare oldSchemaDefId bigint;
+	declare oldDefSchemaTenantId bigint;
+	declare oldDefSchemaId bigint;
+	declare oldName varchar(192);
+	declare oldDbName varchar(32);
+	declare oldShortName varchar(16);
+	declare oldLabel varchar(64);
+	declare oldShortDescription varchar(50);
+	declare oldDescription varchar(100);
+	declare oldPrimaryIndexTenantId bigint;
+	declare oldPrimaryIndexId bigint;
+	declare oldTableClassCode varchar(4);
+	declare oldLookupIndexTenantId bigint;
+	declare oldLookupIndexId bigint;
+	declare oldAltIndexTenantId bigint;
+	declare oldAltIndexId bigint;
+	declare oldQualifyingTenantId bigint;
+	declare oldQualifyingTableId bigint;
+	declare oldPolyBase boolean;
+	declare oldIsInstantiable boolean;
+	declare oldHasHistory boolean;
+	declare oldHasAuditColumns boolean;
+	declare oldLoaderBehaviourId smallint;
+	declare oldDataScopeId smallint;
+	declare oldSecurityScopeId smallint;
+	declare oldViewAccessSecurityId smallint;
+	declare oldEditAccessSecurityId smallint;
+	declare oldViewAccessFrequencyId smallint;
+	declare oldEditAccessFrequencyId smallint;
+	declare oldJObjMembers text;
+	declare oldJObjInterface text;
+	declare oldJObjImport text;
+	declare oldJObjImplementation text;
+	declare oldJEditObjMembers text;
+	declare oldJEditObjInterface text;
+	declare oldJEditObjImport text;
+	declare oldJEditObjImplementation text;
+	declare oldJTableImport text;
+	declare oldJTableMembers text;
+	declare oldJTableInterface text;
+	declare oldJTableImplementation text;
+	declare oldJTableObjImport text;
+	declare oldJTableObjMembers text;
+	declare oldJTableObjInterface text;
+	declare oldJTableObjImplementation text;
+	declare oldJDb2LUWTableImport text;
+	declare oldJDb2LUWTableMembers text;
+	declare oldJDb2LUWTableImplementation text;
+	declare oldJMSSqlTableImport text;
+	declare oldJMSSqlTableMembers text;
+	declare oldJMSSqlTableImplementation text;
+	declare oldJMySqlTableImport text;
+	declare oldJMySqlTableMembers text;
+	declare oldJMySqlTableImplementation text;
+	declare oldJOracleTableImport text;
+	declare oldJOracleTableMembers text;
+	declare oldJOracleTableImplementation text;
+	declare oldJPgSqlTableImport text;
+	declare oldJPgSqlTableMembers text;
+	declare oldJPgSqlTableImplementation text;
+	declare oldJSybaseTableImport text;
+	declare oldJSybaseTableMembers text;
+	declare oldJSybaseTableImplementation text;
+	declare oldJRamTableImport text;
+	declare oldJRamTableMembers text;
+	declare oldJRamTableImplementation text;
+	declare oldJSaxLoaderImport text;
+	declare oldJSaxLoaderStartElement text;
+	declare oldJSaxLoaderEndElement text;
+	declare oldJXMsgTableImport text;
+	declare oldJXMsgTableFormatters text;
+	declare oldJXMsgRqstTableImport text;
+	declare oldJXMsgRspnTableImport text;
+	declare oldJXMsgClientTableImport text;
+	declare oldJXMsgRqstTableBody text;
+	declare oldJXMsgRspnTableBody text;
+	declare oldJXMsgClientTableBody text;
+	declare oldDefaultVisibility boolean;
+	declare permissionFlag boolean;
+	declare isSystemUser boolean;
+	declare done int default false;
+	declare deltablemethodsTenantId bigint;
+	declare deltablemethodsId bigint;
+	declare deltablechainTenantId bigint;
+	declare deltablechainId bigint;
+	declare deltablerelationcolTenantId bigint;
+	declare deltablerelationcolId bigint;
+	declare deltablerelationTenantId bigint;
+	declare deltablerelationId bigint;
+	declare deltableindexcolTenantId bigint;
+	declare deltableindexcolId bigint;
+	declare deltableindexTenantId bigint;
+	declare deltableindexId bigint;
+	declare deltablecolumnsTenantId bigint;
+	declare deltablecolumnsId bigint;
+	declare cur_deltablemethods cursor for
+		select
+			srvm.tenantid,
+			srvm.id
+		from cfbam23.tbldef as tbld
+			inner join cfbam23.srvmeth srvm on
+				tbld.tenantid = srvm.tenantid
+				and tbld.id = srvm.tableid
+		where
+			tbld.tenantid = argTenantId
+			and tbld.id = argId;
+	declare cur_deltablechain cursor for
+		select
+			chn.tenantid,
+			chn.id
+		from cfbam23.tbldef as tbld
+			inner join cfbam23.chain_def chn on
+				tbld.tenantid = chn.tenantid
+				and tbld.id = chn.tableid
+		where
+			tbld.tenantid = argTenantId
+			and tbld.id = argId;
+	declare cur_deltablerelationcol cursor for
+		select
+			relc.tenantid,
+			relc.id
+		from cfbam23.tbldef as tbld
+			inner join cfbam23.reldef reld on
+				tbld.tenantid = reld.tenantid
+				and tbld.id = reld.tableid
+			inner join cfbam23.relcol relc on
+				reld.tenantid = relc.tenantid
+				and reld.id = relc.relationid
+		where
+			tbld.tenantid = argTenantId
+			and tbld.id = argId;
+	declare cur_deltablerelation cursor for
+		select
+			reld.tenantid,
+			reld.id
+		from cfbam23.tbldef as tbld
+			inner join cfbam23.reldef reld on
+				tbld.tenantid = reld.tenantid
+				and tbld.id = reld.tableid
+		where
+			tbld.tenantid = argTenantId
+			and tbld.id = argId;
+	declare cur_deltableindexcol cursor for
+		select
+			idxc.tenantid,
+			idxc.id
+		from cfbam23.tbldef as tbld
+			inner join cfbam23.idxdef idxd on
+				tbld.tenantid = idxd.tenantid
+				and tbld.id = idxd.tableid
+			inner join cfbam23.idxcol idxc on
+				idxd.tenantid = idxc.tenantid
+				and idxd.id = idxc.indexid
+		where
+			tbld.tenantid = argTenantId
+			and tbld.id = argId;
+	declare cur_deltableindex cursor for
+		select
+			idxd.tenantid,
+			idxd.id
+		from cfbam23.tbldef as tbld
+			inner join cfbam23.idxdef idxd on
+				tbld.tenantid = idxd.tenantid
+				and tbld.id = idxd.tableid
+		where
+			tbld.tenantid = argTenantId
+			and tbld.id = argId;
+	declare cur_deltablecolumns cursor for
+		select
+			valu.tenantid,
+			valu.id
+		from cfbam23.tbldef as tbld
+			inner join cfbam23.valdef valu on
+				tbld.tenantid = valu.tenantid
+				and tbld.id = valu.scopeid
+		where
+			tbld.tenantid = argTenantId
+			and tbld.id = argId;
+	declare continue handler for not found set done = true;
+	select
+			ClassCode,
+		TenantId,
+		Id,
+			revision
+	into
+		oldClassCode,
+			oldTenantId,
+			oldId,
+		oldRevision
+	from cfbam23.scopedef
+	where
+		TenantId = argTenantId
+		and Id = argId
+	for update;
+	select
+			TenantId,
+		SchemaDefId,
+		defschtentid,
+		defschid,
+		Id,
+		Name,
+		DbName,
+		short_name,
+		Label,
+		short_descr,
+		descr,
+		PrimIdxTentId,
+		PrimIdxId,
+		TblClsCd,
+		LookIdxTentId,
+		LookIdxId,
+		AltIdxTentId,
+		AltIdxId,
+		QualTentId,
+		QualTblId,
+		PolyBase,
+		IsInstantiable,
+		HasHistory,
+		HasAuditColumns,
+		LoadBehavId,
+		DataScopeId,
+		SecScopeId,
+		VASecId,
+		EASecId,
+		VAFId,
+		EAFId,
+		jobj_memb,
+		jobj_xface,
+		jtbl_objimp,
+		jobj_impl,
+		jedt_memb,
+		jedt_xface,
+		jtbl_eobjimp,
+		jedt_impl,
+		jtbl_imp,
+		jtbl_memb,
+		jtbl_xface,
+		jtbl_impl,
+		jtbl_objimp,
+		jtbl_objmemb,
+		jtbl_objxface,
+		jtbl_objimpl,
+		jtbl_db2imp,
+		jdb2_memb,
+		jdb2_impl,
+		jtbl_msimp,
+		jmssql_memb,
+		jmssql_impl,
+		jtbl_myimp,
+		jmysql_memb,
+		jmysql_impl,
+		jtbl_oraimp,
+		joracle_memb,
+		joracle_impl,
+		jtbl_pgimp,
+		jpgsql_memb,
+		jpgsql_impl,
+		jtbl_sybaseimp,
+		jsybase_memb,
+		jsybase_impl,
+		jtbl_ramimp,
+		jram_memb,
+		jram_impl,
+		jtbl_saxldimp,
+		jsaxstart_memb,
+		jsaxend_impl,
+		jxmtbl_imp,
+		jxmtbl_fmt,
+		jxmtbl_rqstimp,
+		jxmtbl_rspnimp,
+		jxmtbl_clntimp,
+		jxmtbl_rqstbdy,
+		jxmtbl_rspnbdy,
+		jxmtbl_clntbdy,
+		dflt_vis
+	into
+		oldTenantId,
+			oldSchemaDefId,
+			oldDefSchemaTenantId,
+			oldDefSchemaId,
+			oldId,
+			oldName,
+			oldDbName,
+			oldShortName,
+			oldLabel,
+			oldShortDescription,
+			oldDescription,
+			oldPrimaryIndexTenantId,
+			oldPrimaryIndexId,
+			oldTableClassCode,
+			oldLookupIndexTenantId,
+			oldLookupIndexId,
+			oldAltIndexTenantId,
+			oldAltIndexId,
+			oldQualifyingTenantId,
+			oldQualifyingTableId,
+			oldPolyBase,
+			oldIsInstantiable,
+			oldHasHistory,
+			oldHasAuditColumns,
+			oldLoaderBehaviourId,
+			oldDataScopeId,
+			oldSecurityScopeId,
+			oldViewAccessSecurityId,
+			oldEditAccessSecurityId,
+			oldViewAccessFrequencyId,
+			oldEditAccessFrequencyId,
+			oldJObjMembers,
+			oldJObjInterface,
+			oldJObjImport,
+			oldJObjImplementation,
+			oldJEditObjMembers,
+			oldJEditObjInterface,
+			oldJEditObjImport,
+			oldJEditObjImplementation,
+			oldJTableImport,
+			oldJTableMembers,
+			oldJTableInterface,
+			oldJTableImplementation,
+			oldJTableObjImport,
+			oldJTableObjMembers,
+			oldJTableObjInterface,
+			oldJTableObjImplementation,
+			oldJDb2LUWTableImport,
+			oldJDb2LUWTableMembers,
+			oldJDb2LUWTableImplementation,
+			oldJMSSqlTableImport,
+			oldJMSSqlTableMembers,
+			oldJMSSqlTableImplementation,
+			oldJMySqlTableImport,
+			oldJMySqlTableMembers,
+			oldJMySqlTableImplementation,
+			oldJOracleTableImport,
+			oldJOracleTableMembers,
+			oldJOracleTableImplementation,
+			oldJPgSqlTableImport,
+			oldJPgSqlTableMembers,
+			oldJPgSqlTableImplementation,
+			oldJSybaseTableImport,
+			oldJSybaseTableMembers,
+			oldJSybaseTableImplementation,
+			oldJRamTableImport,
+			oldJRamTableMembers,
+			oldJRamTableImplementation,
+			oldJSaxLoaderImport,
+			oldJSaxLoaderStartElement,
+			oldJSaxLoaderEndElement,
+			oldJXMsgTableImport,
+			oldJXMsgTableFormatters,
+			oldJXMsgRqstTableImport,
+			oldJXMsgRspnTableImport,
+			oldJXMsgClientTableImport,
+			oldJXMsgRqstTableBody,
+			oldJXMsgRspnTableBody,
+			oldJXMsgClientTableBody,
+			oldDefaultVisibility
+	from cfbam23.tbldef
+	where
+		TenantId = argTenantId
+		and Id = argId
+	for update;
+	if( oldTenantId != secTenantId )
+	then
+		select cfbam23.sp_is_system_user( argAuditUserId )
+		into permissionFlag;
+
+		if( permissionFlag = false )
+		then
+			signal sqlstate '45001'
+			set message_text = 'sp_delete_tbldef() Permission denied, not identified as system',
+				schema_name = 'cfbam23',
+				table_name = 'tbldef';
+		end if;
+	end if;
+
+	select cfbam23.sp_is_tenant_user( oldTenantId,
+			'DeleteTable',
+			argAuditUserId ),
+		cfbam23.sp_is_system_user( argAuditUserId )
+	into permissionFlag, isSystemUser;
+
+	if( ( permissionFlag = false ) and ( isSystemUser = false ) )
+	then
+		signal sqlstate '45003'
+		set message_text = 'sp_delete_tbldef() Permission denied, not granted access to DeleteTable for current Tenant',
+			schema_name = 'cfbam23',
+			table_name = 'tbldef';
+	end if;
+
+	if( oldClassCode = 'TBLD' )
+	then
+		insert into cfbam23.tbldef_h (
+			tenantid,
+			id,
+			classcode,
+			auditclusterid,
+			auditsessionid,
+			auditstamp,
+			schemadefid,
+			defschtentid,
+			defschid,
+			name,
+			dbname,
+			short_name,
+			label,
+			short_descr,
+			descr,
+			primidxtentid,
+			primidxid,
+			tblclscd,
+			lookidxtentid,
+			lookidxid,
+			altidxtentid,
+			altidxid,
+			qualtentid,
+			qualtblid,
+			polybase,
+			isinstantiable,
+			hashistory,
+			hasauditcolumns,
+			loadbehavid,
+			datascopeid,
+			secscopeid,
+			vasecid,
+			easecid,
+			vafid,
+			eafid,
+			jobj_memb,
+			jobj_xface,
+			jtbl_objimp,
+			jobj_impl,
+			jedt_memb,
+			jedt_xface,
+			jtbl_eobjimp,
+			jedt_impl,
+			jtbl_imp,
+			jtbl_memb,
+			jtbl_xface,
+			jtbl_impl,
+			jtbl_objimp,
+			jtbl_objmemb,
+			jtbl_objxface,
+			jtbl_objimpl,
+			jtbl_db2imp,
+			jdb2_memb,
+			jdb2_impl,
+			jtbl_msimp,
+			jmssql_memb,
+			jmssql_impl,
+			jtbl_myimp,
+			jmysql_memb,
+			jmysql_impl,
+			jtbl_oraimp,
+			joracle_memb,
+			joracle_impl,
+			jtbl_pgimp,
+			jpgsql_memb,
+			jpgsql_impl,
+			jtbl_sybaseimp,
+			jsybase_memb,
+			jsybase_impl,
+			jtbl_ramimp,
+			jram_memb,
+			jram_impl,
+			jtbl_saxldimp,
+			jsaxstart_memb,
+			jsaxend_impl,
+			jxmtbl_imp,
+			jxmtbl_fmt,
+			jxmtbl_rqstimp,
+			jxmtbl_rspnimp,
+			jxmtbl_clntimp,
+			jxmtbl_rqstbdy,
+			jxmtbl_rspnbdy,
+			jxmtbl_clntbdy,
+			dflt_vis,
+			revision,
+			auditaction )
+		select
+			scop.tenantid,
+			scop.id,
+			scop.classcode,
+			argAuditClusterId,
+			argAuditSessionId,
+			now(),
+			tbld.schemadefid,
+			tbld.defschtentid,
+			tbld.defschid,
+			tbld.name,
+			tbld.dbname,
+			tbld.short_name,
+			tbld.label,
+			tbld.short_descr,
+			tbld.descr,
+			tbld.primidxtentid,
+			tbld.primidxid,
+			tbld.tblclscd,
+			tbld.lookidxtentid,
+			tbld.lookidxid,
+			tbld.altidxtentid,
+			tbld.altidxid,
+			tbld.qualtentid,
+			tbld.qualtblid,
+			tbld.polybase,
+			tbld.isinstantiable,
+			tbld.hashistory,
+			tbld.hasauditcolumns,
+			tbld.loadbehavid,
+			tbld.datascopeid,
+			tbld.secscopeid,
+			tbld.vasecid,
+			tbld.easecid,
+			tbld.vafid,
+			tbld.eafid,
+			tbld.jobj_memb,
+			tbld.jobj_xface,
+			tbld.jtbl_objimp,
+			tbld.jobj_impl,
+			tbld.jedt_memb,
+			tbld.jedt_xface,
+			tbld.jtbl_eobjimp,
+			tbld.jedt_impl,
+			tbld.jtbl_imp,
+			tbld.jtbl_memb,
+			tbld.jtbl_xface,
+			tbld.jtbl_impl,
+			tbld.jtbl_objimp,
+			tbld.jtbl_objmemb,
+			tbld.jtbl_objxface,
+			tbld.jtbl_objimpl,
+			tbld.jtbl_db2imp,
+			tbld.jdb2_memb,
+			tbld.jdb2_impl,
+			tbld.jtbl_msimp,
+			tbld.jmssql_memb,
+			tbld.jmssql_impl,
+			tbld.jtbl_myimp,
+			tbld.jmysql_memb,
+			tbld.jmysql_impl,
+			tbld.jtbl_oraimp,
+			tbld.joracle_memb,
+			tbld.joracle_impl,
+			tbld.jtbl_pgimp,
+			tbld.jpgsql_memb,
+			tbld.jpgsql_impl,
+			tbld.jtbl_sybaseimp,
+			tbld.jsybase_memb,
+			tbld.jsybase_impl,
+			tbld.jtbl_ramimp,
+			tbld.jram_memb,
+			tbld.jram_impl,
+			tbld.jtbl_saxldimp,
+			tbld.jsaxstart_memb,
+			tbld.jsaxend_impl,
+			tbld.jxmtbl_imp,
+			tbld.jxmtbl_fmt,
+			tbld.jxmtbl_rqstimp,
+			tbld.jxmtbl_rspnimp,
+			tbld.jxmtbl_clntimp,
+			tbld.jxmtbl_rqstbdy,
+			tbld.jxmtbl_rspnbdy,
+			tbld.jxmtbl_clntbdy,
+			tbld.dflt_vis,
+			scop.revision + 1,
+			3
+		from cfbam23.tbldef as tbld
+		inner join cfbam23.scopedef scop on
+			tbld.tenantid = scop.tenantid
+			and tbld.Id = scop.id
+		where
+			tbld.tenantid = argTenantId
+		and tbld.id = argId;
+	end if;
+
+	update cfbam23.tbldef
+	set
+		tenantid = argTenantId,
+		lookidxtentid = null,
+		lookidxid = null,
+		altidxtentid = null,
+		altidxid = null,
+		primidxtentid = null,
+		primidxid = null
+	where
+		TenantId = argTenantId
+		and Id = argId;
+
+	set done = false;
+	open cur_deltablemethods;
+	read_loop_deltablemethods: loop
+		fetch cur_deltablemethods into
+			deltablemethodsTenantId,
+			deltablemethodsId;
+		if done then
+			leave read_loop_deltablemethods;
+		end if;
+		call cfbam23.sp_delete_srvmeth_by_ididx( argAuditClusterId,
+			argAuditUserId,
+			argAuditSessionId,
+			secClusterId,
+			secTenantId,
+			deltablemethodsTenantId,
+			deltablemethodsId );
+	end loop;
+	close cur_deltablemethods;
+	set done = false;
+	open cur_deltablechain;
+	read_loop_deltablechain: loop
+		fetch cur_deltablechain into
+			deltablechainTenantId,
+			deltablechainId;
+		if done then
+			leave read_loop_deltablechain;
+		end if;
+		call cfbam23.sp_delete_chain_def_by_ididx( argAuditClusterId,
+			argAuditUserId,
+			argAuditSessionId,
+			secClusterId,
+			secTenantId,
+			deltablechainTenantId,
+			deltablechainId );
+	end loop;
+	close cur_deltablechain;
+	set done = false;
+	open cur_deltablerelationcol;
+	read_loop_deltablerelationcol: loop
+		fetch cur_deltablerelationcol into
+			deltablerelationcolTenantId,
+			deltablerelationcolId;
+		if done then
+			leave read_loop_deltablerelationcol;
+		end if;
+		call cfbam23.sp_delete_relcol_by_ididx( argAuditClusterId,
+			argAuditUserId,
+			argAuditSessionId,
+			secClusterId,
+			secTenantId,
+			deltablerelationcolTenantId,
+			deltablerelationcolId );
+	end loop;
+	close cur_deltablerelationcol;
+	set done = false;
+	open cur_deltablerelation;
+	read_loop_deltablerelation: loop
+		fetch cur_deltablerelation into
+			deltablerelationTenantId,
+			deltablerelationId;
+		if done then
+			leave read_loop_deltablerelation;
+		end if;
+		call cfbam23.sp_delete_reldef_by_ididx( argAuditClusterId,
+			argAuditUserId,
+			argAuditSessionId,
+			secClusterId,
+			secTenantId,
+			deltablerelationTenantId,
+			deltablerelationId );
+	end loop;
+	close cur_deltablerelation;
+	set done = false;
+	open cur_deltableindexcol;
+	read_loop_deltableindexcol: loop
+		fetch cur_deltableindexcol into
+			deltableindexcolTenantId,
+			deltableindexcolId;
+		if done then
+			leave read_loop_deltableindexcol;
+		end if;
+		call cfbam23.sp_delete_idxcol_by_ididx( argAuditClusterId,
+			argAuditUserId,
+			argAuditSessionId,
+			secClusterId,
+			secTenantId,
+			deltableindexcolTenantId,
+			deltableindexcolId );
+	end loop;
+	close cur_deltableindexcol;
+	set done = false;
+	open cur_deltableindex;
+	read_loop_deltableindex: loop
+		fetch cur_deltableindex into
+			deltableindexTenantId,
+			deltableindexId;
+		if done then
+			leave read_loop_deltableindex;
+		end if;
+		call cfbam23.sp_delete_idxdef_by_ididx( argAuditClusterId,
+			argAuditUserId,
+			argAuditSessionId,
+			secClusterId,
+			secTenantId,
+			deltableindexTenantId,
+			deltableindexId );
+	end loop;
+	close cur_deltableindex;
+	set done = false;
+	open cur_deltablecolumns;
+	read_loop_deltablecolumns: loop
+		fetch cur_deltablecolumns into
+			deltablecolumnsTenantId,
+			deltablecolumnsId;
+		if done then
+			leave read_loop_deltablecolumns;
+		end if;
+		call cfbam23.sp_delete_valdef_by_ididx( argAuditClusterId,
+			argAuditUserId,
+			argAuditSessionId,
+			secClusterId,
+			secTenantId,
+			deltablecolumnsTenantId,
+			deltablecolumnsId );
+	end loop;
+	close cur_deltablecolumns;
+	delete from cfbam23.tbldef
+	where
+		tenantid = argTenantId
+		and id = argId;
+	select row_count()
+	into RowsAffected;
+
+	if RowsAffected != 1 and RowsAffected != 0
+	then
+		signal sqlstate '45000'
+		set message_text = 'sp_delete_tbldef() Expected to affect 1 tbldef',
+			schema_name = 'cfbam23',
+			table_name = 'tbldef';
+	end if;
+
+	delete from cfbam23.scopedef
+	where
+		tenantid = argTenantId
+		and id = argId;
+	select row_count()
+	into RowsAffected;
+
+	if RowsAffected != 1 and RowsAffected != 0
+	then
+		signal sqlstate '45000'
+		set message_text = 'sp_delete_tbldef() Expected to affect 1 scopedef',
+			schema_name = 'cfbam23',
+			table_name = 'tbldef';
+	end if;
+
+end;////

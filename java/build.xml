@@ -1,0 +1,622 @@
+<project name="CFBam2.2" default="all" basedir=".">
+	<description>
+		MSS Code Factory CFBam 2.1 Apache Ant 1.8.2 Build Script
+	</description>
+	<property name="build" location="build" />
+	<property name="bin" location="bin" />
+	<!-- Core object model and implementation -->
+	<property name="cfbam23src" location="cfbam23/src" />
+	<property name="cfbamram23src" location="cfbamram23/src" />
+	<!-- Bindings for MSS Code Factory CFCore 2.3 -->
+	<property name="cfbammsscf23src" location="cfbammsscf23/src" />
+	<!-- DbIO implementations for the supported databases -->
+	<property name="cfbamdb2luw23src" location="cfbamdb2luw23/src" />
+	<property name="cfbammssql23src" location="cfbammssql23/src" />
+	<property name="cfbammysql23src" location="cfbammysql23/src" />
+	<property name="cfbamoracle23src" location="cfbamoracle23/src" />
+	<property name="cfbampgsql23src" location="cfbampgsql23/src" />
+	<property name="cfbamsybase23src" location="cfbamsybase23/src" />
+	<!-- XML SAX Loader parser and client-server database implementations -->
+	<property name="cfbamxml23src" location="cfbamxml23/src" />
+	<property name="cfbamsaxdb2luwloader23src" location="cfbamsaxdb2luwloader23/src" />
+	<property name="cfbamsaxmssqlloader23src" location="cfbamsaxmssqlloader23/src" />
+	<property name="cfbamsaxmysqlloader23src" location="cfbamsaxmysqlloader23/src" />
+	<property name="cfbamsaxoracleloader23src" location="cfbamsaxoracleloader23/src" />
+	<property name="cfbamsaxpgsqlloader23src" location="cfbamsaxpgsqlloader23/src" />
+	<property name="cfbamsaxsybaseloader23src" location="cfbamsaxsybaseloader23/src" />
+	<property name="cfbamsaxramloader23src" location="cfbamsaxramloader23/src" />
+	<!-- X(ml)Msg Layers and client-server implementations -->
+	<property name="cfbamxmsg23src" location="cfbamxmsg23/src" />
+	<property name="cfbamxmsgrqst23src" location="cfbamxmsgrqst23/src" />
+	<property name="cfbamxmsgrspn23src" location="cfbamxmsgrspn23/src" />
+	<property name="cfbamxmsgclient23src" location="cfbamxmsgclient23/src" />
+	<!-- Swing GUI Protototype with disconnected XMsg client server implementation -->
+	<property name="cfbamswing23src" location="cfbamswing23/src" />
+	<property name="cfbamswinghttp23src" location="cfbamswinghttp23/src" />
+	<!-- WAR files for server -->
+	<property name="cfbamsmwar23src" location="cfbamsmwar23/src" />
+	<property name="cfbamsmwar23websrc" location="cfbamsmwar23/WebContent" />
+	<property name="cfbamxmsgsrvwar23src" location="cfbamxmsgsrvwar23/src" />
+	<property name="cfbamxmsgsrvwar23websrc" location="cfbamxmsgsrvwar23/WebContent" />
+	<property name="tomcat8libdir" location="tomcat8jars" />
+
+	<path id="Core.classpath">
+		<pathelement location="${bin}/commons-codec-1.9.jar" />
+		<pathelement location="${bin}/commons-io-2.4.jar" />
+		<pathelement location="${bin}/log4j-1.2-1.2.17.jar" />
+		<pathelement location="${bin}/xercesImpl-2.11.0.jar" />
+		<pathelement location="${bin}/net-sourceforge-MSSCodeFactory-CFLib-2-3-12895.jar" />
+	</path>
+
+	<path id="ExtendMssCF.classpath">
+		<pathelement location="${bin}/commons-codec-1.9.jar" />
+		<pathelement location="${bin}/commons-io-2.4.jar" />
+		<pathelement location="${bin}/log4j-1.2-1.2.17.jar" />
+		<pathelement location="${bin}/xercesImpl-2.11.0.jar" />
+		<pathelement location="${bin}/net-sourceforge-MSSCodeFactory-CFLib-2-3-12895.jar" />
+		<pathelement location="${bin}/net-sourceforge-MSSCodeFactory-CFCore-2-3-12873.jar" />
+	</path>
+
+	<path id="XMsgClient.classpath">
+		<pathelement location="${bin}/commons-codec-1.9.jar" />
+		<pathelement location="${bin}/commons-io-2.4.jar" />
+		<pathelement location="${bin}/commons-logging-1.1.3.jar" />
+		<pathelement location="${bin}/log4j-1.2-1.2.17.jar" />
+		<pathelement location="${bin}/xercesImpl-2.11.0.jar" />
+		<pathelement location="${bin}/httpclient-4.3.3.jar" />
+		<pathelement location="${bin}/httpcore-4.3.2.jar" />
+		<pathelement location="${bin}/net-sourceforge-MSSCodeFactory-CFLib-2-3-12895.jar" />
+	</path>
+
+	<path id="WebServer.classpath">
+		<pathelement location="${tomcat8libdir}/javax.mail.jar" />
+		<pathelement location="${tomcat8libdir}/servlet-api.jar" />
+		<pathelement location="${bin}/commons-codec-1.9.jar" />
+		<pathelement location="${bin}/commons-io-2.4.jar" />
+		<pathelement location="${bin}/commons-logging-1.1.3.jar" />
+		<pathelement location="${bin}/log4j-1.2-1.2.17.jar" />
+		<pathelement location="${bin}/xercesImpl-2.11.0.jar" />
+		<pathelement location="${bin}/httpclient-4.3.3.jar" />
+		<pathelement location="${bin}/httpcore-4.3.2.jar" />
+		<pathelement location="${bin}/net-sourceforge-MSSCodeFactory-CFLib-2-3-12895.jar" />
+	</path>
+
+	<path id="Db2LUW.classpath">
+		<pathelement location="${bin}/commons-codec-1.9.jar" />
+		<pathelement location="${bin}/commons-io-2.4.jar" />
+		<pathelement location="${bin}/log4j-1.2-1.2.17.jar" />
+		<pathelement location="${bin}/xercesImpl-2.11.0.jar" />
+		<pathelement location="${bin}/db2jcc4.jar" />
+		<pathelement location="${bin}/db2jcc_license_cu.jar" />
+		<pathelement location="${bin}/net-sourceforge-MSSCodeFactory-CFLib-2-3-12895.jar" />
+	</path>
+
+	<path id="MSSql.classpath">
+		<pathelement location="${bin}/commons-codec-1.9.jar" />
+		<pathelement location="${bin}/commons-io-2.4.jar" />
+		<pathelement location="${bin}/log4j-1.2-1.2.17.jar" />
+		<pathelement location="${bin}/xercesImpl-2.11.0.jar" />
+		<pathelement location="${bin}/net-sourceforge-MSSCodeFactory-CFLib-2-3-12895.jar" />
+		<pathelement location="${bin}/sqljdbc_4.0/enu/sqljdbc4.jar" />
+	</path>
+
+	<path id="MySql.classpath">
+		<pathelement location="${bin}/commons-codec-1.9.jar" />
+		<pathelement location="${bin}/commons-io-2.4.jar" />
+		<pathelement location="${bin}/log4j-1.2-1.2.17.jar" />
+		<pathelement location="${bin}/xercesImpl-2.11.0.jar" />
+		<pathelement location="${bin}/net-sourceforge-MSSCodeFactory-CFLib-2-3-12895.jar" />
+		<pathelement location="${bin}/mysql-connectory-java-5.1.28.jar" />
+	</path>
+
+	<path id="Oracle.classpath">
+		<pathelement location="${bin}/commons-codec-1.9.jar" />
+		<pathelement location="${bin}/commons-io-2.4.jar" />
+		<pathelement location="${bin}/log4j-1.2-1.2.17.jar" />
+		<pathelement location="${bin}/xercesImpl-2.11.0.jar" />
+		<pathelement location="${bin}/net-sourceforge-MSSCodeFactory-CFLib-2-3-12895.jar" />
+		<pathelement location="${bin}/ojdbc6_g.jar" />
+	</path>
+
+	<path id="PgSql.classpath">
+		<pathelement location="${bin}/commons-codec-1.9.jar" />
+		<pathelement location="${bin}/commons-io-2.4.jar" />
+		<pathelement location="${bin}/log4j-1.2-1.2.17.jar" />
+		<pathelement location="${bin}/xercesImpl-2.11.0.jar" />
+		<pathelement location="${bin}/net-sourceforge-MSSCodeFactory-CFLib-2-3-12895.jar" />
+		<pathelement location="${bin}/postgresql-jdbc4-9.2.jar" />
+	</path>
+
+	<path id="Sybase.classpath">
+		<pathelement location="${bin}/commons-codec-1.9.jar" />
+		<pathelement location="${bin}/commons-io-2.4.jar" />
+		<pathelement location="${bin}/log4j-1.2-1.2.17.jar" />
+		<pathelement location="${bin}/xercesImpl-2.11.0.jar" />
+		<pathelement location="${bin}/net-sourceforge-MSSCodeFactory-CFLib-2-3-12895.jar" />
+		<pathelement location="${bin}/jconn4.jar" />
+	</path>
+
+	<target name="init">
+		<tstamp/>
+		<mkdir dir="${build}" />
+		<mkdir dir="${build}/xsd" />
+		<mkdir dir="${build}/smwar" />
+		<mkdir dir="${build}/xmsgsrvwar" />
+	</target>
+
+	<!-- Core object model and implementation -->
+
+	<target name="compilecore" depends="init" description="Compile the core packages">
+		<javac debug="true" fork="true" memoryinitialsize="1024m" memorymaximumsize="1024m" includeantruntime="false" srcdir="${cfbam23src}" destdir="${build}" classpathref="Core.classpath" >
+			<compilerarg value="-Xlint:unchecked" />
+			<compilerarg value="-Xlint:deprecation" />
+		</javac>
+		<javac debug="true" fork="true" memoryinitialsize="1024m" memorymaximumsize="1024m" includeantruntime="false" srcdir="${cfbamram23src}" destdir="${build}" classpathref="Core.classpath" >
+			<compilerarg value="-Xlint:unchecked" />
+			<compilerarg value="-Xlint:deprecation" />
+		</javac>
+	</target>
+
+	<target name="corejar" depends="compilecore" description="Package the core jars">
+		<jar jarfile="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3.jar" basedir="${build}" >
+			<include name="net/sourceforge/msscodefactory/cfbam/v2_3/CFBam/*.class" />
+			<include name="net/sourceforge/msscodefactory/cfbam/v2_3/CFBamObj/*.class" />
+		</jar>
+		<jar jarfile="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3-ram.jar" basedir="${build}" >
+			<include name="net/sourceforge/msscodefactory/cfbam/v2_3/CFBamRam/*.class" />
+		</jar>
+	</target>
+
+	<!-- Bindings for MSS Code Factory CFCore 2.3 -->
+
+	<target name="compilemsscf" depends="compilecore" description="Compile the msscf packages">
+		<javac debug="true" fork="true" memoryinitialsize="1024m" memorymaximumsize="1024m" includeantruntime="false" srcdir="${cfbammsscf23src}" destdir="${build}" classpathref="ExtendMssCF.classpath" >
+			<compilerarg value="-Xlint:unchecked" />
+			<compilerarg value="-Xlint:deprecation" />
+		</javac>
+	</target>
+
+	<target name="msscfjar" depends="compilemsscf" description="Package the msscf jar">
+		<jar jarfile="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3-msscf.jar" basedir="${build}" >
+			<include name="net/sourceforge/msscodefactory/cfbam/v2_3/CFBamMssCF/*.class" />
+		</jar>
+	</target>
+
+	<!-- DbIO implementations for the supported databases -->
+
+	<target name="compiledb2luw" depends="compilecore,compilexml" description="Compile the db2luw packages">
+		<javac debug="true" fork="true" memoryinitialsize="1024m" memorymaximumsize="1024m" includeantruntime="false" srcdir="${cfbamdb2luw23src}" destdir="${build}" classpathref="Db2LUW.classpath" >
+			<compilerarg value="-Xlint:unchecked" />
+			<compilerarg value="-Xlint:deprecation" />
+		</javac>
+	</target>
+
+	<target name="db2luwjar" depends="compiledb2luw" description="Package the db2luw jar">
+		<jar jarfile="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3-db2luw.jar" basedir="${build}" >
+			<include name="net/sourceforge/msscodefactory/cfbam/v2_3/CFBamDb2LUW/*.class" />
+		</jar>
+	</target>
+
+	<target name="compilemssql" depends="compilecore,compilexml" description="Compile the mssql packages">
+		<javac debug="true" fork="true" memoryinitialsize="1024m" memorymaximumsize="1024m" includeantruntime="false" srcdir="${cfbammssql23src}" destdir="${build}" classpathref="MSSql.classpath" >
+			<compilerarg value="-Xlint:unchecked" />
+			<compilerarg value="-Xlint:deprecation" />
+		</javac>
+	</target>
+
+	<target name="mssqljar" depends="compilemssql" description="Package the mssql jar">
+		<jar jarfile="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3-mssql.jar" basedir="${build}" >
+			<include name="net/sourceforge/msscodefactory/cfbam/v2_3/CFBamMSSql/*.class" />
+		</jar>
+	</target>
+
+	<target name="compilemysql" depends="compilecore,compilexml" description="Compile the mysql packages">
+		<javac debug="true" fork="true" memoryinitialsize="1024m" memorymaximumsize="1024m" includeantruntime="false" srcdir="${cfbammysql23src}" destdir="${build}" classpathref="MySql.classpath" >
+			<compilerarg value="-Xlint:unchecked" />
+			<compilerarg value="-Xlint:deprecation" />
+		</javac>
+	</target>
+
+	<target name="mysqljar" depends="compilemysql" description="Package the mysql jar">
+		<jar jarfile="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3-mysql.jar" basedir="${build}" >
+			<include name="net/sourceforge/msscodefactory/cfbam/v2_3/CFBamMySql/*.class" />
+		</jar>
+	</target>
+
+	<target name="compileoracle" depends="compilecore,compilexml" description="Compile the oracle packages">
+		<javac debug="true" fork="true" memoryinitialsize="1024m" memorymaximumsize="1024m" includeantruntime="false" srcdir="${cfbamoracle23src}" destdir="${build}" classpathref="Oracle.classpath" >
+			<compilerarg value="-Xlint:unchecked" />
+			<compilerarg value="-Xlint:deprecation" />
+		</javac>
+	</target>
+
+	<target name="oraclejar" depends="compileoracle" description="Package the oracle jar">
+		<jar jarfile="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3-oracle.jar" basedir="${build}" >
+			<include name="net/sourceforge/msscodefactory/cfbam/v2_3/CFBamOracle/*.class" />
+		</jar>
+	</target>
+
+	<target name="compilepgsql" depends="compilecore,compilexml" description="Compile the pgsql packages">
+		<javac debug="true" fork="true" memoryinitialsize="1024m" memorymaximumsize="1024m" includeantruntime="false" srcdir="${cfbampgsql23src}" destdir="${build}" classpathref="PgSql.classpath" >
+			<compilerarg value="-Xlint:unchecked" />
+			<compilerarg value="-Xlint:deprecation" />
+		</javac>
+	</target>
+
+	<target name="pgsqljar" depends="compilepgsql" description="Package the pgsql jar">
+		<jar jarfile="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3-pgsql.jar" basedir="${build}" >
+			<include name="net/sourceforge/msscodefactory/cfbam/v2_3/CFBamPgSql/*.class" />
+		</jar>
+	</target>
+
+	<target name="compilesybase" depends="compilecore,compilexml" description="Compile the sybase packages">
+		<javac debug="true" fork="true" memoryinitialsize="1024m" memorymaximumsize="1024m" includeantruntime="false" srcdir="${cfbamsybase23src}" destdir="${build}" classpathref="Sybase.classpath" >
+			<compilerarg value="-Xlint:unchecked" />
+			<compilerarg value="-Xlint:deprecation" />
+		</javac>
+	</target>
+
+	<target name="sybasejar" depends="compilesybase" description="Package the sybase jar">
+		<jar jarfile="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3-sybase.jar" basedir="${build}" >
+			<include name="net/sourceforge/msscodefactory/cfbam/v2_3/CFBamSybase/*.class" />
+		</jar>
+	</target>
+
+	<!-- XML SAX Loader parser and client-server database implementations -->
+
+	<target name="compilexml" depends="compilecore" description="Compile the xml packages">
+		<copy todir="${build}/xsd">
+			<fileset dir="cfbamxml23/xsd">
+				<include name="*.xsd" />
+			</fileset>
+		</copy>
+		<javac debug="true" fork="true" memoryinitialsize="1024m" memorymaximumsize="1024m" includeantruntime="false" srcdir="${cfbamxml23src}" destdir="${build}" classpathref="Core.classpath" >
+			<compilerarg value="-Xlint:unchecked" />
+			<compilerarg value="-Xlint:deprecation" />
+		</javac>
+	</target>
+
+	<target name="xmljar" depends="compilexml" description="Package the xml jar">
+		<jar jarfile="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3-xml.jar" basedir="${build}" >
+			<include name="net/sourceforge/msscodefactory/cfbam/v2_3/CFBamSaxLoader/*.class" />
+			<include name="xsd/*structured.xsd" />
+		</jar>
+	</target>
+
+	<target name="compilesaxdb2luwloader" depends="compilexml,compiledb2luw" description="Compile the saxdb2luwloader packages">
+		<javac debug="true" fork="true" memoryinitialsize="1024m" memorymaximumsize="1024m" includeantruntime="false" srcdir="${cfbamsaxdb2luwloader23src}" destdir="${build}" classpathref="Db2LUW.classpath" >
+			<compilerarg value="-Xlint:unchecked" />
+			<compilerarg value="-Xlint:deprecation" />
+		</javac>
+	</target>
+
+	<target name="saxdb2luwloaderjar" depends="compilesaxdb2luwloader" description="Package the saxdb2luwloader jar">
+		<jar jarfile="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3-saxdb2luwloader.jar" basedir="${build}" >
+			<include name="net/sourceforge/msscodefactory/cfbam/v2_3/CFBamSaxDb2LUWLoaderCLI/*.class" />
+		</jar>
+	</target>
+
+	<target name="compilesaxmssqlloader" depends="compilexml,compilemssql" description="Compile the saxmssqlloader packages">
+		<javac debug="true" fork="true" memoryinitialsize="1024m" memorymaximumsize="1024m" includeantruntime="false" srcdir="${cfbamsaxmssqlloader23src}" destdir="${build}" classpathref="MSSql.classpath" >
+			<compilerarg value="-Xlint:unchecked" />
+			<compilerarg value="-Xlint:deprecation" />
+		</javac>
+	</target>
+
+	<target name="saxmssqlloaderjar" depends="compilesaxmssqlloader" description="Package the saxmssqlloader jar">
+		<jar jarfile="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3-saxmssqlloader.jar" basedir="${build}" >
+			<include name="net/sourceforge/msscodefactory/cfbam/v2_3/CFBamSaxMSSqlLoaderCLI/*.class" />
+		</jar>
+	</target>
+
+	<target name="compilesaxmysqlloader" depends="compilexml,compilemysql" description="Compile the saxmysqlloader packages">
+		<javac debug="true" fork="true" memoryinitialsize="1024m" memorymaximumsize="1024m" includeantruntime="false" srcdir="${cfbamsaxmysqlloader23src}" destdir="${build}" classpathref="MySql.classpath" >
+			<compilerarg value="-Xlint:unchecked" />
+			<compilerarg value="-Xlint:deprecation" />
+		</javac>
+	</target>
+
+	<target name="saxmysqlloaderjar" depends="compilesaxmysqlloader" description="Package the saxmysqlloader jar">
+		<jar jarfile="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3-saxmysqlloader.jar" basedir="${build}" >
+			<include name="net/sourceforge/msscodefactory/cfbam/v2_3/CFBamSaxMySqlLoaderCLI/*.class" />
+		</jar>
+	</target>
+
+	<target name="compilesaxoracleloader" depends="compilexml,compileoracle" description="Compile the saxoracleloader packages">
+		<javac debug="true" fork="true" memoryinitialsize="1024m" memorymaximumsize="1024m" includeantruntime="false" srcdir="${cfbamsaxoracleloader23src}" destdir="${build}" classpathref="Oracle.classpath" >
+			<compilerarg value="-Xlint:unchecked" />
+			<compilerarg value="-Xlint:deprecation" />
+		</javac>
+	</target>
+
+	<target name="saxoracleloaderjar" depends="compilesaxoracleloader" description="Package the saxoracleloader jar">
+		<jar jarfile="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3-saxoracleloader.jar" basedir="${build}" >
+			<include name="net/sourceforge/msscodefactory/cfbam/v2_3/CFBamSaxOracleLoaderCLI/*.class" />
+		</jar>
+	</target>
+
+	<target name="compilesaxpgsqlloader" depends="compilexml,compilepgsql" description="Compile the saxpgsqlloader packages">
+		<javac debug="true" fork="true" memoryinitialsize="1024m" memorymaximumsize="1024m" includeantruntime="false" srcdir="${cfbamsaxpgsqlloader23src}" destdir="${build}" classpathref="PgSql.classpath" >
+			<compilerarg value="-Xlint:unchecked" />
+			<compilerarg value="-Xlint:deprecation" />
+		</javac>
+	</target>
+
+	<target name="saxpgsqlloaderjar" depends="compilesaxpgsqlloader" description="Package the saxpgsqlloader jar">
+		<jar jarfile="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3-saxpgsqlloader.jar" basedir="${build}" >
+			<include name="net/sourceforge/msscodefactory/cfbam/v2_3/CFBamSaxPgSqlLoaderCLI/*.class" />
+		</jar>
+	</target>
+
+	<target name="compilesaxsybaseloader" depends="compilexml,compilesybase" description="Compile the saxsybaseloader packages">
+		<javac debug="true" fork="true" memoryinitialsize="1024m" memorymaximumsize="1024m" includeantruntime="false" srcdir="${cfbamsaxsybaseloader23src}" destdir="${build}" classpathref="Sybase.classpath" >
+			<compilerarg value="-Xlint:unchecked" />
+			<compilerarg value="-Xlint:deprecation" />
+		</javac>
+	</target>
+
+	<target name="saxsybaseloaderjar" depends="compilesaxsybaseloader" description="Package the saxsybaseloader jar">
+		<jar jarfile="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3-saxsybaseloader.jar" basedir="${build}" >
+			<include name="net/sourceforge/msscodefactory/cfbam/v2_3/CFBamSaxSybaseLoaderCLI/*.class" />
+		</jar>
+	</target>
+
+	<target name="compilesaxramloader" depends="compilecore,compilexml" description="Compile the saxramloader packages">
+		<javac debug="true" fork="true" memoryinitialsize="1024m" memorymaximumsize="1024m" includeantruntime="false" srcdir="${cfbamsaxramloader23src}" destdir="${build}" classpathref="Core.classpath" >
+			<compilerarg value="-Xlint:unchecked" />
+			<compilerarg value="-Xlint:deprecation" />
+		</javac>
+	</target>
+
+	<target name="saxramloaderjar" depends="compilesaxramloader" description="Package the saxramloader jar">
+		<jar jarfile="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3-saxramloader.jar" basedir="${build}" >
+			<include name="net/sourceforge/msscodefactory/cfbam/v2_3/CFBamSaxRamLoaderCLI/*.class" />
+		</jar>
+	</target>
+
+	<!-- X(ml)Msg Layers and client-server implementations -->
+
+	<target name="compilexmsg" depends="compilecore" description="Compile the xmsg packages">
+		<javac debug="true" fork="true" memoryinitialsize="1024m" memorymaximumsize="1024m" includeantruntime="false" srcdir="${cfbamxmsg23src}" destdir="${build}" classpathref="Core.classpath" >
+			<compilerarg value="-Xlint:unchecked" />
+			<compilerarg value="-Xlint:deprecation" />
+		</javac>
+	</target>
+
+	<target name="xmsgjar" depends="compilexmsg" description="Package the xmsg jar">
+		<jar jarfile="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3-xmsg.jar" basedir="${build}" >
+			<include name="net/sourceforge/msscodefactory/cfbam/v2_3/CFBamXMsg/*.class" />
+		</jar>
+	</target>
+
+	<target name="compilexmsgrqst" depends="compilexmsg,compilexml" description="Compile the xmsgrqst packages">
+		<copy todir="${build}/xsd">
+			<fileset dir="cfbamxmsgrqst23/xsd">
+				<include name="*.xsd" />
+			</fileset>
+		</copy>
+		<javac debug="true" fork="true" memoryinitialsize="2048m" memorymaximumsize="2048m" includeantruntime="false" srcdir="${cfbamxmsgrqst23src}" destdir="${build}" classpathref="Core.classpath" >
+			<compilerarg value="-Xlint:unchecked" />
+			<compilerarg value="-Xlint:deprecation" />
+		</javac>
+	</target>
+
+	<target name="xmsgrqstjar" depends="compilexmsgrqst" description="Package the xmsgrqst jar">
+		<jar jarfile="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3-xmsgrqst.jar" basedir="${build}" >
+			<include name="net/sourceforge/msscodefactory/cfbam/v2_3/CFBamXMsgRqstHandler/*.class" />
+			<include name="xsd/*rqst.xsd" />
+		</jar>
+	</target>
+
+	<target name="compilexmsgrspn" depends="compilexmsg" description="Compile the xmsgrspn packages">
+		<copy todir="${build}/xsd">
+			<fileset dir="cfbamxmsgrspn23/xsd">
+				<include name="*.xsd" />
+			</fileset>
+		</copy>
+		<javac debug="true" fork="true" memoryinitialsize="1024m" memorymaximumsize="1024m" includeantruntime="false" srcdir="${cfbamxmsgrspn23src}" destdir="${build}" classpathref="Core.classpath" >
+			<compilerarg value="-Xlint:unchecked" />
+			<compilerarg value="-Xlint:deprecation" />
+		</javac>
+	</target>
+
+	<target name="xmsgrspnjar" depends="compilexmsgrspn" description="Package the xmsgrspn jar">
+		<jar jarfile="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3-xmsgrspn.jar" basedir="${build}" >
+			<include name="net/sourceforge/msscodefactory/cfbam/v2_3/CFBamXMsgRspnHandler/*.class" />
+			<include name="xsd/*rspn.xsd" />
+		</jar>
+	</target>
+
+	<target name="compilexmsgclient" depends="compilexmsgrqst,compilexmsgrspn" description="Compile the xmsgclient packages">
+		<javac debug="true" fork="true" memoryinitialsize="1024m" memorymaximumsize="1024m" includeantruntime="false" srcdir="${cfbamxmsgclient23src}" destdir="${build}" classpathref="XMsgClient.classpath" >
+			<compilerarg value="-Xlint:unchecked" />
+			<compilerarg value="-Xlint:deprecation" />
+		</javac>
+	</target>
+
+	<target name="xmsgclientjar" depends="compilexmsgclient" description="Package the xmsgclient jar">
+		<jar jarfile="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3-xmsgclient.jar" basedir="${build}" >
+			<include name="net/sourceforge/msscodefactory/cfbam/v2_3/CFBamXMsgClient/*.class" />
+		</jar>
+	</target>
+
+	<!-- Swing GUI Protototype with disconnected PostgreSQL XMsg client server implementation -->
+
+	<target name="compileswing" depends="compilecore" description="Compile the swing packages">
+		<javac debug="true" fork="true" memoryinitialsize="1024m" memorymaximumsize="1024m" includeantruntime="false" srcdir="${cfbamswing23src}" destdir="${build}" classpathref="Core.classpath" >
+			<compilerarg value="-Xlint:unchecked" />
+			<compilerarg value="-Xlint:deprecation" />
+		</javac>
+	</target>
+
+	<target name="swingjar" depends="compileswing" description="Package the swing jar">
+		<jar jarfile="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3-swing.jar" basedir="${build}" >
+			<include name="net/sourceforge/msscodefactory/cfbam/v2_3/CFBamSwing/*.class" />
+		</jar>
+	</target>
+
+	<target name="compileswinghttp" depends="compilecore,compileswing,compilexmsgclient" description="Compile the swinghttp packages">
+		<javac debug="true" fork="true" memoryinitialsize="1024m" memorymaximumsize="1024m" includeantruntime="false" srcdir="${cfbamswinghttp23src}" destdir="${build}" classpathref="XMsgClient.classpath" >
+			<compilerarg value="-Xlint:unchecked" />
+			<compilerarg value="-Xlint:deprecation" />
+		</javac>
+	</target>
+
+	<target name="swinghttpjar" depends="compileswinghttp" description="Package the swinghttp jar">
+		<jar jarfile="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3-swinghttp.jar" basedir="${build}" >
+			<include name="net/sourceforge/msscodefactory/cfbam/v2_3/CFBamSwingHttpCLI/*.class" />
+		</jar>
+	</target>
+
+	<target name="compileall" depends="compilecore,compilemsscf,compilexml,compiledb2luw,compilemssql,compilemysql,compileoracle,compilepgsql,compilesybase,compilesaxdb2luwloader,compilesaxmssqlloader,compilesaxmysqlloader,compilesaxoracleloader,compilesaxpgsqlloader,compilesaxsybaseloader,compilesaxramloader,compilexmsg,compilexmsgrqst,compilexmsgrspn,compilexmsgclient,compileswing,compileswinghttp">
+	</target>
+
+	<target name="alljars" depends="corejar,msscfjar,xmljar,db2luwjar,mssqljar,mysqljar,oraclejar,pgsqljar,sybasejar,saxdb2luwloaderjar,saxmssqlloaderjar,saxmysqlloaderjar,saxoracleloaderjar,saxpgsqlloaderjar,saxsybaseloaderjar,saxramloaderjar,xmsgjar,xmsgrqstjar,xmsgrspnjar,xmsgclientjar,swingjar,swinghttpjar">
+		<copy todir="cfbamsmwar23/WebContent/WEB-INF/lib">
+			<fileset dir="bin">
+				<include name="commons-codec-1.9.jar" />
+				<include name="commons-io-2.4.jar" />
+				<include name="log4j-1.2-1.2.17.jar" />
+				<include name="xercesImpl-2.11.0.jar" />
+				<include name="net-sourceforge-MSSCodeFactory-CFLib-2-3-12895.jar" />
+				<include name="net-sourceforge-MSSCodeFactory-CFBam-2-3.jar" />
+				<include name="net-sourceforge-MSSCodeFactory-CFBam-2-3-xml.jar" />
+				<include name="net-sourceforge-MSSCodeFactory-CFBam-2-3-db2luw.jar" />
+				<include name="net-sourceforge-MSSCodeFactory-CFBam-2-3-mssql.jar" />
+				<include name="net-sourceforge-MSSCodeFactory-CFBam-2-3-mysql.jar" />
+				<include name="net-sourceforge-MSSCodeFactory-CFBam-2-3-oracle.jar" />
+				<include name="net-sourceforge-MSSCodeFactory-CFBam-2-3-pgsql.jar" />
+				<include name="net-sourceforge-MSSCodeFactory-CFBam-2-3-sybase.jar" />
+				<include name="net-sourceforge-MSSCodeFactory-CFBam-2-3-xmsg.jar" />
+				<include name="net-sourceforge-MSSCodeFactory-CFBam-2-3-xmsgrqst.jar" />
+			</fileset>
+		</copy>
+		<copy todir="cfbamxmsgsrvwar23/WebContent/WEB-INF/lib">
+			<fileset dir="bin">
+				<include name="commons-codec-1.9.jar" />
+				<include name="commons-io-2.4.jar" />
+				<include name="log4j-1.2-1.2.17.jar" />
+				<include name="xercesImpl-2.11.0.jar" />
+				<include name="net-sourceforge-MSSCodeFactory-CFLib-2-3-12895.jar" />
+				<include name="net-sourceforge-MSSCodeFactory-CFBam-2-3.jar" />
+				<include name="net-sourceforge-MSSCodeFactory-CFBam-2-3-xml.jar" />
+				<include name="net-sourceforge-MSSCodeFactory-CFBam-2-3-db2luw.jar" />
+				<include name="net-sourceforge-MSSCodeFactory-CFBam-2-3-mssql.jar" />
+				<include name="net-sourceforge-MSSCodeFactory-CFBam-2-3-mysql.jar" />
+				<include name="net-sourceforge-MSSCodeFactory-CFBam-2-3-oracle.jar" />
+				<include name="net-sourceforge-MSSCodeFactory-CFBam-2-3-pgsql.jar" />
+				<include name="net-sourceforge-MSSCodeFactory-CFBam-2-3-sybase.jar" />
+				<include name="net-sourceforge-MSSCodeFactory-CFBam-2-3-xmsg.jar" />
+				<include name="net-sourceforge-MSSCodeFactory-CFBam-2-3-xmsgrqst.jar" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="compilesmwar" depends="alljars" description="Compile the smwar packages">
+		<javac debug="true" fork="true" memoryinitialsize="1024m" memorymaximumsize="1024m" includeantruntime="false" srcdir="${cfbamsmwar23src}" destdir="${build}" classpathref="WebServer.classpath" >
+			<compilerarg value="-Xlint:unchecked" />
+			<compilerarg value="-Xlint:deprecation" />
+		</javac>
+	</target>
+
+	<target name="compilexmsgsrvwar" depends="alljars" description="Compile the xmsgsrvwar packages">
+		<javac debug="true" fork="true" memoryinitialsize="1024m" memorymaximumsize="1024m" includeantruntime="false" srcdir="${cfbamxmsgsrvwar23src}" destdir="${build}" classpathref="WebServer.classpath" >
+			<compilerarg value="-Xlint:unchecked" />
+			<compilerarg value="-Xlint:deprecation" />
+		</javac>
+	</target>
+
+	<target name="packagewars" depends="alljars,compilesmwar,compilexmsgsrvwar">
+		<war destfile="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3-smwar.war" webxml="${cfbamsmwar23websrc}/WEB-INF/web.xml" basedir="${build}/smwar" >
+			<fileset dir="${cfbamsmwar23websrc}">
+				<include name="**/*.html" />
+				<include name="**/*.xml" />
+				<include name="**/*.xsd" />
+				<include name="**/*.jsp" />
+				<include name="**/*.jpeg" />
+				<include name="**/*.gif" />
+			</fileset>
+			<lib dir="${cfbamsmwar23websrc}/WEB-INF/lib">
+			</lib>
+			<classes dir="${build}" >
+				<include name="net/sourceforge/msscodefactory/cfbam/v2_3/CFBamSMWar/*.class" />
+			</classes>
+		</war>
+		<war destfile="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3-xmsgsrvwar.war" webxml="${cfbamxmsgsrvwar23websrc}/WEB-INF/web.xml" basedir="${build}/xmsgsrvwar" >
+			<fileset dir="${cfbamxmsgsrvwar23websrc}">
+				<include name="**/*.html" />
+				<include name="**/*.xml" />
+				<include name="**/*.xsd" />
+				<include name="**/*.jsp" />
+				<include name="**/*.jpeg" />
+				<include name="**/*.gif" />
+			</fileset>
+			<lib dir="${cfbamxmsgsrvwar23websrc}/WEB-INF/lib">
+			</lib>
+			<classes dir="${build}" >
+				<include name="net/sourceforge/msscodefactory/cfbam/v2_3/CFBamXMsgSrvWar/*.class" />
+			</classes>
+		</war>
+	</target>
+
+	<target name="clean">
+		<delete dir="${build}" />
+		<delete file="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3.jar" />
+		<delete file="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3-xml.jar" />
+		<delete file="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3-ram.jar" />
+		<delete file="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3-msscf.jar" />
+		<delete file="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3-db2luw.jar" />
+		<delete file="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3-mssql.jar" />
+		<delete file="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3-oracle.jar" />
+		<delete file="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3-pgsql.jar" />
+		<delete file="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3-sybase.jar" />
+		<delete file="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3-saxdb2luwloader.jar" />
+		<delete file="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3-saxmssqlloader.jar" />
+		<delete file="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3-saxmysqlloader.jar" />
+		<delete file="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3-saxoracleloader.jar" />
+		<delete file="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3-saxpgsqlloader.jar" />
+		<delete file="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3-saxsybaseloader.jar" />
+		<delete file="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3-saxramloader.jar" />
+		<delete file="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3-xml.jar" />
+		<delete file="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3-xmsg.jar" />
+		<delete file="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3-xmsgrqst.jar" />
+		<delete file="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3-xmsgrspn.jar" />
+		<delete file="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3-xmsgclient.jar" />
+		<delete file="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3-swing.jar" />
+		<delete file="${bin}/net-sourceforge-MSSCodeFactory-CFBam-2-3-swinghttp.jar" />
+		<delete file="cfbamsmwar23/WebContent/WEB-INF/lib/commons-codec-1.9.jar" />
+		<delete file="cfbamsmwar23/WebContent/WEB-INF/lib/commons-io-2.4.jar" />
+		<delete file="cfbamsmwar23/WebContent/WEB-INF/lib/log4j-1.2-1.2.17.jar" />
+		<delete file="cfbamsmwar23/WebContent/WEB-INF/lib/xercesImpl-2.11.0.jar" />
+		<delete file="cfbamsmwar23/WebContent/WEB-INF/lib/net-sourceforge-MSSCodeFactory-CFLib-2-3-12895.jar" />
+		<delete file="cfbamsmwar23/WebContent/WEB-INF/lib/net-sourceforge-MSSCodeFactory-CFBam-2-3.jar" />
+		<delete file="cfbamsmwar23/WebContent/WEB-INF/lib/net-sourceforge-MSSCodeFactory-CFBam-2-3-xml.jar" />
+		<delete file="cfbamsmwar23/WebContent/WEB-INF/lib/net-sourceforge-MSSCodeFactory-CFBam-2-3-db2luw.jar" />
+		<delete file="cfbamsmwar23/WebContent/WEB-INF/lib/net-sourceforge-MSSCodeFactory-CFBam-2-3-mssql.jar" />
+		<delete file="cfbamsmwar23/WebContent/WEB-INF/lib/net-sourceforge-MSSCodeFactory-CFBam-2-3-mysql.jar" />
+		<delete file="cfbamsmwar23/WebContent/WEB-INF/lib/net-sourceforge-MSSCodeFactory-CFBam-2-3-oracle.jar" />
+		<delete file="cfbamsmwar23/WebContent/WEB-INF/lib/net-sourceforge-MSSCodeFactory-CFBam-2-3-pgsql.jar" />
+		<delete file="cfbamsmwar23/WebContent/WEB-INF/lib/net-sourceforge-MSSCodeFactory-CFBam-2-3-sybase.jar" />
+		<delete file="cfbamsmwar23/WebContent/WEB-INF/lib/net-sourceforge-MSSCodeFactory-CFBam-2-3-xmsg.jar" />
+		<delete file="cfbamsmwar23/WebContent/WEB-INF/lib/net-sourceforge-MSSCodeFactory-CFBam-2-3-xmsgrqst.jar" />
+		<delete file="cfbamxmsgsrvwar23/WebContent/WEB-INF/lib/commons-codec-1.9.jar" />
+		<delete file="cfbamxmsgsrvwar23/WebContent/WEB-INF/lib/commons-io-2.4.jar" />
+		<delete file="cfbamxmsgsrvwar23/WebContent/WEB-INF/lib/log4j-1.2-1.2.17.jar" />
+		<delete file="cfbamxmsgsrvwar23/WebContent/WEB-INF/lib/xercesImpl-2.11.0.jar" />
+		<delete file="cfbamxmsgsrvwar23/WebContent/WEB-INF/lib/net-sourceforge-MSSCodeFactory-CFLib-2-3-12895.jar" />
+		<delete file="cfbamxmsgsrvwar23/WebContent/WEB-INF/lib/net-sourceforge-MSSCodeFactory-CFBam-2-3.jar" />
+		<delete file="cfbamxmsgsrvwar23/WebContent/WEB-INF/lib/net-sourceforge-MSSCodeFactory-CFBam-2-3-xml.jar" />
+		<delete file="cfbamxmsgsrvwar23/WebContent/WEB-INF/lib/net-sourceforge-MSSCodeFactory-CFBam-2-3-db2luw.jar" />
+		<delete file="cfbamxmsgsrvwar23/WebContent/WEB-INF/lib/net-sourceforge-MSSCodeFactory-CFBam-2-3-mssql.jar" />
+		<delete file="cfbamxmsgsrvwar23/WebContent/WEB-INF/lib/net-sourceforge-MSSCodeFactory-CFBam-2-3-mysql.jar" />
+		<delete file="cfbamxmsgsrvwar23/WebContent/WEB-INF/lib/net-sourceforge-MSSCodeFactory-CFBam-2-3-oracle.jar" />
+		<delete file="cfbamxmsgsrvwar23/WebContent/WEB-INF/lib/net-sourceforge-MSSCodeFactory-CFBam-2-3-pgsql.jar" />
+		<delete file="cfbamxmsgsrvwar23/WebContent/WEB-INF/lib/net-sourceforge-MSSCodeFactory-CFBam-2-3-sybase.jar" />
+		<delete file="cfbamxmsgsrvwar23/WebContent/WEB-INF/lib/net-sourceforge-MSSCodeFactory-CFBam-2-3-xmsg.jar" />
+		<delete file="cfbamxmsgsrvwar23/WebContent/WEB-INF/lib/net-sourceforge-MSSCodeFactory-CFBam-2-3-xmsgrqst.jar" />
+	</target>
+
+	<target name="all" depends="init,alljars,packagewars" >
+	</target>
+
+</project>

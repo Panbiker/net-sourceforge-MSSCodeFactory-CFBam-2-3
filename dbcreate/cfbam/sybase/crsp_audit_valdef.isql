@@ -1,0 +1,7033 @@
+--
+--	@(#) dbcreate/cfbam/sybase/crsp_audit_valdef.isql
+--
+--	CFBam
+--
+--	Copyright (c) 2014-2015 Mark Sobkow
+--	
+--	This program is available as free software under the GNU GPL v3, under
+--	the Eclipse Public License 1.0, or under a commercial license from Mark
+--	Sobkow.  For commercial licensing details, please contact msobkow@sasktel.net.
+--	
+--	You should have received copies of the complete license text for
+--	GPLv3.txt and EPLv1_0.txt, containing the text
+--	of the GNU General Public License v 3.0 and the Eclipse Public License v 1.0.
+--	
+--	Under the terms of the GPL:
+--	
+--		This program is free software: you can redistribute it and/or modify
+--		it under the terms of the GNU General Public License as published by
+--		the Free Software Foundation, either version 3 of the License, or
+--		(at your option) any later version.
+--	  
+--		This program is distributed in the hope that it will be useful,
+--		but WITHOUT ANY WARRANTY; without even the implied warranty of
+--		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--		GNU General Public License for more details.
+--	  
+--		You should have received a copy of the GNU General Public License
+--		along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--	
+--	This software incorporates code originally Copyright (c) Mark Sobkow 2014-2015
+--	and licensed under the BSD 3-Clause license as written by xfree86.org:
+--	
+--	Redistribution and use in source and binary forms, with or without
+--	modification, are permitted provided that the following conditions are
+--	met:
+--	
+--	    (1) Redistributions of source code must retain the above copyright
+--	    notice, this list of conditions and the following disclaimer. 
+--	
+--	    (2) Redistributions in binary form must reproduce the above copyright
+--	    notice, this list of conditions and the following disclaimer in
+--	    the documentation and/or other materials provided with the
+--	    distribution.  
+--	    
+--	    (3)The name of the author may not be used to
+--	    endorse or promote products derived from this software without
+--	    specific prior written permission.
+--	
+--	THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+--	IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+--	WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+--	DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT,
+--	INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+--	(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+--	SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+--	HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+--	STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+--	IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+--	POSSIBILITY OF SUCH DAMAGE.
+--	
+--
+-- **********************************************************************
+--
+--	Code manufactured by MSS Code Factory
+--
+
+if exists ( select * from sysobjects where name = 'sp_audit_valdef' )
+begin
+	drop proc sp_audit_valdef
+end
+go
+
+create proc sp_audit_valdef
+	@argAuditClusterId bigint,
+	@argAuditUserId varchar(36),
+	@argAuditSessionId varchar(36),
+	@secClusterId bigint,
+	@secTenantId bigint,
+	@argClassCode varchar(4),
+	@argTenantId bigint,
+	@argId bigint,
+	@argAuditAction int
+as
+begin
+	if( @argClassCode = 'VALU' )
+	begin
+		insert into cfbam23..valdef_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..valdef as valu
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'TBLC' )
+	begin
+		insert into cfbam23..tblcol_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				tableid,
+				dbname,
+				dataid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				tblc.tableid,
+				tblc.dbname,
+				tblc.dataid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..tblcol as tblc
+			inner join cfbam23..valdef valu on
+				tblc.tenantid = valu.tenantid
+				and tblc.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'ATOM' )
+	begin
+		insert into cfbam23..atomdef_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..atomdef as atom
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'BLBD' )
+	begin
+		insert into cfbam23..blbdef_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				maxlen,
+				initval,
+				defval,
+				nullval,
+				unknownval,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				blbd.maxlen,
+				blbd.initval,
+				blbd.defval,
+				blbd.nullval,
+				blbd.unknownval,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..blbdef as blbd
+			inner join cfbam23..atomdef atom on
+				blbd.tenantid = atom.tenantid
+				and blbd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'BLBC' )
+	begin
+		insert into cfbam23..blbcol_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				maxlen,
+				initval,
+				defval,
+				nullval,
+				unknownval,
+				tableid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				blbd.maxlen,
+				blbd.initval,
+				blbd.defval,
+				blbd.nullval,
+				blbd.unknownval,
+				blbc.tableid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..blbcol as blbc
+			inner join cfbam23..blbdef blbd on
+				blbc.tenantid = blbd.tenantid
+				and blbc.id = blbd.id
+			inner join cfbam23..atomdef atom on
+				blbd.tenantid = atom.tenantid
+				and blbd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'BLBT' )
+	begin
+		insert into cfbam23..blbtyp_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				maxlen,
+				initval,
+				defval,
+				nullval,
+				unknownval,
+				schemadefid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				blbd.maxlen,
+				blbd.initval,
+				blbd.defval,
+				blbd.nullval,
+				blbd.unknownval,
+				blbt.schemadefid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..blbtyp as blbt
+			inner join cfbam23..blbdef blbd on
+				blbt.tenantid = blbd.tenantid
+				and blbt.id = blbd.id
+			inner join cfbam23..atomdef atom on
+				blbd.tenantid = atom.tenantid
+				and blbd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'BOLD' )
+	begin
+		insert into cfbam23..booldef_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				falsestring,
+				truestring,
+				nullstring,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				bold.initval,
+				bold.defval,
+				bold.falsestring,
+				bold.truestring,
+				bold.nullstring,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..booldef as bold
+			inner join cfbam23..atomdef atom on
+				bold.tenantid = atom.tenantid
+				and bold.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'BOLC' )
+	begin
+		insert into cfbam23..boolcol_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				falsestring,
+				truestring,
+				nullstring,
+				tableid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				bold.initval,
+				bold.defval,
+				bold.falsestring,
+				bold.truestring,
+				bold.nullstring,
+				bolc.tableid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..boolcol as bolc
+			inner join cfbam23..booldef bold on
+				bolc.tenantid = bold.tenantid
+				and bolc.id = bold.id
+			inner join cfbam23..atomdef atom on
+				bold.tenantid = atom.tenantid
+				and bold.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'BOLT' )
+	begin
+		insert into cfbam23..booltyp_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				falsestring,
+				truestring,
+				nullstring,
+				schemadefid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				bold.initval,
+				bold.defval,
+				bold.falsestring,
+				bold.truestring,
+				bold.nullstring,
+				bolt.schemadefid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..booltyp as bolt
+			inner join cfbam23..booldef bold on
+				bolt.tenantid = bold.tenantid
+				and bolt.id = bold.id
+			inner join cfbam23..atomdef atom on
+				bold.tenantid = atom.tenantid
+				and bold.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'I16D' )
+	begin
+		insert into cfbam23..int16def_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				minval,
+				maxval,
+				nullvalue,
+				unknownval,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				i16d.initval,
+				i16d.defval,
+				i16d.minval,
+				i16d.maxval,
+				i16d.nullvalue,
+				i16d.unknownval,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..int16def as i16d
+			inner join cfbam23..atomdef atom on
+				i16d.tenantid = atom.tenantid
+				and i16d.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'I16C' )
+	begin
+		insert into cfbam23..int16col_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				minval,
+				maxval,
+				nullvalue,
+				unknownval,
+				tableid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				i16d.initval,
+				i16d.defval,
+				i16d.minval,
+				i16d.maxval,
+				i16d.nullvalue,
+				i16d.unknownval,
+				i16c.tableid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..int16col as i16c
+			inner join cfbam23..int16def i16d on
+				i16c.tenantid = i16d.tenantid
+				and i16c.id = i16d.id
+			inner join cfbam23..atomdef atom on
+				i16d.tenantid = atom.tenantid
+				and i16d.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'I16T' )
+	begin
+		insert into cfbam23..int16typ_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				minval,
+				maxval,
+				nullvalue,
+				unknownval,
+				schemadefid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				i16d.initval,
+				i16d.defval,
+				i16d.minval,
+				i16d.maxval,
+				i16d.nullvalue,
+				i16d.unknownval,
+				i16t.schemadefid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..int16typ as i16t
+			inner join cfbam23..int16def i16d on
+				i16t.tenantid = i16d.tenantid
+				and i16t.id = i16d.id
+			inner join cfbam23..atomdef atom on
+				i16d.tenantid = atom.tenantid
+				and i16d.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'IG16' )
+	begin
+		insert into cfbam23..idg16_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				minval,
+				maxval,
+				nullvalue,
+				unknownval,
+				schemadefid,
+				dispensertenantid,
+				dispenserid,
+				slice,
+				blocksize,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				i16d.initval,
+				i16d.defval,
+				i16d.minval,
+				i16d.maxval,
+				i16d.nullvalue,
+				i16d.unknownval,
+				i16t.schemadefid,
+				ig16.dispensertenantid,
+				ig16.dispenserid,
+				ig16.slice,
+				ig16.blocksize,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..idg16 as ig16
+			inner join cfbam23..int16typ i16t on
+				ig16.tenantid = i16t.tenantid
+				and ig16.id = i16t.id
+			inner join cfbam23..int16def i16d on
+				i16t.tenantid = i16d.tenantid
+				and i16t.id = i16d.id
+			inner join cfbam23..atomdef atom on
+				i16d.tenantid = atom.tenantid
+				and i16d.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'ENMD' )
+	begin
+		insert into cfbam23..enumdef_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				minval,
+				maxval,
+				nullvalue,
+				unknownval,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				i16d.initval,
+				i16d.defval,
+				i16d.minval,
+				i16d.maxval,
+				i16d.nullvalue,
+				i16d.unknownval,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..enumdef as enmd
+			inner join cfbam23..int16def i16d on
+				enmd.tenantid = i16d.tenantid
+				and enmd.id = i16d.id
+			inner join cfbam23..atomdef atom on
+				i16d.tenantid = atom.tenantid
+				and i16d.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'ENMC' )
+	begin
+		insert into cfbam23..enumcol_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				minval,
+				maxval,
+				nullvalue,
+				unknownval,
+				tableid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				i16d.initval,
+				i16d.defval,
+				i16d.minval,
+				i16d.maxval,
+				i16d.nullvalue,
+				i16d.unknownval,
+				enmc.tableid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..enumcol as enmc
+			inner join cfbam23..enumdef enmd on
+				enmc.tenantid = enmd.tenantid
+				and enmc.id = enmd.id
+			inner join cfbam23..int16def i16d on
+				enmd.tenantid = i16d.tenantid
+				and enmd.id = i16d.id
+			inner join cfbam23..atomdef atom on
+				i16d.tenantid = atom.tenantid
+				and i16d.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'ENMT' )
+	begin
+		insert into cfbam23..enumtyp_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				minval,
+				maxval,
+				nullvalue,
+				unknownval,
+				schemadefid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				i16d.initval,
+				i16d.defval,
+				i16d.minval,
+				i16d.maxval,
+				i16d.nullvalue,
+				i16d.unknownval,
+				enmt.schemadefid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..enumtyp as enmt
+			inner join cfbam23..enumdef enmd on
+				enmt.tenantid = enmd.tenantid
+				and enmt.id = enmd.id
+			inner join cfbam23..int16def i16d on
+				enmd.tenantid = i16d.tenantid
+				and enmd.id = i16d.id
+			inner join cfbam23..atomdef atom on
+				i16d.tenantid = atom.tenantid
+				and i16d.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'I32D' )
+	begin
+		insert into cfbam23..int32def_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				minval,
+				maxval,
+				nullvalue,
+				unknownval,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				i32d.initval,
+				i32d.defval,
+				i32d.minval,
+				i32d.maxval,
+				i32d.nullvalue,
+				i32d.unknownval,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..int32def as i32d
+			inner join cfbam23..atomdef atom on
+				i32d.tenantid = atom.tenantid
+				and i32d.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'I32C' )
+	begin
+		insert into cfbam23..int32col_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				minval,
+				maxval,
+				nullvalue,
+				unknownval,
+				tableid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				i32d.initval,
+				i32d.defval,
+				i32d.minval,
+				i32d.maxval,
+				i32d.nullvalue,
+				i32d.unknownval,
+				i32c.tableid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..int32col as i32c
+			inner join cfbam23..int32def i32d on
+				i32c.tenantid = i32d.tenantid
+				and i32c.id = i32d.id
+			inner join cfbam23..atomdef atom on
+				i32d.tenantid = atom.tenantid
+				and i32d.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'I32T' )
+	begin
+		insert into cfbam23..int32typ_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				minval,
+				maxval,
+				nullvalue,
+				unknownval,
+				schemadefid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				i32d.initval,
+				i32d.defval,
+				i32d.minval,
+				i32d.maxval,
+				i32d.nullvalue,
+				i32d.unknownval,
+				i32t.schemadefid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..int32typ as i32t
+			inner join cfbam23..int32def i32d on
+				i32t.tenantid = i32d.tenantid
+				and i32t.id = i32d.id
+			inner join cfbam23..atomdef atom on
+				i32d.tenantid = atom.tenantid
+				and i32d.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'IG32' )
+	begin
+		insert into cfbam23..idg32_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				minval,
+				maxval,
+				nullvalue,
+				unknownval,
+				schemadefid,
+				dispensertenantid,
+				dispenserid,
+				slice,
+				blocksize,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				i32d.initval,
+				i32d.defval,
+				i32d.minval,
+				i32d.maxval,
+				i32d.nullvalue,
+				i32d.unknownval,
+				i32t.schemadefid,
+				ig32.dispensertenantid,
+				ig32.dispenserid,
+				ig32.slice,
+				ig32.blocksize,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..idg32 as ig32
+			inner join cfbam23..int32typ i32t on
+				ig32.tenantid = i32t.tenantid
+				and ig32.id = i32t.id
+			inner join cfbam23..int32def i32d on
+				i32t.tenantid = i32d.tenantid
+				and i32t.id = i32d.id
+			inner join cfbam23..atomdef atom on
+				i32d.tenantid = atom.tenantid
+				and i32d.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'I64D' )
+	begin
+		insert into cfbam23..int64def_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				minval,
+				maxval,
+				nullvalue,
+				unknownval,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				i64d.initval,
+				i64d.defval,
+				i64d.minval,
+				i64d.maxval,
+				i64d.nullvalue,
+				i64d.unknownval,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..int64def as i64d
+			inner join cfbam23..atomdef atom on
+				i64d.tenantid = atom.tenantid
+				and i64d.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'I64C' )
+	begin
+		insert into cfbam23..int64col_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				minval,
+				maxval,
+				nullvalue,
+				unknownval,
+				tableid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				i64d.initval,
+				i64d.defval,
+				i64d.minval,
+				i64d.maxval,
+				i64d.nullvalue,
+				i64d.unknownval,
+				i64c.tableid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..int64col as i64c
+			inner join cfbam23..int64def i64d on
+				i64c.tenantid = i64d.tenantid
+				and i64c.id = i64d.id
+			inner join cfbam23..atomdef atom on
+				i64d.tenantid = atom.tenantid
+				and i64d.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'I64T' )
+	begin
+		insert into cfbam23..int64typ_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				minval,
+				maxval,
+				nullvalue,
+				unknownval,
+				schemadefid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				i64d.initval,
+				i64d.defval,
+				i64d.minval,
+				i64d.maxval,
+				i64d.nullvalue,
+				i64d.unknownval,
+				i64t.schemadefid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..int64typ as i64t
+			inner join cfbam23..int64def i64d on
+				i64t.tenantid = i64d.tenantid
+				and i64t.id = i64d.id
+			inner join cfbam23..atomdef atom on
+				i64d.tenantid = atom.tenantid
+				and i64d.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'IG64' )
+	begin
+		insert into cfbam23..idg64_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				minval,
+				maxval,
+				nullvalue,
+				unknownval,
+				schemadefid,
+				dispensertenantid,
+				dispenserid,
+				slice,
+				blocksize,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				i64d.initval,
+				i64d.defval,
+				i64d.minval,
+				i64d.maxval,
+				i64d.nullvalue,
+				i64d.unknownval,
+				i64t.schemadefid,
+				ig64.dispensertenantid,
+				ig64.dispenserid,
+				ig64.slice,
+				ig64.blocksize,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..idg64 as ig64
+			inner join cfbam23..int64typ i64t on
+				ig64.tenantid = i64t.tenantid
+				and ig64.id = i64t.id
+			inner join cfbam23..int64def i64d on
+				i64t.tenantid = i64d.tenantid
+				and i64t.id = i64d.id
+			inner join cfbam23..atomdef atom on
+				i64d.tenantid = atom.tenantid
+				and i64d.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'U16D' )
+	begin
+		insert into cfbam23..u16def_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				minval,
+				maxval,
+				nullvalue,
+				unknownval,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				u16d.initval,
+				u16d.defval,
+				u16d.minval,
+				u16d.maxval,
+				u16d.nullvalue,
+				u16d.unknownval,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..u16def as u16d
+			inner join cfbam23..atomdef atom on
+				u16d.tenantid = atom.tenantid
+				and u16d.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'U16C' )
+	begin
+		insert into cfbam23..uint16col_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				minval,
+				maxval,
+				nullvalue,
+				unknownval,
+				tableid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				u16d.initval,
+				u16d.defval,
+				u16d.minval,
+				u16d.maxval,
+				u16d.nullvalue,
+				u16d.unknownval,
+				u16c.tableid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..uint16col as u16c
+			inner join cfbam23..u16def u16d on
+				u16c.tenantid = u16d.tenantid
+				and u16c.id = u16d.id
+			inner join cfbam23..atomdef atom on
+				u16d.tenantid = atom.tenantid
+				and u16d.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'U16T' )
+	begin
+		insert into cfbam23..uint16typ_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				minval,
+				maxval,
+				nullvalue,
+				unknownval,
+				schemadefid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				u16d.initval,
+				u16d.defval,
+				u16d.minval,
+				u16d.maxval,
+				u16d.nullvalue,
+				u16d.unknownval,
+				u16t.schemadefid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..uint16typ as u16t
+			inner join cfbam23..u16def u16d on
+				u16t.tenantid = u16d.tenantid
+				and u16t.id = u16d.id
+			inner join cfbam23..atomdef atom on
+				u16d.tenantid = atom.tenantid
+				and u16d.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'U32D' )
+	begin
+		insert into cfbam23..u32def_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				minval,
+				maxval,
+				nullvalue,
+				unknownval,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				u32d.initval,
+				u32d.defval,
+				u32d.minval,
+				u32d.maxval,
+				u32d.nullvalue,
+				u32d.unknownval,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..u32def as u32d
+			inner join cfbam23..atomdef atom on
+				u32d.tenantid = atom.tenantid
+				and u32d.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'U32C' )
+	begin
+		insert into cfbam23..uint32col_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				minval,
+				maxval,
+				nullvalue,
+				unknownval,
+				tableid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				u32d.initval,
+				u32d.defval,
+				u32d.minval,
+				u32d.maxval,
+				u32d.nullvalue,
+				u32d.unknownval,
+				u32c.tableid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..uint32col as u32c
+			inner join cfbam23..u32def u32d on
+				u32c.tenantid = u32d.tenantid
+				and u32c.id = u32d.id
+			inner join cfbam23..atomdef atom on
+				u32d.tenantid = atom.tenantid
+				and u32d.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'U32T' )
+	begin
+		insert into cfbam23..uint32typ_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				minval,
+				maxval,
+				nullvalue,
+				unknownval,
+				schemadefid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				u32d.initval,
+				u32d.defval,
+				u32d.minval,
+				u32d.maxval,
+				u32d.nullvalue,
+				u32d.unknownval,
+				u32t.schemadefid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..uint32typ as u32t
+			inner join cfbam23..u32def u32d on
+				u32t.tenantid = u32d.tenantid
+				and u32t.id = u32d.id
+			inner join cfbam23..atomdef atom on
+				u32d.tenantid = atom.tenantid
+				and u32d.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'U64D' )
+	begin
+		insert into cfbam23..u64def_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				minval,
+				maxval,
+				nullvalue,
+				unknownval,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				u64d.initval,
+				u64d.defval,
+				u64d.minval,
+				u64d.maxval,
+				u64d.nullvalue,
+				u64d.unknownval,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..u64def as u64d
+			inner join cfbam23..atomdef atom on
+				u64d.tenantid = atom.tenantid
+				and u64d.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'U64C' )
+	begin
+		insert into cfbam23..uint64col_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				minval,
+				maxval,
+				nullvalue,
+				unknownval,
+				tableid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				u64d.initval,
+				u64d.defval,
+				u64d.minval,
+				u64d.maxval,
+				u64d.nullvalue,
+				u64d.unknownval,
+				u64c.tableid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..uint64col as u64c
+			inner join cfbam23..u64def u64d on
+				u64c.tenantid = u64d.tenantid
+				and u64c.id = u64d.id
+			inner join cfbam23..atomdef atom on
+				u64d.tenantid = atom.tenantid
+				and u64d.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'U64T' )
+	begin
+		insert into cfbam23..uint64typ_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				minval,
+				maxval,
+				nullvalue,
+				unknownval,
+				schemadefid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				u64d.initval,
+				u64d.defval,
+				u64d.minval,
+				u64d.maxval,
+				u64d.nullvalue,
+				u64d.unknownval,
+				u64t.schemadefid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..uint64typ as u64t
+			inner join cfbam23..u64def u64d on
+				u64t.tenantid = u64d.tenantid
+				and u64t.id = u64d.id
+			inner join cfbam23..atomdef atom on
+				u64d.tenantid = atom.tenantid
+				and u64d.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'FLTD' )
+	begin
+		insert into cfbam23..fltdef_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				minval,
+				maxval,
+				nullvalue,
+				unknownval,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				fltd.initval,
+				fltd.defval,
+				fltd.minval,
+				fltd.maxval,
+				fltd.nullvalue,
+				fltd.unknownval,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..fltdef as fltd
+			inner join cfbam23..atomdef atom on
+				fltd.tenantid = atom.tenantid
+				and fltd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'FLTC' )
+	begin
+		insert into cfbam23..fltcol_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				minval,
+				maxval,
+				nullvalue,
+				unknownval,
+				tableid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				fltd.initval,
+				fltd.defval,
+				fltd.minval,
+				fltd.maxval,
+				fltd.nullvalue,
+				fltd.unknownval,
+				fltc.tableid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..fltcol as fltc
+			inner join cfbam23..fltdef fltd on
+				fltc.tenantid = fltd.tenantid
+				and fltc.id = fltd.id
+			inner join cfbam23..atomdef atom on
+				fltd.tenantid = atom.tenantid
+				and fltd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'FLTT' )
+	begin
+		insert into cfbam23..flttyp_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				minval,
+				maxval,
+				nullvalue,
+				unknownval,
+				schemadefid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				fltd.initval,
+				fltd.defval,
+				fltd.minval,
+				fltd.maxval,
+				fltd.nullvalue,
+				fltd.unknownval,
+				fltt.schemadefid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..flttyp as fltt
+			inner join cfbam23..fltdef fltd on
+				fltt.tenantid = fltd.tenantid
+				and fltt.id = fltd.id
+			inner join cfbam23..atomdef atom on
+				fltd.tenantid = atom.tenantid
+				and fltd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'DBLD' )
+	begin
+		insert into cfbam23..dbldef_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				minval,
+				maxval,
+				nullvalue,
+				unknownval,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				dbld.initval,
+				dbld.defval,
+				dbld.minval,
+				dbld.maxval,
+				dbld.nullvalue,
+				dbld.unknownval,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..dbldef as dbld
+			inner join cfbam23..atomdef atom on
+				dbld.tenantid = atom.tenantid
+				and dbld.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'DBLC' )
+	begin
+		insert into cfbam23..dblcol_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				minval,
+				maxval,
+				nullvalue,
+				unknownval,
+				tableid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				dbld.initval,
+				dbld.defval,
+				dbld.minval,
+				dbld.maxval,
+				dbld.nullvalue,
+				dbld.unknownval,
+				dblc.tableid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..dblcol as dblc
+			inner join cfbam23..dbldef dbld on
+				dblc.tenantid = dbld.tenantid
+				and dblc.id = dbld.id
+			inner join cfbam23..atomdef atom on
+				dbld.tenantid = atom.tenantid
+				and dbld.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'DBLT' )
+	begin
+		insert into cfbam23..dbltyp_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				minval,
+				maxval,
+				nullvalue,
+				unknownval,
+				schemadefid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				dbld.initval,
+				dbld.defval,
+				dbld.minval,
+				dbld.maxval,
+				dbld.nullvalue,
+				dbld.unknownval,
+				dblt.schemadefid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..dbltyp as dblt
+			inner join cfbam23..dbldef dbld on
+				dblt.tenantid = dbld.tenantid
+				and dblt.id = dbld.id
+			inner join cfbam23..atomdef atom on
+				dbld.tenantid = atom.tenantid
+				and dbld.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'NUMD' )
+	begin
+		insert into cfbam23..numdef_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				digits,
+				precis,
+				initval,
+				defval,
+				minval,
+				maxval,
+				nullval,
+				unknownval,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				numd.digits,
+				numd.precis,
+				numd.initval,
+				numd.defval,
+				numd.minval,
+				numd.maxval,
+				numd.nullval,
+				numd.unknownval,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..numdef as numd
+			inner join cfbam23..atomdef atom on
+				numd.tenantid = atom.tenantid
+				and numd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'NUMC' )
+	begin
+		insert into cfbam23..numcol_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				digits,
+				precis,
+				initval,
+				defval,
+				minval,
+				maxval,
+				nullval,
+				unknownval,
+				tableid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				numd.digits,
+				numd.precis,
+				numd.initval,
+				numd.defval,
+				numd.minval,
+				numd.maxval,
+				numd.nullval,
+				numd.unknownval,
+				numc.tableid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..numcol as numc
+			inner join cfbam23..numdef numd on
+				numc.tenantid = numd.tenantid
+				and numc.id = numd.id
+			inner join cfbam23..atomdef atom on
+				numd.tenantid = atom.tenantid
+				and numd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'NUMT' )
+	begin
+		insert into cfbam23..numtyp_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				digits,
+				precis,
+				initval,
+				defval,
+				minval,
+				maxval,
+				nullval,
+				unknownval,
+				schemadefid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				numd.digits,
+				numd.precis,
+				numd.initval,
+				numd.defval,
+				numd.minval,
+				numd.maxval,
+				numd.nullval,
+				numd.unknownval,
+				numt.schemadefid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..numtyp as numt
+			inner join cfbam23..numdef numd on
+				numt.tenantid = numd.tenantid
+				and numt.id = numd.id
+			inner join cfbam23..atomdef atom on
+				numd.tenantid = atom.tenantid
+				and numd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'STRD' )
+	begin
+		insert into cfbam23..strdef_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				maxlen,
+				showlines,
+				initval,
+				defval,
+				nullvalue,
+				unknownval,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				strd.maxlen,
+				strd.showlines,
+				strd.initval,
+				strd.defval,
+				strd.nullvalue,
+				strd.unknownval,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..strdef as strd
+			inner join cfbam23..atomdef atom on
+				strd.tenantid = atom.tenantid
+				and strd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'STRC' )
+	begin
+		insert into cfbam23..strcol_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				maxlen,
+				showlines,
+				initval,
+				defval,
+				nullvalue,
+				unknownval,
+				tableid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				strd.maxlen,
+				strd.showlines,
+				strd.initval,
+				strd.defval,
+				strd.nullvalue,
+				strd.unknownval,
+				strc.tableid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..strcol as strc
+			inner join cfbam23..strdef strd on
+				strc.tenantid = strd.tenantid
+				and strc.id = strd.id
+			inner join cfbam23..atomdef atom on
+				strd.tenantid = atom.tenantid
+				and strd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'STRT' )
+	begin
+		insert into cfbam23..strtyp_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				maxlen,
+				showlines,
+				initval,
+				defval,
+				nullvalue,
+				unknownval,
+				schemadefid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				strd.maxlen,
+				strd.showlines,
+				strd.initval,
+				strd.defval,
+				strd.nullvalue,
+				strd.unknownval,
+				strt.schemadefid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..strtyp as strt
+			inner join cfbam23..strdef strd on
+				strt.tenantid = strd.tenantid
+				and strt.id = strd.id
+			inner join cfbam23..atomdef atom on
+				strd.tenantid = atom.tenantid
+				and strd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'TXTD' )
+	begin
+		insert into cfbam23..txtdef_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				maxlen,
+				showlines,
+				initval,
+				defval,
+				nullvalue,
+				unknownval,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				txtd.maxlen,
+				txtd.showlines,
+				txtd.initval,
+				txtd.defval,
+				txtd.nullvalue,
+				txtd.unknownval,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..txtdef as txtd
+			inner join cfbam23..atomdef atom on
+				txtd.tenantid = atom.tenantid
+				and txtd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'TXTC' )
+	begin
+		insert into cfbam23..txtcol_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				maxlen,
+				showlines,
+				initval,
+				defval,
+				nullvalue,
+				unknownval,
+				tableid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				txtd.maxlen,
+				txtd.showlines,
+				txtd.initval,
+				txtd.defval,
+				txtd.nullvalue,
+				txtd.unknownval,
+				txtc.tableid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..txtcol as txtc
+			inner join cfbam23..txtdef txtd on
+				txtc.tenantid = txtd.tenantid
+				and txtc.id = txtd.id
+			inner join cfbam23..atomdef atom on
+				txtd.tenantid = atom.tenantid
+				and txtd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'TXTT' )
+	begin
+		insert into cfbam23..txttyp_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				maxlen,
+				showlines,
+				initval,
+				defval,
+				nullvalue,
+				unknownval,
+				schemadefid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				txtd.maxlen,
+				txtd.showlines,
+				txtd.initval,
+				txtd.defval,
+				txtd.nullvalue,
+				txtd.unknownval,
+				txtt.schemadefid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..txttyp as txtt
+			inner join cfbam23..txtdef txtd on
+				txtt.tenantid = txtd.tenantid
+				and txtt.id = txtd.id
+			inner join cfbam23..atomdef atom on
+				txtd.tenantid = atom.tenantid
+				and txtd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'NTKD' )
+	begin
+		insert into cfbam23..nmtkndef_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				maxlen,
+				initval,
+				defval,
+				nullvalue,
+				unknownval,
+				showlines,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				ntkd.maxlen,
+				ntkd.initval,
+				ntkd.defval,
+				ntkd.nullvalue,
+				ntkd.unknownval,
+				ntkd.showlines,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..nmtkndef as ntkd
+			inner join cfbam23..atomdef atom on
+				ntkd.tenantid = atom.tenantid
+				and ntkd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'NTKC' )
+	begin
+		insert into cfbam23..nmtkncol_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				maxlen,
+				initval,
+				defval,
+				nullvalue,
+				unknownval,
+				showlines,
+				tableid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				ntkd.maxlen,
+				ntkd.initval,
+				ntkd.defval,
+				ntkd.nullvalue,
+				ntkd.unknownval,
+				ntkd.showlines,
+				ntkc.tableid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..nmtkncol as ntkc
+			inner join cfbam23..nmtkndef ntkd on
+				ntkc.tenantid = ntkd.tenantid
+				and ntkc.id = ntkd.id
+			inner join cfbam23..atomdef atom on
+				ntkd.tenantid = atom.tenantid
+				and ntkd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'NTKT' )
+	begin
+		insert into cfbam23..nmtkntyp_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				maxlen,
+				initval,
+				defval,
+				nullvalue,
+				unknownval,
+				showlines,
+				schemadefid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				ntkd.maxlen,
+				ntkd.initval,
+				ntkd.defval,
+				ntkd.nullvalue,
+				ntkd.unknownval,
+				ntkd.showlines,
+				ntkt.schemadefid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..nmtkntyp as ntkt
+			inner join cfbam23..nmtkndef ntkd on
+				ntkt.tenantid = ntkd.tenantid
+				and ntkt.id = ntkd.id
+			inner join cfbam23..atomdef atom on
+				ntkd.tenantid = atom.tenantid
+				and ntkd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'NTSD' )
+	begin
+		insert into cfbam23..nmtknsdef_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				maxlen,
+				initval,
+				defval,
+				nullvalue,
+				unknownval,
+				showlines,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				ntsd.maxlen,
+				ntsd.initval,
+				ntsd.defval,
+				ntsd.nullvalue,
+				ntsd.unknownval,
+				ntsd.showlines,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..nmtknsdef as ntsd
+			inner join cfbam23..atomdef atom on
+				ntsd.tenantid = atom.tenantid
+				and ntsd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'NTSC' )
+	begin
+		insert into cfbam23..nmtknscol_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				maxlen,
+				initval,
+				defval,
+				nullvalue,
+				unknownval,
+				showlines,
+				tableid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				ntsd.maxlen,
+				ntsd.initval,
+				ntsd.defval,
+				ntsd.nullvalue,
+				ntsd.unknownval,
+				ntsd.showlines,
+				ntsc.tableid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..nmtknscol as ntsc
+			inner join cfbam23..nmtknsdef ntsd on
+				ntsc.tenantid = ntsd.tenantid
+				and ntsc.id = ntsd.id
+			inner join cfbam23..atomdef atom on
+				ntsd.tenantid = atom.tenantid
+				and ntsd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'NTST' )
+	begin
+		insert into cfbam23..nmtknstyp_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				maxlen,
+				initval,
+				defval,
+				nullvalue,
+				unknownval,
+				showlines,
+				schemadefid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				ntsd.maxlen,
+				ntsd.initval,
+				ntsd.defval,
+				ntsd.nullvalue,
+				ntsd.unknownval,
+				ntsd.showlines,
+				ntst.schemadefid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..nmtknstyp as ntst
+			inner join cfbam23..nmtknsdef ntsd on
+				ntst.tenantid = ntsd.tenantid
+				and ntst.id = ntsd.id
+			inner join cfbam23..atomdef atom on
+				ntsd.tenantid = atom.tenantid
+				and ntsd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'TKND' )
+	begin
+		insert into cfbam23..tkndef_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				maxlen,
+				initval,
+				defval,
+				nullvalue,
+				unknownval,
+				showlines,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				tknd.maxlen,
+				tknd.initval,
+				tknd.defval,
+				tknd.nullvalue,
+				tknd.unknownval,
+				tknd.showlines,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..tkndef as tknd
+			inner join cfbam23..atomdef atom on
+				tknd.tenantid = atom.tenantid
+				and tknd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'TKNC' )
+	begin
+		insert into cfbam23..tkncol_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				maxlen,
+				initval,
+				defval,
+				nullvalue,
+				unknownval,
+				showlines,
+				tableid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				tknd.maxlen,
+				tknd.initval,
+				tknd.defval,
+				tknd.nullvalue,
+				tknd.unknownval,
+				tknd.showlines,
+				tknc.tableid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..tkncol as tknc
+			inner join cfbam23..tkndef tknd on
+				tknc.tenantid = tknd.tenantid
+				and tknc.id = tknd.id
+			inner join cfbam23..atomdef atom on
+				tknd.tenantid = atom.tenantid
+				and tknd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'TKNT' )
+	begin
+		insert into cfbam23..tkntyp_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				maxlen,
+				initval,
+				defval,
+				nullvalue,
+				unknownval,
+				showlines,
+				schemadefid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				tknd.maxlen,
+				tknd.initval,
+				tknd.defval,
+				tknd.nullvalue,
+				tknd.unknownval,
+				tknd.showlines,
+				tknt.schemadefid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..tkntyp as tknt
+			inner join cfbam23..tkndef tknd on
+				tknt.tenantid = tknd.tenantid
+				and tknt.id = tknd.id
+			inner join cfbam23..atomdef atom on
+				tknd.tenantid = atom.tenantid
+				and tknd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'DATD' )
+	begin
+		insert into cfbam23..dtdef_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				minval,
+				maxval,
+				nullvalue,
+				unknownval,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				datd.initval,
+				datd.defval,
+				datd.minval,
+				datd.maxval,
+				datd.nullvalue,
+				datd.unknownval,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..dtdef as datd
+			inner join cfbam23..atomdef atom on
+				datd.tenantid = atom.tenantid
+				and datd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'DATC' )
+	begin
+		insert into cfbam23..dtcol_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				minval,
+				maxval,
+				nullvalue,
+				unknownval,
+				tableid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				datd.initval,
+				datd.defval,
+				datd.minval,
+				datd.maxval,
+				datd.nullvalue,
+				datd.unknownval,
+				datc.tableid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..dtcol as datc
+			inner join cfbam23..dtdef datd on
+				datc.tenantid = datd.tenantid
+				and datc.id = datd.id
+			inner join cfbam23..atomdef atom on
+				datd.tenantid = atom.tenantid
+				and datd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'DATT' )
+	begin
+		insert into cfbam23..dttyp_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				minval,
+				maxval,
+				nullvalue,
+				unknownval,
+				schemadefid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				datd.initval,
+				datd.defval,
+				datd.minval,
+				datd.maxval,
+				datd.nullvalue,
+				datd.unknownval,
+				datt.schemadefid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..dttyp as datt
+			inner join cfbam23..dtdef datd on
+				datt.tenantid = datd.tenantid
+				and datt.id = datd.id
+			inner join cfbam23..atomdef atom on
+				datd.tenantid = atom.tenantid
+				and datd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'TIMD' )
+	begin
+		insert into cfbam23..tmdef_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				nullvalue,
+				unknownval,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				timd.initval,
+				timd.defval,
+				timd.nullvalue,
+				timd.unknownval,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..tmdef as timd
+			inner join cfbam23..atomdef atom on
+				timd.tenantid = atom.tenantid
+				and timd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'TIMC' )
+	begin
+		insert into cfbam23..tmcol_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				nullvalue,
+				unknownval,
+				tableid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				timd.initval,
+				timd.defval,
+				timd.nullvalue,
+				timd.unknownval,
+				timc.tableid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..tmcol as timc
+			inner join cfbam23..tmdef timd on
+				timc.tenantid = timd.tenantid
+				and timc.id = timd.id
+			inner join cfbam23..atomdef atom on
+				timd.tenantid = atom.tenantid
+				and timd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'TIMT' )
+	begin
+		insert into cfbam23..tmtyp_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				nullvalue,
+				unknownval,
+				schemadefid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				timd.initval,
+				timd.defval,
+				timd.nullvalue,
+				timd.unknownval,
+				timt.schemadefid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..tmtyp as timt
+			inner join cfbam23..tmdef timd on
+				timt.tenantid = timd.tenantid
+				and timt.id = timd.id
+			inner join cfbam23..atomdef atom on
+				timd.tenantid = atom.tenantid
+				and timd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'TSPD' )
+	begin
+		insert into cfbam23..tsdef_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				minval,
+				maxval,
+				nullvalue,
+				unknownval,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				tspd.initval,
+				tspd.defval,
+				tspd.minval,
+				tspd.maxval,
+				tspd.nullvalue,
+				tspd.unknownval,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..tsdef as tspd
+			inner join cfbam23..atomdef atom on
+				tspd.tenantid = atom.tenantid
+				and tspd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'TSPC' )
+	begin
+		insert into cfbam23..tscol_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				minval,
+				maxval,
+				nullvalue,
+				unknownval,
+				tableid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				tspd.initval,
+				tspd.defval,
+				tspd.minval,
+				tspd.maxval,
+				tspd.nullvalue,
+				tspd.unknownval,
+				tspc.tableid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..tscol as tspc
+			inner join cfbam23..tsdef tspd on
+				tspc.tenantid = tspd.tenantid
+				and tspc.id = tspd.id
+			inner join cfbam23..atomdef atom on
+				tspd.tenantid = atom.tenantid
+				and tspd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'TSPT' )
+	begin
+		insert into cfbam23..tstyp_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				minval,
+				maxval,
+				nullvalue,
+				unknownval,
+				schemadefid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				tspd.initval,
+				tspd.defval,
+				tspd.minval,
+				tspd.maxval,
+				tspd.nullvalue,
+				tspd.unknownval,
+				tspt.schemadefid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..tstyp as tspt
+			inner join cfbam23..tsdef tspd on
+				tspt.tenantid = tspd.tenantid
+				and tspt.id = tspd.id
+			inner join cfbam23..atomdef atom on
+				tspd.tenantid = atom.tenantid
+				and tspd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'DAZD' )
+	begin
+		insert into cfbam23..dzdef_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				minval,
+				maxval,
+				nullvalue,
+				unknownval,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				dazd.initval,
+				dazd.defval,
+				dazd.minval,
+				dazd.maxval,
+				dazd.nullvalue,
+				dazd.unknownval,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..dzdef as dazd
+			inner join cfbam23..atomdef atom on
+				dazd.tenantid = atom.tenantid
+				and dazd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'DAZC' )
+	begin
+		insert into cfbam23..dzcol_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				minval,
+				maxval,
+				nullvalue,
+				unknownval,
+				tableid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				dazd.initval,
+				dazd.defval,
+				dazd.minval,
+				dazd.maxval,
+				dazd.nullvalue,
+				dazd.unknownval,
+				dazc.tableid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..dzcol as dazc
+			inner join cfbam23..dzdef dazd on
+				dazc.tenantid = dazd.tenantid
+				and dazc.id = dazd.id
+			inner join cfbam23..atomdef atom on
+				dazd.tenantid = atom.tenantid
+				and dazd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'DAZT' )
+	begin
+		insert into cfbam23..dztyp_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				minval,
+				maxval,
+				nullvalue,
+				unknownval,
+				schemadefid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				dazd.initval,
+				dazd.defval,
+				dazd.minval,
+				dazd.maxval,
+				dazd.nullvalue,
+				dazd.unknownval,
+				dazt.schemadefid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..dztyp as dazt
+			inner join cfbam23..dzdef dazd on
+				dazt.tenantid = dazd.tenantid
+				and dazt.id = dazd.id
+			inner join cfbam23..atomdef atom on
+				dazd.tenantid = atom.tenantid
+				and dazd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'TMZD' )
+	begin
+		insert into cfbam23..tmzdef_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				nullvalue,
+				unknownval,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				tmzd.initval,
+				tmzd.defval,
+				tmzd.nullvalue,
+				tmzd.unknownval,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..tmzdef as tmzd
+			inner join cfbam23..atomdef atom on
+				tmzd.tenantid = atom.tenantid
+				and tmzd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'TMZC' )
+	begin
+		insert into cfbam23..tmzcol_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				nullvalue,
+				unknownval,
+				tableid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				tmzd.initval,
+				tmzd.defval,
+				tmzd.nullvalue,
+				tmzd.unknownval,
+				tmzc.tableid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..tmzcol as tmzc
+			inner join cfbam23..tmzdef tmzd on
+				tmzc.tenantid = tmzd.tenantid
+				and tmzc.id = tmzd.id
+			inner join cfbam23..atomdef atom on
+				tmzd.tenantid = atom.tenantid
+				and tmzd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'TMZT' )
+	begin
+		insert into cfbam23..tmztyp_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				nullvalue,
+				unknownval,
+				schemadefid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				tmzd.initval,
+				tmzd.defval,
+				tmzd.nullvalue,
+				tmzd.unknownval,
+				tmzt.schemadefid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..tmztyp as tmzt
+			inner join cfbam23..tmzdef tmzd on
+				tmzt.tenantid = tmzd.tenantid
+				and tmzt.id = tmzd.id
+			inner join cfbam23..atomdef atom on
+				tmzd.tenantid = atom.tenantid
+				and tmzd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'ZSTD' )
+	begin
+		insert into cfbam23..zsdef_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				minval,
+				maxval,
+				nullvalue,
+				unknownval,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				zstd.initval,
+				zstd.defval,
+				zstd.minval,
+				zstd.maxval,
+				zstd.nullvalue,
+				zstd.unknownval,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..zsdef as zstd
+			inner join cfbam23..atomdef atom on
+				zstd.tenantid = atom.tenantid
+				and zstd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'ZSTC' )
+	begin
+		insert into cfbam23..zscol_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				minval,
+				maxval,
+				nullvalue,
+				unknownval,
+				tableid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				zstd.initval,
+				zstd.defval,
+				zstd.minval,
+				zstd.maxval,
+				zstd.nullvalue,
+				zstd.unknownval,
+				zstc.tableid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..zscol as zstc
+			inner join cfbam23..zsdef zstd on
+				zstc.tenantid = zstd.tenantid
+				and zstc.id = zstd.id
+			inner join cfbam23..atomdef atom on
+				zstd.tenantid = atom.tenantid
+				and zstd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'ZSTT' )
+	begin
+		insert into cfbam23..zstyp_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				minval,
+				maxval,
+				nullvalue,
+				unknownval,
+				schemadefid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				zstd.initval,
+				zstd.defval,
+				zstd.minval,
+				zstd.maxval,
+				zstd.nullvalue,
+				zstd.unknownval,
+				zstt.schemadefid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..zstyp as zstt
+			inner join cfbam23..zsdef zstd on
+				zstt.tenantid = zstd.tenantid
+				and zstt.id = zstd.id
+			inner join cfbam23..atomdef atom on
+				zstd.tenantid = atom.tenantid
+				and zstd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'UIDD' )
+	begin
+		insert into cfbam23..uuiddef_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				nullval,
+				unknownval,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				uidd.initval,
+				uidd.defval,
+				uidd.nullval,
+				uidd.unknownval,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..uuiddef as uidd
+			inner join cfbam23..atomdef atom on
+				uidd.tenantid = atom.tenantid
+				and uidd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'UIDC' )
+	begin
+		insert into cfbam23..uuidcol_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				nullval,
+				unknownval,
+				tableid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				uidd.initval,
+				uidd.defval,
+				uidd.nullval,
+				uidd.unknownval,
+				uidc.tableid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..uuidcol as uidc
+			inner join cfbam23..uuiddef uidd on
+				uidc.tenantid = uidd.tenantid
+				and uidc.id = uidd.id
+			inner join cfbam23..atomdef atom on
+				uidd.tenantid = atom.tenantid
+				and uidd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'UIDT' )
+	begin
+		insert into cfbam23..uuidtyp_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				nullval,
+				unknownval,
+				schemadefid,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				uidd.initval,
+				uidd.defval,
+				uidd.nullval,
+				uidd.unknownval,
+				uidt.schemadefid,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..uuidtyp as uidt
+			inner join cfbam23..uuiddef uidd on
+				uidt.tenantid = uidd.tenantid
+				and uidt.id = uidd.id
+			inner join cfbam23..atomdef atom on
+				uidd.tenantid = atom.tenantid
+				and uidd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else if( @argClassCode = 'IGUU' )
+	begin
+		insert into cfbam23..idguuid_h (
+				tenantid,
+				id,
+				classcode,
+				auditclusterid,
+				auditsessionid,
+				auditstamp,
+				scopeid,
+				defschtentid,
+				defschid,
+				name,
+				short_name,
+				label,
+				short_descr,
+				descr,
+				isnullable,
+				generateid,
+				datascopeid,
+				vasecid,
+				easecid,
+				vafid,
+				eafid,
+				prevtenantid,
+				previd,
+				nexttenantid,
+				nextid,
+				dflt_vis,
+				dbname,
+				initval,
+				defval,
+				nullval,
+				unknownval,
+				schemadefid,
+				dispensertenantid,
+				dispenserid,
+				slice,
+				blocksize,
+				revision,
+				auditaction )
+			select
+				valu.tenantid,
+				valu.id,
+				valu.classcode,
+				@argAuditClusterId,
+				@argAuditSessionId,
+				current_bigdatetime(),
+				valu.scopeid,
+				valu.defschtentid,
+				valu.defschid,
+				valu.name,
+				valu.short_name,
+				valu.label,
+				valu.short_descr,
+				valu.descr,
+				valu.isnullable,
+				valu.generateid,
+				valu.datascopeid,
+				valu.vasecid,
+				valu.easecid,
+				valu.vafid,
+				valu.eafid,
+				valu.prevtenantid,
+				valu.previd,
+				valu.nexttenantid,
+				valu.nextid,
+				valu.dflt_vis,
+				atom.dbname,
+				uidd.initval,
+				uidd.defval,
+				uidd.nullval,
+				uidd.unknownval,
+				uidt.schemadefid,
+				iguu.dispensertenantid,
+				iguu.dispenserid,
+				iguu.slice,
+				iguu.blocksize,
+				valu.revision,
+				@argAuditAction	
+			from cfbam23..idguuid as iguu
+			inner join cfbam23..uuidtyp uidt on
+				iguu.tenantid = uidt.tenantid
+				and iguu.id = uidt.id
+			inner join cfbam23..uuiddef uidd on
+				uidt.tenantid = uidd.tenantid
+				and uidt.id = uidd.id
+			inner join cfbam23..atomdef atom on
+				uidd.tenantid = atom.tenantid
+				and uidd.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+			where
+				valu.tenantid = @argTenantId
+				and valu.id = @argId
+	end
+	else begin
+		raiserror 17020 "Unrecognized class code attempting to audit object"
+	end
+
+end
+go

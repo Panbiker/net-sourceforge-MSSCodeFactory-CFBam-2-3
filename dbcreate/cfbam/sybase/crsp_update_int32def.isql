@@ -1,0 +1,434 @@
+--
+--	@(#) dbcreate/cfbam/sybase/crsp_update_int32def.isql
+--
+--	CFBam
+--
+--	Copyright (c) 2014-2015 Mark Sobkow
+--	
+--	This program is available as free software under the GNU GPL v3, under
+--	the Eclipse Public License 1.0, or under a commercial license from Mark
+--	Sobkow.  For commercial licensing details, please contact msobkow@sasktel.net.
+--	
+--	You should have received copies of the complete license text for
+--	GPLv3.txt and EPLv1_0.txt, containing the text
+--	of the GNU General Public License v 3.0 and the Eclipse Public License v 1.0.
+--	
+--	Under the terms of the GPL:
+--	
+--		This program is free software: you can redistribute it and/or modify
+--		it under the terms of the GNU General Public License as published by
+--		the Free Software Foundation, either version 3 of the License, or
+--		(at your option) any later version.
+--	  
+--		This program is distributed in the hope that it will be useful,
+--		but WITHOUT ANY WARRANTY; without even the implied warranty of
+--		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--		GNU General Public License for more details.
+--	  
+--		You should have received a copy of the GNU General Public License
+--		along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--	
+--	This software incorporates code originally Copyright (c) Mark Sobkow 2014-2015
+--	and licensed under the BSD 3-Clause license as written by xfree86.org:
+--	
+--	Redistribution and use in source and binary forms, with or without
+--	modification, are permitted provided that the following conditions are
+--	met:
+--	
+--	    (1) Redistributions of source code must retain the above copyright
+--	    notice, this list of conditions and the following disclaimer. 
+--	
+--	    (2) Redistributions in binary form must reproduce the above copyright
+--	    notice, this list of conditions and the following disclaimer in
+--	    the documentation and/or other materials provided with the
+--	    distribution.  
+--	    
+--	    (3)The name of the author may not be used to
+--	    endorse or promote products derived from this software without
+--	    specific prior written permission.
+--	
+--	THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+--	IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+--	WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+--	DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT,
+--	INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+--	(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+--	SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+--	HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+--	STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+--	IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+--	POSSIBILITY OF SUCH DAMAGE.
+--	
+--
+-- **********************************************************************
+--
+--	Code manufactured by MSS Code Factory
+--
+
+
+if exists ( select * from sysobjects where name = 'sp_update_int32def' )
+begin
+	drop proc sp_update_int32def
+end
+go
+
+create proc sp_update_int32def
+	@argAuditClusterId bigint,
+	@argAuditUserId varchar(36),
+	@argAuditSessionId varchar(36),
+	@secClusterId bigint,
+	@secTenantId bigint,
+	@argClassCode MssCFClassCode,
+	@argTenantId bigint,
+	@argScopeId bigint,
+	@argId bigint,
+	@argDefSchemaTenantId bigint,
+	@argDefSchemaId bigint,
+	@argName varchar(192),
+	@argShortName varchar(16),
+	@argLabel varchar(64),
+	@argShortDescription varchar(128),
+	@argDescription varchar(1023),
+	@argIsNullable char(1),
+	@argGenerateId char(1),
+	@argDataScopeId smallint,
+	@argViewAccessSecurityId smallint,
+	@argEditAccessSecurityId smallint,
+	@argViewAccessFrequencyId smallint,
+	@argEditAccessFrequencyId smallint,
+	@argPrevTenantId bigint,
+	@argPrevId bigint,
+	@argNextTenantId bigint,
+	@argNextId bigint,
+	@argDefaultVisibility char(1),
+	@argDbName varchar(32),
+	@argInitValue integer,
+	@argDefaultValue integer,
+	@argMinValue integer,
+	@argMaxValue integer,
+	@argNullValue integer,
+	@argUnknownValue integer,
+	@argRevision integer
+as
+	declare @oldRevision int
+	declare @rc int
+	declare @oldClassCode MssCFClassCode
+	declare @oldTenantId bigint
+	declare @oldScopeId bigint
+	declare @oldId bigint
+	declare @oldDefSchemaTenantId bigint
+	declare @oldDefSchemaId bigint
+	declare @oldName varchar(192)
+	declare @oldShortName varchar(16)
+	declare @oldLabel varchar(64)
+	declare @oldShortDescription varchar(128)
+	declare @oldDescription varchar(1023)
+	declare @oldIsNullable char(1)
+	declare @oldGenerateId char(1)
+	declare @oldDataScopeId smallint
+	declare @oldViewAccessSecurityId smallint
+	declare @oldEditAccessSecurityId smallint
+	declare @oldViewAccessFrequencyId smallint
+	declare @oldEditAccessFrequencyId smallint
+	declare @oldPrevTenantId bigint
+	declare @oldPrevId bigint
+	declare @oldNextTenantId bigint
+	declare @oldNextId bigint
+	declare @oldDefaultVisibility char(1)
+	declare @oldDbName varchar(32)
+	declare @oldInitValue integer
+	declare @oldDefaultValue integer
+	declare @oldMinValue integer
+	declare @oldMaxValue integer
+	declare @oldNullValue integer
+	declare @oldUnknownValue integer
+	declare @oldAuditCreatedAt bigdatetime
+	declare @oldAuditCreatedBy varchar(36)
+	declare @oldAuditUpdatedAt bigdatetime
+	declare @oldAuditUpdatedBy varchar(36)
+	declare @permissionFlag int
+begin
+
+	if( @argClassCode = 'I32D' )
+	begin
+		exec sp_is_tenant_user @permissionFlag output, @argTenantId, 'UpdateInt32Def', @argAuditUserId
+		if( @permissionFlag = 0 )
+		begin
+			raiserror 17007 "Permission denied -- User not found in tenant TSecGroup for UpdateInt32Def"
+		end
+	end
+
+	update cfbam23..valdef
+	set forcesynclock = forcesynclock + 1
+	where
+			tenantid = @argTenantId
+		and id = @argId
+	select @rc = @@rowcount
+	if @rc != 1
+	begin
+		raiserror 17004 "Data collision detected -- primary key does not exist"
+	end
+
+	select
+		@oldClassCode = valu.classcode,
+		@oldAuditCreatedAt = valu.createdat,
+		@oldAuditCreatedBy = valu.createdby,
+		@oldAuditUpdatedAt = valu.updatedat,
+		@oldAuditUpdatedBy = valu.updatedby,
+		@oldTenantId = valu.tenantid,
+		@oldScopeId = valu.scopeid,
+		@oldId = valu.id,
+		@oldDefSchemaTenantId = valu.defschtentid,
+		@oldDefSchemaId = valu.defschid,
+		@oldName = valu.name,
+		@oldShortName = valu.short_name,
+		@oldLabel = valu.label,
+		@oldShortDescription = valu.short_descr,
+		@oldDescription = valu.descr,
+		@oldIsNullable = valu.isnullable,
+		@oldGenerateId = valu.generateid,
+		@oldDataScopeId = valu.datascopeid,
+		@oldViewAccessSecurityId = valu.vasecid,
+		@oldEditAccessSecurityId = valu.easecid,
+		@oldViewAccessFrequencyId = valu.vafid,
+		@oldEditAccessFrequencyId = valu.eafid,
+		@oldPrevTenantId = valu.prevtenantid,
+		@oldPrevId = valu.previd,
+		@oldNextTenantId = valu.nexttenantid,
+		@oldNextId = valu.nextid,
+		@oldDefaultVisibility = valu.dflt_vis,
+		@oldDbName = atom.dbname,
+		@oldInitValue = i32d.initval,
+		@oldDefaultValue = i32d.defval,
+		@oldMinValue = i32d.minval,
+		@oldMaxValue = i32d.maxval,
+		@oldNullValue = i32d.nullvalue,
+		@oldUnknownValue = i32d.unknownval,
+		@oldRevision = valu.revision
+	from cfbam23..int32def as i32d
+			inner join cfbam23..atomdef atom on
+				i32d.tenantid = atom.tenantid
+				and i32d.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+	where
+			valu.tenantid = @argTenantId
+			and valu.id = @argId
+
+	if @argRevision != @oldRevision
+	begin
+		raiserror 17002 "sp_update_int32def() Data collision detected"
+	end
+
+	if( @argClassCode = 'I32D' )
+	begin
+		if( @argTenantId != @oldTenantId )
+		begin
+			raiserror 17009 "Permission denied -- TenantId cannot be updated for Int32Def"
+		end
+	end
+
+	update cfbam23..valdef
+	set
+		revision = @argRevision + 1,
+		scopeid = @argScopeId,
+		defschtentid = @argDefSchemaTenantId,
+		defschid = @argDefSchemaId,
+		name = @argName,
+		short_name = @argShortName,
+		label = @argLabel,
+		short_descr = @argShortDescription,
+		descr = @argDescription,
+		isnullable = @argIsNullable,
+		generateid = @argGenerateId,
+		datascopeid = @argDataScopeId,
+		vasecid = @argViewAccessSecurityId,
+		easecid = @argEditAccessSecurityId,
+		vafid = @argViewAccessFrequencyId,
+		eafid = @argEditAccessFrequencyId,
+		prevtenantid = @argPrevTenantId,
+		previd = @argPrevId,
+		nexttenantid = @argNextTenantId,
+		nextid = @argNextId,
+		dflt_vis = @argDefaultVisibility
+	where
+		tenantid = @argTenantId
+		and id = @argId
+		and revision = @argRevision
+
+	select @rc = @@rowcount
+
+	if @rc != 1
+	begin
+		raiserror 17003 "sp_update_int32def() Data collision detected"
+	end
+
+	update cfbam23..atomdef
+	set
+		dbname = @argDbName
+	where
+		tenantid = @argTenantId
+		and id = @argId
+
+	select @rc = @@rowcount
+
+	if @rc != 1
+	begin
+		raiserror 17003 "sp_update_int32def() Data collision detected"
+	end
+
+	update cfbam23..int32def
+	set
+		initval = @argInitValue,
+		defval = @argDefaultValue,
+		minval = @argMinValue,
+		maxval = @argMaxValue,
+		nullvalue = @argNullValue,
+		unknownval = @argUnknownValue
+	where
+		tenantid = @argTenantId
+		and id = @argId
+
+	select @rc = @@rowcount
+
+	if @rc != 1
+	begin
+		raiserror 17003 "sp_update_int32def() Data collision detected"
+	end
+
+	if( @oldClassCode = 'I32D' )
+	begin
+		insert into cfbam23..int32def_h (
+			tenantid,
+			id,
+			classcode,
+			auditclusterid,
+			auditsessionid,
+			auditstamp,
+			scopeid,
+			defschtentid,
+			defschid,
+			name,
+			short_name,
+			label,
+			short_descr,
+			descr,
+			isnullable,
+			generateid,
+			datascopeid,
+			vasecid,
+			easecid,
+			vafid,
+			eafid,
+			prevtenantid,
+			previd,
+			nexttenantid,
+			nextid,
+			dflt_vis,
+			dbname,
+			initval,
+			defval,
+			minval,
+			maxval,
+			nullvalue,
+			unknownval,
+			revision,
+			auditaction )
+		select
+			valu.tenantid,
+			valu.id,
+			valu.classcode,
+			@argAuditClusterId,
+			@argAuditSessionId,
+			current_bigdatetime(),
+			valu.scopeid,
+			valu.defschtentid,
+			valu.defschid,
+			valu.name,
+			valu.short_name,
+			valu.label,
+			valu.short_descr,
+			valu.descr,
+			valu.isnullable,
+			valu.generateid,
+			valu.datascopeid,
+			valu.vasecid,
+			valu.easecid,
+			valu.vafid,
+			valu.eafid,
+			valu.prevtenantid,
+			valu.previd,
+			valu.nexttenantid,
+			valu.nextid,
+			valu.dflt_vis,
+			atom.dbname,
+			i32d.initval,
+			i32d.defval,
+			i32d.minval,
+			i32d.maxval,
+			i32d.nullvalue,
+			i32d.unknownval,
+			valu.revision,
+			2
+		from cfbam23..int32def as i32d
+			inner join cfbam23..atomdef atom on
+				i32d.tenantid = atom.tenantid
+				and i32d.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+		where
+			i32d.tenantid = @argTenantId
+			and i32d.id = @argId
+	end
+
+	select
+			valu.classcode,
+			valu.createdby,
+			convert( varchar, valu.createdat, 23 ) as createdat,
+			valu.updatedby,
+			convert( varchar, valu.updatedat, 23 ) as updatedat,
+			valu.tenantid as tenantid,
+			valu.scopeid as scopeid,
+			valu.id as id,
+			valu.defschtentid as defschtentid,
+			valu.defschid as defschid,
+			valu.name as name,
+			valu.short_name as short_name,
+			valu.label as label,
+			valu.short_descr as short_descr,
+			valu.descr as descr,
+			valu.isnullable as isnullable,
+			valu.generateid as generateid,
+			valu.datascopeid as datascopeid,
+			valu.vasecid as vasecid,
+			valu.easecid as easecid,
+			valu.vafid as vafid,
+			valu.eafid as eafid,
+			valu.prevtenantid as prevtenantid,
+			valu.previd as previd,
+			valu.nexttenantid as nexttenantid,
+			valu.nextid as nextid,
+			valu.dflt_vis as dflt_vis,
+			atom.dbname as dbname,
+			i32d.initval as initval,
+			i32d.defval as defval,
+			i32d.minval as minval,
+			i32d.maxval as maxval,
+			i32d.nullvalue as nullvalue,
+			i32d.unknownval as unknownval,
+		valu.revision as revision
+	from cfbam23..int32def as i32d
+			inner join cfbam23..atomdef atom on
+				i32d.tenantid = atom.tenantid
+				and i32d.id = atom.id
+			inner join cfbam23..valdef valu on
+				atom.tenantid = valu.tenantid
+				and atom.id = valu.id
+	where
+		i32d.tenantid = @argTenantId
+			and i32d.id = @argId
+end
+go
+

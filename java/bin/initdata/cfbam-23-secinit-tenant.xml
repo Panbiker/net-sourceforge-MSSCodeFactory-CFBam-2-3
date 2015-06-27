@@ -1,0 +1,1547 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CFSecurity
+		xmlns="uri://cfsecurity/cfsecurity"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		xsi:schemaLocation="uri://cfsecurity/cfsecurity file://xsd/cfsecurity-22-structured.xsd" >
+	<Cluster FullDomainName="system" Description="system">
+		<Tenant TenantName="tenant">
+			<TSecGroup Name="TenantAdmin">
+				<TSecGroupMember User="system" />
+			</TSecGroup>
+			<TSecGroup Name="CFBamAdmin">
+				<TSecGroupInclude SubGroup="TenantAdmin" />
+			</TSecGroup>
+			<TSecGroup Name="CFBamReader">
+				<TSecGroupInclude SubGroup="CFBamAdmin" />
+			</TSecGroup>
+			<TSecGroup Name="CFBamCreator">
+				<TSecGroupInclude SubGroup="CFBamAdmin" />
+			</TSecGroup>
+			<TSecGroup Name="CFBamUpdater">
+				<TSecGroupInclude SubGroup="CFBamAdmin" />
+			</TSecGroup>
+			<TSecGroup Name="CFBamDeleter">
+				<TSecGroupInclude SubGroup="CFBamAdmin" />
+			</TSecGroup>
+			<TSecGroup Name="CFSecurityAdmin">
+				<TSecGroupInclude SubGroup="TenantAdmin" />
+			</TSecGroup>
+			<TSecGroup Name="CFSecurityReader">
+				<TSecGroupInclude SubGroup="CFSecurityAdmin" />
+			</TSecGroup>
+			<TSecGroup Name="CFSecurityCreator">
+				<TSecGroupInclude SubGroup="CFSecurityAdmin" />
+			</TSecGroup>
+			<TSecGroup Name="CFSecurityUpdater">
+				<TSecGroupInclude SubGroup="CFSecurityAdmin" />
+			</TSecGroup>
+			<TSecGroup Name="CFSecurityDeleter">
+				<TSecGroupInclude SubGroup="CFSecurityAdmin" />
+			</TSecGroup>
+			<TSecGroup Name="CFInternetAdmin">
+				<TSecGroupInclude SubGroup="TenantAdmin" />
+			</TSecGroup>
+			<TSecGroup Name="CFInternetReader">
+				<TSecGroupInclude SubGroup="CFInternetAdmin" />
+			</TSecGroup>
+			<TSecGroup Name="CFInternetCreator">
+				<TSecGroupInclude SubGroup="CFInternetAdmin" />
+			</TSecGroup>
+			<TSecGroup Name="CFInternetUpdater">
+				<TSecGroupInclude SubGroup="CFInternetAdmin" />
+			</TSecGroup>
+			<TSecGroup Name="CFInternetDeleter">
+				<TSecGroupInclude SubGroup="CFInternetAdmin" />
+			</TSecGroup>
+			<TSecGroup Name="ReadAtom">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateAtom">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateAtom">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteAtom">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadBlobCol">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateBlobCol">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateBlobCol">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteBlobCol">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadBlobDef">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateBlobDef">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateBlobDef">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteBlobDef">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadBlobType">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateBlobType">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateBlobType">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteBlobType">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadBoolCol">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateBoolCol">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateBoolCol">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteBoolCol">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadBoolDef">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateBoolDef">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateBoolDef">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteBoolDef">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadBoolType">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateBoolType">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateBoolType">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteBoolType">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadChain">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateChain">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateChain">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteChain">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadClearDep">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateClearDep">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateClearDep">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteClearDep">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadClearSubDep1">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateClearSubDep1">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateClearSubDep1">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteClearSubDep1">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadClearSubDep2">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateClearSubDep2">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateClearSubDep2">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteClearSubDep2">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadClearSubDep3">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateClearSubDep3">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateClearSubDep3">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteClearSubDep3">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadClearTopDep">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateClearTopDep">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateClearTopDep">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteClearTopDep">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadDateCol">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateDateCol">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateDateCol">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteDateCol">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadDateDef">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateDateDef">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateDateDef">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteDateDef">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadDateType">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateDateType">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateDateType">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteDateType">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadDelDep">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateDelDep">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateDelDep">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteDelDep">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadDelSubDep1">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateDelSubDep1">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateDelSubDep1">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteDelSubDep1">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadDelSubDep2">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateDelSubDep2">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateDelSubDep2">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteDelSubDep2">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadDelSubDep3">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateDelSubDep3">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateDelSubDep3">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteDelSubDep3">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadDelTopDep">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateDelTopDep">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateDelTopDep">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteDelTopDep">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadDomain">
+				<TSecGroupInclude SubGroup="CFInternetReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateDomain">
+				<TSecGroupInclude SubGroup="CFInternetCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateDomain">
+				<TSecGroupInclude SubGroup="CFInternetUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteDomain">
+				<TSecGroupInclude SubGroup="CFInternetDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadDomainBase">
+				<TSecGroupInclude SubGroup="CFInternetReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateDomainBase">
+				<TSecGroupInclude SubGroup="CFInternetCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateDomainBase">
+				<TSecGroupInclude SubGroup="CFInternetUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteDomainBase">
+				<TSecGroupInclude SubGroup="CFInternetDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadDoubleCol">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateDoubleCol">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateDoubleCol">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteDoubleCol">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadDoubleDef">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateDoubleDef">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateDoubleDef">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteDoubleDef">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadDoubleType">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateDoubleType">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateDoubleType">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteDoubleType">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadEnumCol">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateEnumCol">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateEnumCol">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteEnumCol">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadEnumDef">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateEnumDef">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateEnumDef">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteEnumDef">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadEnumTag">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateEnumTag">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateEnumTag">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteEnumTag">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadEnumType">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateEnumType">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateEnumType">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteEnumType">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadFloatCol">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateFloatCol">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateFloatCol">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteFloatCol">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadFloatDef">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateFloatDef">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateFloatDef">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteFloatDef">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadFloatType">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateFloatType">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateFloatType">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteFloatType">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadId16Gen">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateId16Gen">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateId16Gen">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteId16Gen">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadId32Gen">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateId32Gen">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateId32Gen">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteId32Gen">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadId64Gen">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateId64Gen">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateId64Gen">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteId64Gen">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadIndex">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateIndex">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateIndex">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteIndex">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadIndexCol">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateIndexCol">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateIndexCol">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteIndexCol">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadInt16Col">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateInt16Col">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateInt16Col">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteInt16Col">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadInt16Def">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateInt16Def">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateInt16Def">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteInt16Def">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadInt16Type">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateInt16Type">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateInt16Type">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteInt16Type">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadInt32Col">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateInt32Col">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateInt32Col">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteInt32Col">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadInt32Def">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateInt32Def">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateInt32Def">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteInt32Def">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadInt32Type">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateInt32Type">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateInt32Type">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteInt32Type">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadInt64Col">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateInt64Col">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateInt64Col">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteInt64Col">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadInt64Def">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateInt64Def">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateInt64Def">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteInt64Def">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadInt64Type">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateInt64Type">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateInt64Type">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteInt64Type">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadLicense">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateLicense">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateLicense">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteLicense">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadMajorVersion">
+				<TSecGroupInclude SubGroup="CFInternetReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateMajorVersion">
+				<TSecGroupInclude SubGroup="CFInternetCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateMajorVersion">
+				<TSecGroupInclude SubGroup="CFInternetUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteMajorVersion">
+				<TSecGroupInclude SubGroup="CFInternetDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadMinorVersion">
+				<TSecGroupInclude SubGroup="CFInternetReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateMinorVersion">
+				<TSecGroupInclude SubGroup="CFInternetCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateMinorVersion">
+				<TSecGroupInclude SubGroup="CFInternetUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteMinorVersion">
+				<TSecGroupInclude SubGroup="CFInternetDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadNmTokenCol">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateNmTokenCol">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateNmTokenCol">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteNmTokenCol">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadNmTokenDef">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateNmTokenDef">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateNmTokenDef">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteNmTokenDef">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadNmTokenType">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateNmTokenType">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateNmTokenType">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteNmTokenType">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadNmTokensCol">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateNmTokensCol">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateNmTokensCol">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteNmTokensCol">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadNmTokensDef">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateNmTokensDef">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateNmTokensDef">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteNmTokensDef">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadNmTokensType">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateNmTokensType">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateNmTokensType">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteNmTokensType">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadNumberCol">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateNumberCol">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateNumberCol">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteNumberCol">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadNumberDef">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateNumberDef">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateNumberDef">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteNumberDef">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadNumberType">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateNumberType">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateNumberType">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteNumberType">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadParam">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateParam">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateParam">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteParam">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadPopDep">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreatePopDep">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdatePopDep">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeletePopDep">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadPopSubDep1">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreatePopSubDep1">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdatePopSubDep1">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeletePopSubDep1">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadPopSubDep2">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreatePopSubDep2">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdatePopSubDep2">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeletePopSubDep2">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadPopSubDep3">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreatePopSubDep3">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdatePopSubDep3">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeletePopSubDep3">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadPopTopDep">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreatePopTopDep">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdatePopTopDep">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeletePopTopDep">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadProjectBase">
+				<TSecGroupInclude SubGroup="CFInternetReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateProjectBase">
+				<TSecGroupInclude SubGroup="CFInternetCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateProjectBase">
+				<TSecGroupInclude SubGroup="CFInternetUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteProjectBase">
+				<TSecGroupInclude SubGroup="CFInternetDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadRealProject">
+				<TSecGroupInclude SubGroup="CFInternetReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateRealProject">
+				<TSecGroupInclude SubGroup="CFInternetCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateRealProject">
+				<TSecGroupInclude SubGroup="CFInternetUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteRealProject">
+				<TSecGroupInclude SubGroup="CFInternetDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadRelation">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateRelation">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateRelation">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteRelation">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadRelationCol">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateRelationCol">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateRelationCol">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteRelationCol">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadSchemaDef">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateSchemaDef">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateSchemaDef">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteSchemaDef">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadSchemaRef">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateSchemaRef">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateSchemaRef">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteSchemaRef">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadScope">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateScope">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateScope">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteScope">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadServerListFunc">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateServerListFunc">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateServerListFunc">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteServerListFunc">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadServerMethod">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateServerMethod">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateServerMethod">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteServerMethod">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadServerObjFunc">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateServerObjFunc">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateServerObjFunc">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteServerObjFunc">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadServerProc">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateServerProc">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateServerProc">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteServerProc">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadStringCol">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateStringCol">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateStringCol">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteStringCol">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadStringDef">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateStringDef">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateStringDef">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteStringDef">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadStringType">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateStringType">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateStringType">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteStringType">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadSubProject">
+				<TSecGroupInclude SubGroup="CFInternetReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateSubProject">
+				<TSecGroupInclude SubGroup="CFInternetCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateSubProject">
+				<TSecGroupInclude SubGroup="CFInternetUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteSubProject">
+				<TSecGroupInclude SubGroup="CFInternetDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadTSecGroup">
+				<TSecGroupInclude SubGroup="CFSecurityReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateTSecGroup">
+				<TSecGroupInclude SubGroup="CFSecurityCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateTSecGroup">
+				<TSecGroupInclude SubGroup="CFSecurityUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteTSecGroup">
+				<TSecGroupInclude SubGroup="CFSecurityDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadTSecGroupInclude">
+				<TSecGroupInclude SubGroup="CFSecurityReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateTSecGroupInclude">
+				<TSecGroupInclude SubGroup="CFSecurityCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateTSecGroupInclude">
+				<TSecGroupInclude SubGroup="CFSecurityUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteTSecGroupInclude">
+				<TSecGroupInclude SubGroup="CFSecurityDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadTSecGroupMember">
+				<TSecGroupInclude SubGroup="CFSecurityReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateTSecGroupMember">
+				<TSecGroupInclude SubGroup="CFSecurityCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateTSecGroupMember">
+				<TSecGroupInclude SubGroup="CFSecurityUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteTSecGroupMember">
+				<TSecGroupInclude SubGroup="CFSecurityDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadTZDateCol">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateTZDateCol">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateTZDateCol">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteTZDateCol">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadTZDateDef">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateTZDateDef">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateTZDateDef">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteTZDateDef">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadTZDateType">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateTZDateType">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateTZDateType">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteTZDateType">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadTZTimeCol">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateTZTimeCol">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateTZTimeCol">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteTZTimeCol">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadTZTimeDef">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateTZTimeDef">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateTZTimeDef">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteTZTimeDef">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadTZTimeType">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateTZTimeType">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateTZTimeType">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteTZTimeType">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadTZTimestampCol">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateTZTimestampCol">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateTZTimestampCol">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteTZTimestampCol">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadTZTimestampDef">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateTZTimestampDef">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateTZTimestampDef">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteTZTimestampDef">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadTZTimestampType">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateTZTimestampType">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateTZTimestampType">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteTZTimestampType">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadTable">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateTable">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateTable">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteTable">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadTableCol">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateTableCol">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateTableCol">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteTableCol">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadTextCol">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateTextCol">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateTextCol">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteTextCol">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadTextDef">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateTextDef">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateTextDef">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteTextDef">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadTextType">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateTextType">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateTextType">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteTextType">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadTimeCol">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateTimeCol">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateTimeCol">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteTimeCol">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadTimeDef">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateTimeDef">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateTimeDef">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteTimeDef">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadTimeType">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateTimeType">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateTimeType">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteTimeType">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadTimestampCol">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateTimestampCol">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateTimestampCol">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteTimestampCol">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadTimestampDef">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateTimestampDef">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateTimestampDef">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteTimestampDef">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadTimestampType">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateTimestampType">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateTimestampType">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteTimestampType">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadTld">
+				<TSecGroupInclude SubGroup="CFInternetReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateTld">
+				<TSecGroupInclude SubGroup="CFInternetCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateTld">
+				<TSecGroupInclude SubGroup="CFInternetUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteTld">
+				<TSecGroupInclude SubGroup="CFInternetDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadTokenCol">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateTokenCol">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateTokenCol">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteTokenCol">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadTokenDef">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateTokenDef">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateTokenDef">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteTokenDef">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadTokenType">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateTokenType">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateTokenType">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteTokenType">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadTopDomain">
+				<TSecGroupInclude SubGroup="CFInternetReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateTopDomain">
+				<TSecGroupInclude SubGroup="CFInternetCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateTopDomain">
+				<TSecGroupInclude SubGroup="CFInternetUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteTopDomain">
+				<TSecGroupInclude SubGroup="CFInternetDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadTopProject">
+				<TSecGroupInclude SubGroup="CFInternetReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateTopProject">
+				<TSecGroupInclude SubGroup="CFInternetCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateTopProject">
+				<TSecGroupInclude SubGroup="CFInternetUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteTopProject">
+				<TSecGroupInclude SubGroup="CFInternetDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadUInt16Col">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateUInt16Col">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateUInt16Col">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteUInt16Col">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadUInt16Def">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateUInt16Def">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateUInt16Def">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteUInt16Def">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadUInt16Type">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateUInt16Type">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateUInt16Type">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteUInt16Type">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadUInt32Col">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateUInt32Col">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateUInt32Col">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteUInt32Col">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadUInt32Def">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateUInt32Def">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateUInt32Def">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteUInt32Def">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadUInt32Type">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateUInt32Type">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateUInt32Type">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteUInt32Type">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadUInt64Col">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateUInt64Col">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateUInt64Col">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteUInt64Col">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadUInt64Def">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateUInt64Def">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateUInt64Def">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteUInt64Def">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadUInt64Type">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateUInt64Type">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateUInt64Type">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteUInt64Type">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadUuidCol">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateUuidCol">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateUuidCol">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteUuidCol">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadUuidDef">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateUuidDef">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateUuidDef">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteUuidDef">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadUuidGen">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateUuidGen">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateUuidGen">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteUuidGen">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadUuidType">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateUuidType">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateUuidType">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteUuidType">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadValue">
+				<TSecGroupInclude SubGroup="CFBamReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateValue">
+				<TSecGroupInclude SubGroup="CFBamCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateValue">
+				<TSecGroupInclude SubGroup="CFBamUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteValue">
+				<TSecGroupInclude SubGroup="CFBamDeleter" />
+			</TSecGroup>
+			<TSecGroup Name="ReadVersion">
+				<TSecGroupInclude SubGroup="CFInternetReader" />
+			</TSecGroup>
+			<TSecGroup Name="CreateVersion">
+				<TSecGroupInclude SubGroup="CFInternetCreator" />
+			</TSecGroup>
+			<TSecGroup Name="UpdateVersion">
+				<TSecGroupInclude SubGroup="CFInternetUpdater" />
+			</TSecGroup>
+			<TSecGroup Name="DeleteVersion">
+				<TSecGroupInclude SubGroup="CFInternetDeleter" />
+			</TSecGroup>
+		</Tenant>
+	</Cluster>
+</CFSecurity>

@@ -1,0 +1,221 @@
+--
+--	@(#) dbcreate/cfbam/pgsql/reorg_cfbam23.pgsql
+--
+--	CFBam
+--
+--	Copyright (c) 2014-2015 Mark Sobkow
+--	
+--	This program is available as free software under the GNU GPL v3, under
+--	the Eclipse Public License 1.0, or under a commercial license from Mark
+--	Sobkow.  For commercial licensing details, please contact msobkow@sasktel.net.
+--	
+--	You should have received copies of the complete license text for
+--	GPLv3.txt and EPLv1_0.txt, containing the text
+--	of the GNU General Public License v 3.0 and the Eclipse Public License v 1.0.
+--	
+--	Under the terms of the GPL:
+--	
+--		This program is free software: you can redistribute it and/or modify
+--		it under the terms of the GNU General Public License as published by
+--		the Free Software Foundation, either version 3 of the License, or
+--		(at your option) any later version.
+--	  
+--		This program is distributed in the hope that it will be useful,
+--		but WITHOUT ANY WARRANTY; without even the implied warranty of
+--		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--		GNU General Public License for more details.
+--	  
+--		You should have received a copy of the GNU General Public License
+--		along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--	
+--	This software incorporates code originally Copyright (c) Mark Sobkow 2014-2015
+--	and licensed under the BSD 3-Clause license as written by xfree86.org:
+--	
+--	Redistribution and use in source and binary forms, with or without
+--	modification, are permitted provided that the following conditions are
+--	met:
+--	
+--	    (1) Redistributions of source code must retain the above copyright
+--	    notice, this list of conditions and the following disclaimer. 
+--	
+--	    (2) Redistributions in binary form must reproduce the above copyright
+--	    notice, this list of conditions and the following disclaimer in
+--	    the documentation and/or other materials provided with the
+--	    distribution.  
+--	    
+--	    (3)The name of the author may not be used to
+--	    endorse or promote products derived from this software without
+--	    specific prior written permission.
+--	
+--	THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+--	IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+--	WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+--	DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT,
+--	INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+--	(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+--	SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+--	HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+--	STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+--	IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+--	POSSIBILITY OF SUCH DAMAGE.
+--	
+--
+-- **********************************************************************
+--
+--	Code manufactured by MSS Code Factory
+--
+REORG TABLE cfbam23.accfreq index cfbam23.accfreq_pk;
+REORG TABLE cfbam23.accsec index cfbam23.accsec_pk;
+REORG TABLE cfbam23.atomdef index cfbam23.atomdef_pk;
+REORG TABLE cfbam23.AuditAction index cfbam23.AuditAction_pidx;
+REORG TABLE cfbam23.blbcol index cfbam23.blbcol_pk;
+REORG TABLE cfbam23.blbdef index cfbam23.blbdef_pk;
+REORG TABLE cfbam23.blbtyp index cfbam23.blbtyp_pk;
+REORG TABLE cfbam23.boolcol index cfbam23.boolcol_pk;
+REORG TABLE cfbam23.booldef index cfbam23.booldef_pk;
+REORG TABLE cfbam23.booltyp index cfbam23.booltyp_pk;
+REORG TABLE cfbam23.chain_def index cfbam23.chain_pk;
+REORG TABLE cfbam23.clr_dep index cfbam23.clrdep_pk;
+REORG TABLE cfbam23.clrsubdep1 index cfbam23.clrsubdep1_pk;
+REORG TABLE cfbam23.clrsubdep2 index cfbam23.clrsubdep2_pk;
+REORG TABLE cfbam23.clrsubdep3 index cfbam23.clrsubdep3_pk;
+REORG TABLE cfbam23.clr_topdep index cfbam23.clrtop_pk;
+REORG TABLE cfbam23.clus index cfbam23.cluster_pk;
+REORG TABLE cfbam23.datascope index cfbam23.datascope_pk;
+REORG TABLE cfbam23.dtcol index cfbam23.dtcol_pk;
+REORG TABLE cfbam23.dtdef index cfbam23.dtdef_pk;
+REORG TABLE cfbam23.dttyp index cfbam23.dttyp_pk;
+REORG TABLE cfbam23.del_dep index cfbam23.deldep_pk;
+REORG TABLE cfbam23.delsubdep1 index cfbam23.delsubdep1_pk;
+REORG TABLE cfbam23.delsubdep2 index cfbam23.delsubdep2_pk;
+REORG TABLE cfbam23.delsubdep3 index cfbam23.delsubdep3_pk;
+REORG TABLE cfbam23.del_topdep index cfbam23.deltop_pk;
+REORG TABLE cfbam23.domdef index cfbam23.domdef_pk;
+REORG TABLE cfbam23.bdomdef index cfbam23.bdomdef_pk;
+REORG TABLE cfbam23.dblcol index cfbam23.dblcol_pk;
+REORG TABLE cfbam23.dbldef index cfbam23.dbldef_pk;
+REORG TABLE cfbam23.dbltyp index cfbam23.dbltyp_pk;
+REORG TABLE cfbam23.enumcol index cfbam23.enumcol_pk;
+REORG TABLE cfbam23.enumdef index cfbam23.enumdef_pk;
+REORG TABLE cfbam23.enum_tag index cfbam23.enumtag_pk;
+REORG TABLE cfbam23.enumtyp index cfbam23.enumtyp_pk;
+REORG TABLE cfbam23.fltcol index cfbam23.fltcol_pk;
+REORG TABLE cfbam23.fltdef index cfbam23.fltdef_pk;
+REORG TABLE cfbam23.flttyp index cfbam23.flttyp_pk;
+REORG TABLE cfbam23.HostNode index cfbam23.HostNode_pidx;
+REORG TABLE cfbam23.iso_cntry index cfbam23.isocountry_pk;
+REORG TABLE cfbam23.iso_cntryccy index cfbam23.isocountryccy_pk;
+REORG TABLE cfbam23.iso_cntrylng index cfbam23.isocountrylang_pk;
+REORG TABLE cfbam23.iso_ccy index cfbam23.isocurrency_pk;
+REORG TABLE cfbam23.iso_lang index cfbam23.isolang_pk;
+REORG TABLE cfbam23.ISOTz index cfbam23.ITz_pidx;
+REORG TABLE cfbam23.idg16 index cfbam23.idg16_pk;
+REORG TABLE cfbam23.idg32 index cfbam23.idg32_pk;
+REORG TABLE cfbam23.idg64 index cfbam23.idg64_pk;
+REORG TABLE cfbam23.idxdef index cfbam23.idxdef_pk;
+REORG TABLE cfbam23.idxcol index cfbam23.idxcol_pk;
+REORG TABLE cfbam23.int16col index cfbam23.int16col_pk;
+REORG TABLE cfbam23.int16def index cfbam23.int16def_pk;
+REORG TABLE cfbam23.int16typ index cfbam23.int16typ_pk;
+REORG TABLE cfbam23.int32col index cfbam23.int32col_pk;
+REORG TABLE cfbam23.int32def index cfbam23.int32def_pk;
+REORG TABLE cfbam23.int32typ index cfbam23.int32typ_pk;
+REORG TABLE cfbam23.int64col index cfbam23.int64col_pk;
+REORG TABLE cfbam23.int64def index cfbam23.int64def_pk;
+REORG TABLE cfbam23.int64typ index cfbam23.int64typ_pk;
+REORG TABLE cfbam23.licn index cfbam23.lic_pk;
+REORG TABLE cfbam23.loadbehav index cfbam23.loadbehav_pk;
+REORG TABLE cfbam23.mjverdef index cfbam23.mjverdef_pk;
+REORG TABLE cfbam23.MimeType index cfbam23.MimeType_pidx;
+REORG TABLE cfbam23.mnverdef index cfbam23.mnverdef_pk;
+REORG TABLE cfbam23.nmtkncol index cfbam23.nmtkncol_pk;
+REORG TABLE cfbam23.nmtkndef index cfbam23.nmtkndef_pk;
+REORG TABLE cfbam23.nmtkntyp index cfbam23.nmtkntyp_pk;
+REORG TABLE cfbam23.nmtknscol index cfbam23.nmtknscol_pk;
+REORG TABLE cfbam23.nmtknsdef index cfbam23.nmtknsdef_pk;
+REORG TABLE cfbam23.nmtknstyp index cfbam23.nmtknstyp_pk;
+REORG TABLE cfbam23.numcol index cfbam23.numcol_pk;
+REORG TABLE cfbam23.numdef index cfbam23.numdef_pk;
+REORG TABLE cfbam23.numtyp index cfbam23.numtyp_pk;
+REORG TABLE cfbam23.srvprm index cfbam23.srvprm_pk;
+REORG TABLE cfbam23.pop_dep index cfbam23.popdep_pk;
+REORG TABLE cfbam23.popsubdep1 index cfbam23.popsubdep1_pk;
+REORG TABLE cfbam23.popsubdep2 index cfbam23.popsubdep2_pk;
+REORG TABLE cfbam23.popsubdep3 index cfbam23.popsubdep3_pk;
+REORG TABLE cfbam23.pop_topdep index cfbam23.poptop_pk;
+REORG TABLE cfbam23.bprjdef index cfbam23.bprjdef_pk;
+REORG TABLE cfbam23.rprjdef index cfbam23.rprjdef_pk;
+REORG TABLE cfbam23.reldef index cfbam23.reldef_pk;
+REORG TABLE cfbam23.relcol index cfbam23.relcol_pk;
+REORG TABLE cfbam23.rel_type index cfbam23.rel_type_pk;
+REORG TABLE cfbam23.schemadef index cfbam23.schemadef_pk;
+REORG TABLE cfbam23.schema_ref index cfbam23.schemaref_pk;
+REORG TABLE cfbam23.scopedef index cfbam23.scopedef_pk;
+REORG TABLE cfbam23.SecApp index cfbam23.SecApp_pidx;
+REORG TABLE cfbam23.SecDev index cfbam23.SecDev_pidx;
+REORG TABLE cfbam23.SecForm index cfbam23.SecForm_pidx;
+REORG TABLE cfbam23.SecGrp index cfbam23.SecGroup_pidx;
+REORG TABLE cfbam23.SecGrpFrm index cfbam23.SecGroupForm_pidx;
+REORG TABLE cfbam23.SecInc index cfbam23.SecInclude_pidx;
+REORG TABLE cfbam23.SecMemb index cfbam23.SecMember_pidx;
+REORG TABLE cfbam23.SecSess index cfbam23.Session_pidx;
+REORG TABLE cfbam23.SecUser index cfbam23.SecUser_pidx;
+REORG TABLE cfbam23.secscope index cfbam23.secscope_pk;
+REORG TABLE cfbam23.srvlfunc index cfbam23.srvlfunc_pk;
+REORG TABLE cfbam23.srvmeth index cfbam23.srvmeth_pk;
+REORG TABLE cfbam23.srvofunc index cfbam23.srvofunc_pk;
+REORG TABLE cfbam23.srvprc index cfbam23.srvprc_pk;
+REORG TABLE cfbam23.HostSvc index cfbam23.Service_pidx;
+REORG TABLE cfbam23.SvcType index cfbam23.ServiceType_pidx;
+REORG TABLE cfbam23.strcol index cfbam23.strcol_pk;
+REORG TABLE cfbam23.strdef index cfbam23.strdef_pk;
+REORG TABLE cfbam23.strtyp index cfbam23.strtyp_pk;
+REORG TABLE cfbam23.sprjdef index cfbam23.sprjdef_pk;
+REORG TABLE cfbam23.sysclus index cfbam23.syscluster_pk;
+REORG TABLE cfbam23.TSecGrp index cfbam23.TSecGroup_pidx;
+REORG TABLE cfbam23.TSecInc index cfbam23.TSecInclude_pidx;
+REORG TABLE cfbam23.TSecMemb index cfbam23.TSecMember_pidx;
+REORG TABLE cfbam23.dzcol index cfbam23.dzcol_pk;
+REORG TABLE cfbam23.dzdef index cfbam23.dzdef_pk;
+REORG TABLE cfbam23.dztyp index cfbam23.dztyp_pk;
+REORG TABLE cfbam23.tmzcol index cfbam23.tmzcol_pk;
+REORG TABLE cfbam23.tmzdef index cfbam23.tmzdef_pk;
+REORG TABLE cfbam23.tmztyp index cfbam23.tmztyp_pk;
+REORG TABLE cfbam23.zscol index cfbam23.zscol_pk;
+REORG TABLE cfbam23.zsdef index cfbam23.zsdef_pk;
+REORG TABLE cfbam23.zstyp index cfbam23.zstyp_pk;
+REORG TABLE cfbam23.tbldef index cfbam23.tbldef_pk;
+REORG TABLE cfbam23.tblcol index cfbam23.tblcol_pk;
+REORG TABLE cfbam23.tenant index cfbam23.tenant_pk;
+REORG TABLE cfbam23.txtcol index cfbam23.txtcol_pk;
+REORG TABLE cfbam23.txtdef index cfbam23.txtdef_pk;
+REORG TABLE cfbam23.txttyp index cfbam23.txttyp_pk;
+REORG TABLE cfbam23.tmcol index cfbam23.tmcol_pk;
+REORG TABLE cfbam23.tmdef index cfbam23.tmdef_pk;
+REORG TABLE cfbam23.tmtyp index cfbam23.tmtyp_pk;
+REORG TABLE cfbam23.tscol index cfbam23.tscol_pk;
+REORG TABLE cfbam23.tsdef index cfbam23.tsdef_pk;
+REORG TABLE cfbam23.tstyp index cfbam23.tstyp_pk;
+REORG TABLE cfbam23.tlddef index cfbam23.tlddef_pk;
+REORG TABLE cfbam23.tkncol index cfbam23.tkncol_pk;
+REORG TABLE cfbam23.tkndef index cfbam23.tkndef_pk;
+REORG TABLE cfbam23.tkntyp index cfbam23.tkntyp_pk;
+REORG TABLE cfbam23.tdomdef index cfbam23.tdomdef_pk;
+REORG TABLE cfbam23.tprjdef index cfbam23.tprjdef_pk;
+REORG TABLE cfbam23.uint16col index cfbam23.uint16col_pk;
+REORG TABLE cfbam23.u16def index cfbam23.ui16def_pk;
+REORG TABLE cfbam23.uint16typ index cfbam23.uint16typ_pk;
+REORG TABLE cfbam23.uint32col index cfbam23.uint32col_pk;
+REORG TABLE cfbam23.u32def index cfbam23.ui32def_pk;
+REORG TABLE cfbam23.uint32typ index cfbam23.uint32typ_pk;
+REORG TABLE cfbam23.uint64col index cfbam23.uint64col_pk;
+REORG TABLE cfbam23.u64def index cfbam23.ui64def_pk;
+REORG TABLE cfbam23.uint64typ index cfbam23.uint64typ_pk;
+REORG TABLE cfbam23.URLProto index cfbam23.URLProto_pidx;
+REORG TABLE cfbam23.uuidcol index cfbam23.uuidcol_pk;
+REORG TABLE cfbam23.uuiddef index cfbam23.uuiddef_pk;
+REORG TABLE cfbam23.idguuid index cfbam23.idguuid_pk;
+REORG TABLE cfbam23.uuidtyp index cfbam23.uuidtyp_pk;
+REORG TABLE cfbam23.valdef index cfbam23.valdef_pk;
+REORG TABLE cfbam23.verndef index cfbam23.verndef_pk;
+

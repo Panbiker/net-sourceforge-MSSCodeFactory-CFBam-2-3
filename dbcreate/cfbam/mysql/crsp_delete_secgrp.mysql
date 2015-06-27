@@ -1,0 +1,296 @@
+--
+--	@(#) dbcreate/cfbam/mysql/crsp_delete_secgrp.mysql
+-- **********************************************************************
+--
+--	CFBam
+--
+--	Copyright (c) 2014-2015 Mark Sobkow
+--	
+--	This program is available as free software under the GNU GPL v3, under
+--	the Eclipse Public License 1.0, or under a commercial license from Mark
+--	Sobkow.  For commercial licensing details, please contact msobkow@sasktel.net.
+--	
+--	You should have received copies of the complete license text for
+--	GPLv3.txt and EPLv1_0.txt, containing the text
+--	of the GNU General Public License v 3.0 and the Eclipse Public License v 1.0.
+--	
+--	Under the terms of the GPL:
+--	
+--		This program is free software: you can redistribute it and/or modify
+--		it under the terms of the GNU General Public License as published by
+--		the Free Software Foundation, either version 3 of the License, or
+--		(at your option) any later version.
+--	  
+--		This program is distributed in the hope that it will be useful,
+--		but WITHOUT ANY WARRANTY; without even the implied warranty of
+--		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--		GNU General Public License for more details.
+--	  
+--		You should have received a copy of the GNU General Public License
+--		along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--	
+--	This software incorporates code originally Copyright (c) Mark Sobkow 2014-2015
+--	and licensed under the BSD 3-Clause license as written by xfree86.org:
+--	
+--	Redistribution and use in source and binary forms, with or without
+--	modification, are permitted provided that the following conditions are
+--	met:
+--	
+--	    (1) Redistributions of source code must retain the above copyright
+--	    notice, this list of conditions and the following disclaimer. 
+--	
+--	    (2) Redistributions in binary form must reproduce the above copyright
+--	    notice, this list of conditions and the following disclaimer in
+--	    the documentation and/or other materials provided with the
+--	    distribution.  
+--	    
+--	    (3)The name of the author may not be used to
+--	    endorse or promote products derived from this software without
+--	    specific prior written permission.
+--	
+--	THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+--	IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+--	WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+--	DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT,
+--	INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+--	(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+--	SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+--	HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+--	STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+--	IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+--	POSSIBILITY OF SUCH DAMAGE.
+--	
+--
+-- ***********************************************************************
+--
+--	Code manufactured by MSS Code Factory
+--
+
+delimiter ////
+create procedure cfbam23.sp_delete_secgrp(
+	argAuditClusterId bigint,
+	argAuditUserId varchar(36),
+	argAuditSessionId varchar(36),
+	secClusterId bigint,
+	secTenantId bigint,
+	argClusterId bigint,
+	argSecGroupId integer,
+	argRevision int )
+not deterministic
+modifies sql data
+begin
+	declare RowsAffected bigint;
+	declare oldClusterId bigint;
+	declare oldSecGroupId integer;
+	declare oldName varchar(64);
+	declare oldRevision int;
+	declare permissionFlag boolean;
+	declare isSystemUser boolean;
+	declare done int default false;
+	declare delsecgroupformsClusterId bigint;
+	declare delsecgroupformsSecGroupFormId bigint;
+	declare delsecgroupincludedbygroupClusterId bigint;
+	declare delsecgroupincludedbygroupSecGroupIncludeId bigint;
+	declare delsecgroupmembersClusterId bigint;
+	declare delsecgroupmembersSecGroupMemberId bigint;
+	declare delsecgroupincludesClusterId bigint;
+	declare delsecgroupincludesSecGroupIncludeId bigint;
+	declare cur_delsecgroupforms cursor for
+		select
+			sgfm.clusid,
+			sgfm.secgrpfrmid
+		from cfbam23.SecGrp as sgrp
+			inner join cfbam23.secgrpfrm sgfm on
+				sgrp.clusterid = sgfm.clusid
+				and sgrp.secgroupid = sgfm.secgrpid
+		where
+			sgrp.clusterid = argClusterId
+			and sgrp.secgroupid = argSecGroupId;
+	declare cur_delsecgroupincludedbygroup cursor for
+		select
+			sgnc.clusid,
+			sgnc.secgrpincid
+		from cfbam23.SecGrp as sgrp
+			inner join cfbam23.secinc sgnc on
+				sgrp.clusterid = sgnc.clusid
+				and sgrp.secgroupid = sgnc.incgrpid
+		where
+			sgrp.clusterid = argClusterId
+			and sgrp.secgroupid = argSecGroupId;
+	declare cur_delsecgroupmembers cursor for
+		select
+			sgmb.clusterid,
+			sgmb.secgroupmemberid
+		from cfbam23.SecGrp as sgrp
+			inner join cfbam23.secmemb sgmb on
+				sgrp.clusterid = sgmb.clusterid
+				and sgrp.secgroupid = sgmb.secgroupid
+		where
+			sgrp.clusterid = argClusterId
+			and sgrp.secgroupid = argSecGroupId;
+	declare cur_delsecgroupincludes cursor for
+		select
+			sgnc.clusid,
+			sgnc.secgrpincid
+		from cfbam23.SecGrp as sgrp
+			inner join cfbam23.secinc sgnc on
+				sgrp.clusterid = sgnc.clusid
+				and sgrp.secgroupid = sgnc.secgrpid
+		where
+			sgrp.clusterid = argClusterId
+			and sgrp.secgroupid = argSecGroupId;
+	declare continue handler for not found set done = true;
+	select
+			ClusterId,
+		SecGroupId,
+		Name,
+			revision
+	into
+		oldClusterId,
+			oldSecGroupId,
+			oldName,
+		oldRevision
+	from cfbam23.SecGrp
+	where
+		ClusterId = argClusterId
+		and SecGroupId = argSecGroupId
+	for update;
+	if( oldClusterId != secClusterId )
+	then
+		select cfbam23.sp_is_system_user( argAuditUserId )
+
+		into permissionFlag;
+		if( permissionFlag = false )
+		then
+			signal sqlstate '45001'
+			set message_text = 'sp_delete_secgrp() Permission denied, not identified as system',
+				schema_name = 'cfbam23',
+				table_name = 'SecGrp';
+		end if;
+	end if;
+
+	select cfbam23.sp_is_cluster_user( oldClusterId,
+			'DeleteSecGroup',
+			argAuditUserId ),
+		cfbam23.sp_is_system_user( argAuditUserId )
+	into permissionFlag, isSystemUser;
+
+	if( ( permissionFlag = false ) and ( isSystemUser = false ) )
+	then
+		signal sqlstate '45002'
+		set message_text = 'sp_delete_secgrp() Permission denied, not granted access to DeleteSecGroup for current Cluster',
+			schema_name = 'cfbam23',
+			table_name = 'SecGrp';
+	end if;
+
+	insert into cfbam23.SecGrp_h (
+			clusterid,
+			secgroupid,
+			auditclusterid,
+			auditsessionid,
+			auditstamp,
+			name,
+			revision,
+			auditaction )
+		select
+			sgrp.clusterid,
+			sgrp.secgroupid,
+			argAuditClusterId,
+			argAuditSessionId,
+			now(),
+			sgrp.name,
+			sgrp.revision + 1,
+			3
+		from cfbam23.SecGrp as sgrp
+		where
+			sgrp.clusterid = argClusterId
+		and sgrp.secgroupid = argSecGroupId;
+
+	set done = false;
+	open cur_delsecgroupforms;
+	read_loop_delsecgroupforms: loop
+		fetch cur_delsecgroupforms into
+			delsecgroupformsClusterId,
+			delsecgroupformsSecGroupFormId;
+		if done then
+			leave read_loop_delsecgroupforms;
+		end if;
+		call cfbam23.sp_delete_secgrpfrm_by_ididx( argAuditClusterId,
+			argAuditUserId,
+			argAuditSessionId,
+			secClusterId,
+			secTenantId,
+			delsecgroupformsClusterId,
+			delsecgroupformsSecGroupFormId );
+	end loop;
+	close cur_delsecgroupforms;
+	set done = false;
+	open cur_delsecgroupincludedbygroup;
+	read_loop_delsecgroupincludedbygroup: loop
+		fetch cur_delsecgroupincludedbygroup into
+			delsecgroupincludedbygroupClusterId,
+			delsecgroupincludedbygroupSecGroupIncludeId;
+		if done then
+			leave read_loop_delsecgroupincludedbygroup;
+		end if;
+		call cfbam23.sp_delete_secinc_by_ididx( argAuditClusterId,
+			argAuditUserId,
+			argAuditSessionId,
+			secClusterId,
+			secTenantId,
+			delsecgroupincludedbygroupClusterId,
+			delsecgroupincludedbygroupSecGroupIncludeId );
+	end loop;
+	close cur_delsecgroupincludedbygroup;
+	set done = false;
+	open cur_delsecgroupmembers;
+	read_loop_delsecgroupmembers: loop
+		fetch cur_delsecgroupmembers into
+			delsecgroupmembersClusterId,
+			delsecgroupmembersSecGroupMemberId;
+		if done then
+			leave read_loop_delsecgroupmembers;
+		end if;
+		call cfbam23.sp_delete_secmemb_by_ididx( argAuditClusterId,
+			argAuditUserId,
+			argAuditSessionId,
+			secClusterId,
+			secTenantId,
+			delsecgroupmembersClusterId,
+			delsecgroupmembersSecGroupMemberId );
+	end loop;
+	close cur_delsecgroupmembers;
+	set done = false;
+	open cur_delsecgroupincludes;
+	read_loop_delsecgroupincludes: loop
+		fetch cur_delsecgroupincludes into
+			delsecgroupincludesClusterId,
+			delsecgroupincludesSecGroupIncludeId;
+		if done then
+			leave read_loop_delsecgroupincludes;
+		end if;
+		call cfbam23.sp_delete_secinc_by_ididx( argAuditClusterId,
+			argAuditUserId,
+			argAuditSessionId,
+			secClusterId,
+			secTenantId,
+			delsecgroupincludesClusterId,
+			delsecgroupincludesSecGroupIncludeId );
+	end loop;
+	close cur_delsecgroupincludes;
+	delete from cfbam23.SecGrp
+	where
+		clusterid = argClusterId
+		and secgroupid = argSecGroupId;
+	select row_count()
+	into RowsAffected;
+
+	if RowsAffected != 1 and RowsAffected != 0
+	then
+		signal sqlstate '45000'
+		set message_text = 'sp_delete_secgrp() Expected to affect 1 SecGrp',
+			schema_name = 'cfbam23',
+			table_name = 'SecGrp';
+	end if;
+
+end;////
