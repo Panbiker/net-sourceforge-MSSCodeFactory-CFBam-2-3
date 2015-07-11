@@ -45,7 +45,7 @@
 		<pathelement location="${bin}/commons-io-2.4.jar" />
 		<pathelement location="${bin}/log4j-1.2-1.2.17.jar" />
 		<pathelement location="${bin}/xercesImpl-2.11.0.jar" />
-		<pathelement location="${bin}/net-sourceforge-MSSCodeFactory-CFLib-2-3-12895.jar" />
+		<pathelement location="${bin}/net-sourceforge-MSSCodeFactory-CFLib-2-3-13934.jar" />
 	</path>
 
 	<path id="ExtendMssCF.classpath">
@@ -53,7 +53,7 @@
 		<pathelement location="${bin}/commons-io-2.4.jar" />
 		<pathelement location="${bin}/log4j-1.2-1.2.17.jar" />
 		<pathelement location="${bin}/xercesImpl-2.11.0.jar" />
-		<pathelement location="${bin}/net-sourceforge-MSSCodeFactory-CFLib-2-3-12895.jar" />
+		<pathelement location="${bin}/net-sourceforge-MSSCodeFactory-CFLib-2-3-13934.jar" />
 		<pathelement location="${bin}/net-sourceforge-MSSCodeFactory-CFCore-2-3-12873.jar" />
 	</path>
 
@@ -65,7 +65,7 @@
 		<pathelement location="${bin}/xercesImpl-2.11.0.jar" />
 		<pathelement location="${bin}/httpclient-4.3.3.jar" />
 		<pathelement location="${bin}/httpcore-4.3.2.jar" />
-		<pathelement location="${bin}/net-sourceforge-MSSCodeFactory-CFLib-2-3-12895.jar" />
+		<pathelement location="${bin}/net-sourceforge-MSSCodeFactory-CFLib-2-3-13934.jar" />
 	</path>
 
 	<path id="WebServer.classpath">
@@ -78,7 +78,7 @@
 		<pathelement location="${bin}/xercesImpl-2.11.0.jar" />
 		<pathelement location="${bin}/httpclient-4.3.3.jar" />
 		<pathelement location="${bin}/httpcore-4.3.2.jar" />
-		<pathelement location="${bin}/net-sourceforge-MSSCodeFactory-CFLib-2-3-12895.jar" />
+		<pathelement location="${bin}/net-sourceforge-MSSCodeFactory-CFLib-2-3-13934.jar" />
 	</path>
 
 	<path id="Db2LUW.classpath">
@@ -88,7 +88,7 @@
 		<pathelement location="${bin}/xercesImpl-2.11.0.jar" />
 		<pathelement location="${bin}/db2jcc4.jar" />
 		<pathelement location="${bin}/db2jcc_license_cu.jar" />
-		<pathelement location="${bin}/net-sourceforge-MSSCodeFactory-CFLib-2-3-12895.jar" />
+		<pathelement location="${bin}/net-sourceforge-MSSCodeFactory-CFLib-2-3-13934.jar" />
 	</path>
 
 	<path id="MSSql.classpath">
@@ -96,7 +96,7 @@
 		<pathelement location="${bin}/commons-io-2.4.jar" />
 		<pathelement location="${bin}/log4j-1.2-1.2.17.jar" />
 		<pathelement location="${bin}/xercesImpl-2.11.0.jar" />
-		<pathelement location="${bin}/net-sourceforge-MSSCodeFactory-CFLib-2-3-12895.jar" />
+		<pathelement location="${bin}/net-sourceforge-MSSCodeFactory-CFLib-2-3-13934.jar" />
 		<pathelement location="${bin}/sqljdbc_4.0/enu/sqljdbc4.jar" />
 	</path>
 
@@ -105,7 +105,7 @@
 		<pathelement location="${bin}/commons-io-2.4.jar" />
 		<pathelement location="${bin}/log4j-1.2-1.2.17.jar" />
 		<pathelement location="${bin}/xercesImpl-2.11.0.jar" />
-		<pathelement location="${bin}/net-sourceforge-MSSCodeFactory-CFLib-2-3-12895.jar" />
+		<pathelement location="${bin}/net-sourceforge-MSSCodeFactory-CFLib-2-3-13934.jar" />
 		<pathelement location="${bin}/mysql-connectory-java-5.1.28.jar" />
 	</path>
 
@@ -114,7 +114,7 @@
 		<pathelement location="${bin}/commons-io-2.4.jar" />
 		<pathelement location="${bin}/log4j-1.2-1.2.17.jar" />
 		<pathelement location="${bin}/xercesImpl-2.11.0.jar" />
-		<pathelement location="${bin}/net-sourceforge-MSSCodeFactory-CFLib-2-3-12895.jar" />
+		<pathelement location="${bin}/net-sourceforge-MSSCodeFactory-CFLib-2-3-13934.jar" />
 		<pathelement location="${bin}/ojdbc6_g.jar" />
 	</path>
 
@@ -123,7 +123,7 @@
 		<pathelement location="${bin}/commons-io-2.4.jar" />
 		<pathelement location="${bin}/log4j-1.2-1.2.17.jar" />
 		<pathelement location="${bin}/xercesImpl-2.11.0.jar" />
-		<pathelement location="${bin}/net-sourceforge-MSSCodeFactory-CFLib-2-3-12895.jar" />
+		<pathelement location="${bin}/net-sourceforge-MSSCodeFactory-CFLib-2-3-13934.jar" />
 		<pathelement location="${bin}/postgresql-jdbc4-9.2.jar" />
 	</path>
 
@@ -132,7 +132,7 @@
 		<pathelement location="${bin}/commons-io-2.4.jar" />
 		<pathelement location="${bin}/log4j-1.2-1.2.17.jar" />
 		<pathelement location="${bin}/xercesImpl-2.11.0.jar" />
-		<pathelement location="${bin}/net-sourceforge-MSSCodeFactory-CFLib-2-3-12895.jar" />
+		<pathelement location="${bin}/net-sourceforge-MSSCodeFactory-CFLib-2-3-13934.jar" />
 		<pathelement location="${bin}/jconn4.jar" />
 	</path>
 
@@ -478,7 +478,7 @@
 				<include name="commons-io-2.4.jar" />
 				<include name="log4j-1.2-1.2.17.jar" />
 				<include name="xercesImpl-2.11.0.jar" />
-				<include name="net-sourceforge-MSSCodeFactory-CFLib-2-3-12895.jar" />
+				<include name="net-sourceforge-MSSCodeFactory-CFLib-2-3-13934.jar" />
 				<include name="net-sourceforge-MSSCodeFactory-CFBam-2-3.jar" />
 				<include name="net-sourceforge-MSSCodeFactory-CFBam-2-3-xml.jar" />
 				<include name="net-sourceforge-MSSCodeFactory-CFBam-2-3-db2luw.jar" />
@@ -497,7 +497,7 @@
 				<include name="commons-io-2.4.jar" />
 				<include name="log4j-1.2-1.2.17.jar" />
 				<include name="xercesImpl-2.11.0.jar" />
-				<include name="net-sourceforge-MSSCodeFactory-CFLib-2-3-12895.jar" />
+				<include name="net-sourceforge-MSSCodeFactory-CFLib-2-3-13934.jar" />
 				<include name="net-sourceforge-MSSCodeFactory-CFBam-2-3.jar" />
 				<include name="net-sourceforge-MSSCodeFactory-CFBam-2-3-xml.jar" />
 				<include name="net-sourceforge-MSSCodeFactory-CFBam-2-3-db2luw.jar" />
@@ -588,7 +588,7 @@
 		<delete file="cfbamsmwar23/WebContent/WEB-INF/lib/commons-io-2.4.jar" />
 		<delete file="cfbamsmwar23/WebContent/WEB-INF/lib/log4j-1.2-1.2.17.jar" />
 		<delete file="cfbamsmwar23/WebContent/WEB-INF/lib/xercesImpl-2.11.0.jar" />
-		<delete file="cfbamsmwar23/WebContent/WEB-INF/lib/net-sourceforge-MSSCodeFactory-CFLib-2-3-12895.jar" />
+		<delete file="cfbamsmwar23/WebContent/WEB-INF/lib/net-sourceforge-MSSCodeFactory-CFLib-2-3-13934.jar" />
 		<delete file="cfbamsmwar23/WebContent/WEB-INF/lib/net-sourceforge-MSSCodeFactory-CFBam-2-3.jar" />
 		<delete file="cfbamsmwar23/WebContent/WEB-INF/lib/net-sourceforge-MSSCodeFactory-CFBam-2-3-xml.jar" />
 		<delete file="cfbamsmwar23/WebContent/WEB-INF/lib/net-sourceforge-MSSCodeFactory-CFBam-2-3-db2luw.jar" />
@@ -603,7 +603,7 @@
 		<delete file="cfbamxmsgsrvwar23/WebContent/WEB-INF/lib/commons-io-2.4.jar" />
 		<delete file="cfbamxmsgsrvwar23/WebContent/WEB-INF/lib/log4j-1.2-1.2.17.jar" />
 		<delete file="cfbamxmsgsrvwar23/WebContent/WEB-INF/lib/xercesImpl-2.11.0.jar" />
-		<delete file="cfbamxmsgsrvwar23/WebContent/WEB-INF/lib/net-sourceforge-MSSCodeFactory-CFLib-2-3-12895.jar" />
+		<delete file="cfbamxmsgsrvwar23/WebContent/WEB-INF/lib/net-sourceforge-MSSCodeFactory-CFLib-2-3-13934.jar" />
 		<delete file="cfbamxmsgsrvwar23/WebContent/WEB-INF/lib/net-sourceforge-MSSCodeFactory-CFBam-2-3.jar" />
 		<delete file="cfbamxmsgsrvwar23/WebContent/WEB-INF/lib/net-sourceforge-MSSCodeFactory-CFBam-2-3-xml.jar" />
 		<delete file="cfbamxmsgsrvwar23/WebContent/WEB-INF/lib/net-sourceforge-MSSCodeFactory-CFBam-2-3-db2luw.jar" />
